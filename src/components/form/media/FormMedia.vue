@@ -1,0 +1,115 @@
+<template>
+  <v-card>
+    <v-img class="grey lighten-3" height="300px" :src="item.cloud_url" />
+    <v-divider></v-divider>
+    <v-card-text class="pa-3">
+      <v-form>
+        <v-text-field
+          name="title"
+          v-model="formModel.custom_properties.title"
+          outlined
+          dense
+          label="Title"
+          placeholder="Title"
+        />
+        <v-text-field
+          name="fingerprint"
+          v-model="formModel.fingerprint"
+          outlined
+          dense
+          label="Fingerprint"
+          placeholder="Fingerprint"
+        />
+        <v-switch
+          v-model="formModel.custom_properties.featured"
+          name="featured"
+          dense
+          label="Featured"
+          placeholder="Featured"
+        />
+      </v-form>
+    </v-card-text>
+    <v-divider />
+    <v-card-actions class="py-3">
+      <v-spacer></v-spacer>
+      <v-btn text @click="$emit('form:cancel')">Cancel</v-btn>
+      <v-btn :loading="loading" color="primary" @click="handleSubmit()"
+        >Submit</v-btn
+      >
+    </v-card-actions>
+  </v-card>
+</template>
+<script>
+export default {
+  name: 'FormMedia',
+  components: {},
+  props: {
+    item: Object
+  },
+  data() {
+    return {
+      loading: false,
+      formModel: {
+        filename: '',
+        fingerprint: null,
+        custom_properties: {
+          title: '',
+          featured: false
+        }
+      }
+    }
+  },
+  computed: {},
+  watch: {
+    item: {
+      handler(item) {
+        if (item) {
+          this.formModel.filename = item.name
+          this.formModel.fingerprint = item.fingerprint
+          if (item.custom_properties !== null) {
+            this.formModel.custom_properties = item.custom_properties
+          } else {
+            if (item.product.length > 0) {
+              this.formModel.custom_properties.title = item.product[0].name
+            }
+          }
+        } else {
+          this.formModel = {
+            filename: '',
+            fingerprint: null,
+            custom_properties: {
+              title: '',
+              featured: false
+            }
+          }
+        }
+      },
+      immediate: true
+    }
+  },
+  methods: {
+    handleSubmit() {
+      this.loading = true
+      const payload = {
+        id: this.item.id,
+        data: this.formModel
+      }
+      this.$store
+        .dispatch('updateMedia', payload)
+        .then(() => {
+          this.$emit('form:success')
+          this.loading = false
+        })
+        .catch(() => {
+          this.loading = false
+        })
+    }
+  }
+}
+</script>
+
+<style scoped lang="scss">
+.v-dropzone {
+  border: 2px dashed #0087f7;
+}
+</style>
