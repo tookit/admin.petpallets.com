@@ -32,9 +32,6 @@
           <v-row> </v-row>
         </v-card-text>
         <v-card-actions>
-          <v-btn color="primary" @click="handleInheritedProperty"
-            >Cateogry Property</v-btn
-          >
           <v-spacer></v-spacer>
           <v-btn text @click="handleResetFilter">{{ __('reset') }}</v-btn>
           <v-btn tile color="primary" @click="handleApplyFilter">{{
@@ -297,13 +294,6 @@ export default {
         path: this.$route.path,
         query: this.filter,
       })
-    },
-    handleInheritedProperty() {
-      this.$store
-        .dispatch('attachCategoryProperty', this.productId)
-        .then(() => {
-          this.fetchRecords(this.filter)
-        })
     },
   },
 }

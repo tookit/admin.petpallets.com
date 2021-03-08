@@ -133,6 +133,22 @@ export default {
   },
   computed: {
     ...mapGetters(['getSpuProperties', 'getPropUnits', 'getPropTypes']),
+    inheritedProps() {
+      const { property_values } = this.item
+      return property_values && property_values.length > 0
+        ? property_values.filter((item) => {
+            return item.property.inherited === true
+          })
+        : []
+    },
+    directProps() {
+      const { property_values } = this.item
+      return property_values && property_values.length > 0
+        ? property_values.filter((item) => {
+            return item.property.inherited === false
+          })
+        : []
+    },
   },
   watch: {
     item: {

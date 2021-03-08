@@ -1,6 +1,6 @@
 <template>
   <div class="app dashboard">
-    <app-drawer class="app--drawer" ref="drawer" />
+    <app-drawer ref="drawer" class="app--drawer" />
     <app-toolbar class="app--toolbar" @drawer:toggle="handleToggleDrawer" />
     <v-main>
       <div class="white">
@@ -29,20 +29,14 @@ export default {
   components: {
     AppDrawer,
     AppToolbar,
-    AppFab
+    AppFab,
   },
 
   data() {
     return {}
   },
   computed: {
-    ...mapGetters(['getBreadcrumbs'])
-  },
-  methods: {
-    handleToggleDrawer() {
-      const drawer = this.$refs.drawer
-      drawer.showDrawer = !drawer.showDrawer
-    }
+    ...mapGetters(['getBreadcrumbs']),
   },
   created() {
     this.$store.dispatch('fetchProductCategoryTree')
@@ -50,9 +44,17 @@ export default {
     this.$store.dispatch('fetchCountries')
     this.$store.dispatch('fetchVendors', { pageSize: -1 })
     this.$store.dispatch('fetchTags', { pageSize: -1 })
+    this.$store.dispatch('fetchProperty', { pageSize: -1 })
+
     // this.$store.dispatch('fetchMediaExt')
     // this.$store.dispatch('fetchMediaDir')
-  }
+  },
+  methods: {
+    handleToggleDrawer() {
+      const drawer = this.$refs.drawer
+      drawer.showDrawer = !drawer.showDrawer
+    },
+  },
 }
 </script>
 

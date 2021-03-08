@@ -102,7 +102,6 @@
                 :page.sync="filter['page']"
                 item-key="id"
                 show-select
-                fixed-header
                 @update:page="handlePageChanged"
                 @update:items-per-page="handlePageSizeChanged"
               >

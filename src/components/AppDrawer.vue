@@ -1,9 +1,9 @@
 <template>
   <v-navigation-drawer
+    v-model="showDrawer"
     app
     class="app--drawer"
     :width="drawerWidth"
-    v-model="showDrawer"
   >
     <v-toolbar color="primary darken-1" class="app-drawer__toolbar" dark flat>
       <img
@@ -18,20 +18,21 @@
           <v-list-group
             :key="key"
             :prepend-icon="item.meta.icon"
-            no-action
             :to="item.path"
+            :value="computeGroupExpanded(item, $route)"
+            no-action
           >
-            <template v-slot:activator>
+            <template #activator>
               <v-list-item-content>
                 <v-list-item-title v-text="item.meta.title" />
               </v-list-item-content>
             </template>
             <v-list-item
-              :class="drawerWidth === 64 ? 'pl-4' : ''"
               v-for="subItem in item.children"
-              :key="subItem.name"
-              :to="subItem.path"
               v-show="!subItem.meta.hiddenInMenu"
+              :key="subItem.name"
+              :class="drawerWidth === 64 ? 'pl-4' : ''"
+              :to="subItem.path"
             >
               <template v-if="drawerWidth === 64">
                 <v-list-item-icon>
@@ -48,9 +49,9 @@
         </template>
         <template v-else>
           <v-list-item
+            v-show="!item.meta.hiddenInMenu"
             :key="key"
             :to="item.path"
-            v-show="!item.meta.hiddenInMenu"
           >
             <v-list-item-icon>
               <v-icon v-text="item.meta.icon"></v-icon>
@@ -62,15 +63,15 @@
         </template>
       </template>
     </v-list>
-    <template v-slot:append>
+    <template #append>
       <template v-if="drawerWidth === 64">
         <div class="d-flex">
           <v-btn
             width="64"
             icon
             tile
-            @click="handleDrawerToggle"
             class="mx-auto"
+            @click="handleDrawerToggle"
           >
             <v-icon>mdi-arrow-collapse-right</v-icon>
           </v-btn>
@@ -79,7 +80,7 @@
       <template v-else>
         <div class="d-flex">
           <v-spacer></v-spacer>
-          <v-btn icon tile @click="handleDrawerToggle" class="mr-2">
+          <v-btn icon tile class="mr-2" @click="handleDrawerToggle">
             <v-icon>mdi-arrow-collapse-left</v-icon>
           </v-btn>
         </div>
@@ -95,8 +96,8 @@ export default {
   props: {
     expanded: {
       type: Boolean,
-      default: true
-    }
+      default: true,
+    },
   },
   data() {
     return {
@@ -104,8 +105,8 @@ export default {
       showDrawer: true,
       drawerWidth: 256,
       scrollSettings: {
-        maxScrollbarLength: 160
-      }
+        maxScrollbarLength: 160,
+      },
     }
   },
 
@@ -119,7 +120,7 @@ export default {
     },
     computeLogo() {
       return this.drawerWidth === 256 ? '/img/logo_text.png' : '/img/logo.png'
-    }
+    },
   },
   created() {},
 
@@ -130,8 +131,11 @@ export default {
       } else {
         this.drawerWidth = 64
       }
-    }
-  }
+    },
+    computeGroupExpanded(item, $route) {
+      return $route.matched.map((item) => item.path).includes(item.path)
+    },
+  },
 }
 </script>
 

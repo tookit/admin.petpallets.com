@@ -8,6 +8,7 @@
               <v-autocomplete
                 v-model="formModel.property_id"
                 outlined
+                :readonly="propertyId !== null"
                 label="Name"
                 :items="getProperties"
                 :loading="isLoading"
@@ -15,7 +16,7 @@
                 placeholder="Property Name"
                 item-text="text"
                 item-value="id"
-                @change="handleNameChange"
+                @change="handlePropertyChange"
               >
               </v-autocomplete>
             </v-col>
@@ -32,6 +33,7 @@
                 item-value="value"
                 :return-object="false"
                 small-chips
+                deletable-chips
                 multiple
                 clearable
               >
@@ -67,6 +69,14 @@ export default {
   components: {},
   props: {
     categoryId: [Number, String],
+    propertyId: {
+      type: [Number, String],
+      default: null,
+    },
+    options: {
+      type: Array,
+      default: () => [],
+    },
   },
   data() {
     return {
@@ -74,12 +84,11 @@ export default {
       isLoading: false,
       searchName: null,
       searchValue: null,
-      items: [],
       values: [],
       formModel: {
         category_id: this.categoryId,
-        property_id: null,
-        options: null,
+        property_id: this.propertyId,
+        options: this.options,
       },
     }
   },
@@ -96,6 +105,14 @@ export default {
         pageSize: -1,
       })
     },
+    propertyId: {
+      handler(id) {
+        this.formModel.property_id = id
+        this.formModel.options = this.options
+        this.handlePropertyChange(id)
+      },
+      immediate: true,
+    },
   },
   methods: {
     handleSubmit() {
@@ -111,13 +128,14 @@ export default {
           this.loading = false
         })
     },
-    handleNameChange(id) {
+    handlePropertyChange(id) {
       this.$store
         .dispatch('fetchPropertyValue', {
           'filter[property_id]': id,
         })
         .then((resp) => {
           this.values = resp.data
+          this.$emit('change', this.formModel)
         })
     },
   },

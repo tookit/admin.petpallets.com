@@ -3,37 +3,37 @@ const state = {
   flags: [
     {
       text: 'Default',
-      value: 1
+      value: 1,
     },
     {
       text: 'Promoted',
-      value: 2
+      value: 2,
     },
     {
       text: 'Hot',
-      value: 3
+      value: 3,
     },
     {
       text: 'New',
-      value: 4
+      value: 4,
     },
     {
       text: 'Featured',
-      value: 5
+      value: 5,
     },
     {
       text: 'Archived',
-      value: 6
+      value: 6,
     },
     {
       text: 'Uncategorized',
-      value: 7
+      value: 7,
     },
     {
       text: 'Untranslated',
-      value: 8
-    }
-  ]
+      value: 8,
+    },
+  ],
 }
 const getters = {
   getProductFlags: (state) => {
@@ -42,133 +42,133 @@ const getters = {
   getFlagLabel: (state) => (value) => {
     const find = state.flags.find((item) => item.value === value)
     return find ? find.text : ''
-  }
+  },
 }
 const actions = {
-  fetchProducts({ commit }, query) {
+  fetchProducts({}, query) {
     return request({
       url: `/mall/item`,
       method: 'get',
-      params: query
+      params: query,
     })
   },
 
-  fetchImageByProductId({ commit }, id) {
+  fetchImageByProductId({}, id) {
     return request({
       url: `/mall/item/${id}/image`,
-      method: 'get'
+      method: 'get',
     })
   },
-  getProductById({ commit }, id) {
+  getProductById({}, id) {
     return request({
       url: `/mall/item/${id}`,
-      method: 'get'
+      method: 'get',
     })
   },
 
-  updateProduct({ commit }, { id, data }) {
+  updateProduct({}, { id, data }) {
     return request({
       url: `/mall/item/${id}`,
       method: 'put',
-      data: data
+      data: data,
     })
   },
-  deleteProduct({ commit }, id) {
+  deleteProduct({}, id) {
     return request({
       url: `/mall/item/${id}`,
-      method: 'delete'
+      method: 'delete',
     })
   },
 
-  fetchValueById({ commit }, { id, query }) {
+  fetchValueById({}, { id, query }) {
     return request({
       url: `/mall/property/${id}/value`,
       method: 'get',
-      params: query
+      params: query,
     })
   },
 
-  getPropertyById({ commit }, id) {
+  getPropertyById({}, id) {
     return request({
       url: `/mall/property/${id}`,
-      method: 'get'
+      method: 'get',
     })
   },
 
-  fetchSpecByProductId({ commit }, id) {
+  fetchSpecByProductId({}, id) {
     return request({
       url: `/mall/item/${id}/sku`,
-      method: 'get'
+      method: 'get',
     })
   },
 
-  attachValueForProperty({ commit }, { id, data }) {
+  attachValueForProperty({}, { id, data }) {
     return request({
       url: `/mall/property/${id}/value`,
       method: 'put',
-      data: data
+      data: data,
     })
   },
-  getPropertyValuesByProductId({ commit }, id) {
+  getPropertyValuesByProductId({}, id) {
     return request({
       url: `/mall/item/${id}/property`,
-      method: 'get'
+      method: 'get',
     })
   },
-  attachPropsForProduct({ commit }, { id, data }) {
+  attachPropsForProduct({}, { id, data }) {
     return request({
       url: `/mall/item/${id}/property`,
       method: 'post',
-      data: data
+      data: data,
     })
   },
-  detachPropsForProduct({ commit }, { id, property_value_id }) {
+  detachPropsForProduct({}, { id, property_value_id }) {
     return request({
       url: `/mall/item/${id}/property`,
       method: 'delete',
       data: {
-        property_value_id
-      }
+        property_value_id,
+      },
     })
   },
-  attachDirectPropForProduct({ commit }, { id, data }) {
+  attachDirectPropForProduct({}, { id, data }) {
     return request({
       url: `/mall/item/${id}/property`,
       method: 'put',
-      data: data
+      data: data,
     })
   },
-  attachSkuForProduct({ commit }, { id, data }) {
+  attachSkuForProduct({}, { id, data }) {
     return request({
       url: `/mall/item/${id}/sku`,
       method: 'post',
-      data: data
+      data: data,
     })
   },
-  deletePropertyValue({ commit }, id) {
+  deletePropertyValue({}, id) {
     return request({
       url: `/mall/property_value/${id}`,
-      method: 'delete'
+      method: 'delete',
     })
   },
-  updateProductProperty({ commit }, { id, data }) {
+  updateProductProperty({}, { id, data }) {
     return request({
       url: `/mall/product_property/${id}`,
       method: 'put',
-      data: data
+      data: data,
     })
   },
-  attachCategoryProperty({ commit }, id) {
+  attachCategoryProperty({}, id) {
     return request({
       url: `/mall/item/${id}/cat_property`,
-      method: 'post'
+      method: 'post',
     })
-  }
+  },
 }
 const mutations = {
   SET_PRODUCT_CATEGORY(state, { data }) {
     state.categories = data
-  }
+  },
 }
 
 export default {
@@ -176,5 +176,5 @@ export default {
   state,
   getters,
   actions,
-  mutations
+  mutations,
 }

@@ -76,6 +76,17 @@
               "
             />
           </template>
+          <template #[`item.options`]="{ item }">
+            <v-chip
+              v-for="option in item.options"
+              :key="option.slug"
+              class="ma-1"
+              small
+              label
+            >
+              {{ option.value }}
+            </v-chip>
+          </template>
           <template #[`item.type`]="{ item }">
             <v-select
               v-model="item.type"
@@ -113,53 +124,6 @@
         </v-data-table>
       </v-card-text>
     </v-card>
-    <v-dialog v-model="showOptionDialog" width="840px">
-      <v-card v-if="selectedItem">
-        <v-toolbar color="primary" dark>
-          <v-toolbar-title>Option</v-toolbar-title>
-          <v-spacer />
-          <v-icon @click="showOptionDialog = false">mdi-close</v-icon>
-        </v-toolbar>
-        <v-divider />
-        <v-card-text class="mt-5">
-          <v-combobox
-            v-model="selectedItem.options"
-            :items="
-              selectedItem.property.values.map((item) => {
-                const tmp = {
-                  id: item.id,
-                  value: item.value,
-                  slug: item.slug,
-                }
-                return tmp
-              })
-            "
-            label="Option"
-            item-text="value"
-            multiple
-            outlined
-            chips
-          />
-        </v-card-text>
-        <v-card-actions class="py-3">
-          <v-spacer></v-spacer>
-          <v-btn
-            :loading="submiting"
-            tile
-            color="primary"
-            @click="
-              handleUpdateField(
-                'options',
-                selectedItem.options,
-                selectedItem.id
-              )
-            "
-          >
-            {{ __('apply') }}
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
     <v-dialog v-model="showAttachDialog" scrollable width="860px">
       <v-card>
         <v-toolbar dark tile color="primary">
@@ -170,6 +134,10 @@
         <v-card-text class="pa-0">
           <form-category-property
             :category-id="categoryId"
+            :property-id="
+              selectedItem ? parseInt(selectedItem.property_id) : null
+            "
+            :options="selectedOptions"
             @attach="fetchRecords(filter)"
           />
         </v-card-text>
@@ -193,7 +161,6 @@ export default {
     return {
       submiting: false,
       showAttachDialog: false,
-      showOptionDialog: false,
       //filter
       search: '',
       showFilter: true,
@@ -216,12 +183,12 @@ export default {
         },
         {
           text: 'Name',
-          value: 'value.property_name',
+          value: 'property.name',
           width: 200,
         },
         {
-          text: 'Value',
-          value: 'value.value',
+          text: 'Option',
+          value: 'options',
           width: 200,
         },
         {
@@ -241,6 +208,11 @@ export default {
       items: [],
       actions: [
         {
+          text: 'Edit Item',
+          icon: 'mdi-pencil',
+          click: this.handleEditItem,
+        },
+        {
           text: 'Delete Item',
           icon: 'mdi-close',
           click: this.handleDeleteItem,
@@ -255,6 +227,11 @@ export default {
         model: 'App\\Models\\Mall\\Property',
         id: this.selectedItem ? this.selectedItem.id : 0,
       }
+    },
+    selectedOptions() {
+      return this.selectedItem
+        ? this.selectedItem.options.map((item) => item.value)
+        : []
     },
   },
   watch: {
@@ -328,6 +305,7 @@ export default {
     },
     //action
     handleCreateItem() {
+      this.selectedItem = null
       this.showAttachDialog = true
     },
     handleDeleteItem({ id }) {
@@ -337,9 +315,9 @@ export default {
         })
       }
     },
-    handleEditValue(item) {
+    handleEditItem(item) {
       this.selectedItem = item
-      this.showPropertyDialog = true
+      this.showAttachDialog = true
     },
     handleRefreshItem() {
       this.fetchRecords(this.filter)
@@ -379,11 +357,6 @@ export default {
         path: this.$route.path,
         query: this.filter,
       })
-    },
-    //option
-    handleShowOptionDialog(item) {
-      this.selectedItem = item
-      this.showOptionDialog = true
     },
   },
 }
