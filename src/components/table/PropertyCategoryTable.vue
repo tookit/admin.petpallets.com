@@ -138,7 +138,7 @@
               selectedItem ? parseInt(selectedItem.property_id) : null
             "
             :options="selectedOptions"
-            @attach="fetchRecords(filter)"
+            @attach:success="fetchRecords(filter)"
           />
         </v-card-text>
       </v-card>

@@ -3,7 +3,6 @@
     <v-card>
       <v-toolbar flat>
         <v-text-field
-          v-model="filter['filter[name]']"
           text
           solo
           flat
@@ -14,59 +13,35 @@
           :placeholder="__('search')"
           hide-details
           clearable
-          @keyup.enter="handleApplyFilter"
-          @click:append="handleApplyFilter"
           @click:prepend="showFilter = !showFilter"
-          @click:clear="handleClear"
         />
-        <v-btn icon @click="handleRefreshItem">
+        <v-btn icon @click="fetchRecords(category)">
           <v-icon>mdi-refresh</v-icon>
         </v-btn>
       </v-toolbar>
       <v-divider />
       <v-card v-show="showFilter" flat class="grey lighten-4">
         <v-card-text>
-          <v-row>
-            <v-col cols="12"> </v-col>
-            <v-col cols="4">
-              <v-select
-                v-model="filter['filter[flag]']"
-                label="Flag"
-                :items="getProductFlags"
-                clearable
-              />
-            </v-col>
-            <v-col cols="4">
+          <v-row v-if="category">
+            <v-col v-for="prop in skuSet" :key="prop.id" cols="4">
               <v-autocomplete
-                v-model="filter['filter[vendor_id]']"
-                label="Vendor"
-                placeholdder="Vendor"
-                clearable
-                :items="getVendors"
-                :return-object="false"
+                :label="prop.name"
+                :items="prop.options"
+                item-text="value"
+                multiple
+                deletable-chips
+                chips
+                outlined
+                hide-details
+                return-object
+                @change="handleSkuChange"
               >
-                <template #item="data">
-                  <v-list-item-content>
-                    <v-list-item-title v-text="data.item.text" />
-                    <v-list-item-subtitle v-text="data.item.url" />
-                  </v-list-item-content>
-                </template>
               </v-autocomplete>
-            </v-col>
-            <v-col cols="4">
-              <v-btn-toggle v-model="filter['filter[is_active]']">
-                <v-btn value="1"> Online </v-btn>
-                <v-btn value="0"> Offline </v-btn>
-              </v-btn-toggle>
             </v-col>
           </v-row>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn text @click="handleResetFilter">{{ __('reset') }}</v-btn>
-          <v-btn tile color="primary" @click="handleApplyFilter">{{
-            __('apply')
-          }}</v-btn>
         </v-card-actions>
       </v-card>
       <v-card-text class="pa-0">
@@ -75,19 +50,15 @@
           :loading="loadingItems"
           :headers="headers"
           :items="items"
-          :footer-props="{ itemsPerPageOptions: [15, 30, 50] }"
-          :server-items-length="serverItemsLength"
-          :items-per-page.sync="filter['pageSize']"
-          :page.sync="filter['page']"
+          disable-pagination
           item-key="id"
           show-select
+          single-select
           fixed-header
-          @update:page="handlePageChanged"
-          @update:items-per-page="handlePageSizeChanged"
         >
           <template #[`item.vendor.name`]="{ item }">
             <a :href="item.reference_url" target="_blank">
-              {{ item.vendor.name }}</a
+              {{ item.vendor ? item.vendor.name : '' }}</a
             >
           </template>
           <template #[`item.media`]="{ item }">
@@ -103,7 +74,6 @@
           <template #[`item.flag`]="{ item }">
             <v-select
               v-model="item.flag"
-              label="Flag"
               dense
               :items="getProductFlags"
               @change="handleFlagChange(item)"
@@ -112,7 +82,7 @@
           <template #[`item.name`]="{ item }">
             <a :href="item.href" target="_blank"> {{ item.name }} </a>
             <br />
-            <v-icon small @click="handleEditProp(item)">mdi-pencil</v-icon>
+            <v-icon small @click="handleEditProp(item)">mdi-hammer</v-icon>
           </template>
           <template #[`item.is_active`]="{ item }">
             <v-switch
@@ -157,32 +127,35 @@
     <v-dialog
       v-if="selectedItem"
       v-model="showFormProperty"
-      width="1240"
+      width="800"
       scrollable
     >
-      <v-sheet class="d-flex flex-row">
-        <div class="flex">
-          <property-product-table :product-id="selectedItem.id" />
-        </div>
-        <div class="flex pa-3" v-show="showSpec">
-          <div v-html="selectedItem.specs" />
-        </div>
-      </v-sheet>
+      <v-card max-height="600">
+        <v-toolbar dark color="primary" tile>
+          <v-toolbar-title v-text="formTitle" />
+          <v-spacer />
+          <v-icon @click="showFormProperty = false">mdi-close</v-icon>
+        </v-toolbar>
+        <v-card-text class="pa-0">
+          <form-product-property :product="selectedItem" />
+        </v-card-text>
+      </v-card>
     </v-dialog>
   </div>
 </template>
 
 <script>
-import PropertyProductTable from '../../components/table/PropertyProductTable.vue'
 import TooltipMixin from '@/mixins/Tooltip'
 import { mapGetters } from 'vuex'
+import FormProductProperty from '../form/product/FormProductProperty.vue'
 export default {
+  name: 'CategoryProductTable',
   components: {
-    PropertyProductTable,
+    FormProductProperty,
   },
   mixins: [TooltipMixin],
   props: {
-    item: Object,
+    category: Object,
   },
   data() {
     return {
@@ -191,24 +164,9 @@ export default {
       // lightbox
       images: [],
       showLightbox: false,
-      // trans
-      showTranslation: false,
-      translationText: '',
-      translationField: 'name',
-      //
       //filter
       search: '',
       showFilter: true,
-      categories: [],
-      filter: {
-        page: 1,
-        pageSize: 30,
-        'filter[name]': null,
-        'filter[flag]': null,
-        'filter[is_active]': null,
-        'filter[vendor_id]': null,
-        'filter[categories.id]': this.item ? this.item.id : null,
-      },
       // table
       loadingItems: false,
       selectedItems: [],
@@ -216,7 +174,7 @@ export default {
       serverItemsLength: 0,
       headers: [
         {
-          text: this.__('id'),
+          text: 'ID',
           value: 'id',
         },
         {
@@ -292,83 +250,34 @@ export default {
         id: this.selectedItem ? this.selectedItem.id : 0,
       }
     },
-    filtered() {
-      return !(
-        this.filter['filter[name]'] === null &&
-        this.filter['filter[flag]'] === null &&
-        this.filter['filter[is_active]'] === null
-      )
+    formTitle() {
+      return this.selectedItem ? this.selectedItem.name : ''
     },
+    skuSet() {
+      return this.category.properties ? this.category.properties.filter(item => item.options.length > 1) : []
+    }
   },
   watch: {
-    '$route.query': {
-      handler(data) {
-        if (Object.keys(data).length === 0 && data.constructor === Object) {
-          this.resetFilter()
-          this.fetchRecords()
-        } else {
-          const query = this.updateFilterQuery(data)
-          this.fetchRecords(query)
-        }
-      },
-      immediate: true,
-    },
-    item: {
+    category: {
       handler(val) {
-        this.updateHeaders(val)
+        if (val) this.fetchRecords(val)
       },
       immediate: true,
     },
   },
-  created() {},
   methods: {
-    updateHeaders(val) {
-      val.properties
-    },
-    updateFilterQuery(query) {
-      const filter = Object.assign(this.filter, query)
-      const flag = filter['filter[flag]']
-      const vendorId = filter['filter[vendor_id]']
-      filter['filter[vendor_id]'] = vendorId ? parseInt(vendorId) : null
-      filter['filter[flag]'] = flag ? parseInt(flag) : null
-      filter.page = parseInt(filter.page)
-      filter.pageSize = parseInt(filter.pageSize)
-      return filter
-    },
-    resetFilter() {
-      this.filter = {
-        page: 1,
-        pageSize: 30,
-        'filter[name]': null,
-        'filter[categories.id]': this.item.id,
-        'filter[flag]': null,
-        'filter[is_active]': null,
-        'filter[vendor_id]': null,
-      }
-    },
-    fetchRecords(query) {
+    fetchRecords(item) {
       this.loadingItems = true
       this.items = []
       return this.$store
-        .dispatch('fetchProducts', query)
-        .then(({ data, meta }) => {
+        .dispatch('getProductByCategoryId', { id: item.id })
+        .then(({ data }) => {
           this.items = data
-          this.serverItemsLength = meta.total
           this.loadingItems = false
         })
         .catch(() => {
           this.loadingItems = false
         })
-    },
-    handleFlagChange({ id, flag }) {
-      this.$store
-        .dispatch('updateProduct', {
-          id: id,
-          data: {
-            flag: flag,
-          },
-        })
-        .then(() => {})
     },
     handleItemStatus(key, val, id) {
       let data = {}
@@ -383,6 +292,7 @@ export default {
     //action
     handleEditProp(item) {
       this.selectedItem = item
+      this.selectedItems = [item]
       this.showFormProperty = true
     },
     handleViewSpec() {
@@ -403,42 +313,8 @@ export default {
         })
       }
     },
-    handleRefreshItem() {
-      this.fetchRecords(this.filter)
-    },
     // filter
-    handlePageChanged(page) {
-      this.filter.page = page
-      this.filter.t = Date.now()
-      this.$router.replace({
-        path: this.$route.path,
-        query: this.filter,
-      })
-    },
-    handlePageSizeChanged(size) {
-      this.filter.pageSize = size
-      this.filter.t = Date.now()
-      this.$router.replace({
-        path: this.$route.path,
-        query: this.filter,
-      })
-    },
-    handleResetFilter() {
-      this.resetFilter()
-      this.fetchRecords(this.filter)
-    },
-    handleApplyFilter() {
-      this.filter.t = Date.now()
-      this.fetchRecords(this.filter)
-    },
-    handleClear() {
-      this.resetFilter()
-      this.filter.t = Date.now()
-      this.$router.replace({
-        path: this.$route.path,
-        query: this.filter,
-      })
-    },
+    handleSkuChange() {},
     //lightbox
     handleShowLightBox(item) {
       this.images = [

@@ -118,6 +118,7 @@ export default {
   mixins: [ResizeMixin, TooltipMixin],
   props: {
     productId: [Number, String],
+    categoryId: [Number, String],
   },
   data() {
     return {

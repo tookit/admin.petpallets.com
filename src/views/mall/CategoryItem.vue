@@ -44,7 +44,7 @@
               />
             </v-tab-item>
             <v-tab-item key="sku" value="sku">
-              <form-sku :item="item" />
+              <category-product-table :category="item" />
             </v-tab-item>
           </v-tabs-items>
         </v-col>
@@ -56,13 +56,13 @@
 <script>
 import FormProductCategory from '@/components/form/product/FormProductCategory'
 import FormSeo from '@/components/form/FormSeo'
-import FormSku from '@/components/form/FormSku'
+import CategoryProductTable from '@/components/table/CategoryProductTable'
 import PropertyCategoryTable from '@/components/table/PropertyCategoryTable'
 import MediaTable from '@/components/table/MediaTable'
 export default {
   components: {
     FormSeo,
-    FormSku,
+    CategoryProductTable,
     MediaTable,
     PropertyCategoryTable,
     FormProductCategory,

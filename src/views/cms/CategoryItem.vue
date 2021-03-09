@@ -14,15 +14,15 @@
 import FormNewsCategory from '@/components/form/cms/FormNewsCategory'
 export default {
   name: 'NewsItem',
-  props: {
-    id: [Number, String]
-  },
   components: {
-    FormNewsCategory
+    FormNewsCategory,
+  },
+  props: {
+    id: [Number, String],
   },
   data() {
     return {
-      item: null
+      item: null,
     }
   },
   computed: {},
@@ -33,16 +33,16 @@ export default {
           this.fetchRecord(id)
         }
       },
-      immediate: true
-    }
+      immediate: true,
+    },
   },
   methods: {
     fetchRecord(id) {
       this.$store.dispatch('getNewsCategoryById', id).then(({ data }) => {
         this.item = data
       })
-    }
-  }
+    },
+  },
 }
 </script>
 
