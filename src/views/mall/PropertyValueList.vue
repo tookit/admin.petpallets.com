@@ -9,8 +9,8 @@
             :loading="loading"
             :server-items-length="serverItemsLength"
             :items-per-page="itemsPerPage"
+            :search-value="filter['filter[name]']"
             @update:page="handlePageChanged"
-            :searchValue="filter['filter[name]']"
             @input:change="handleInputChange"
             @search="handleApplyFilter"
           >
@@ -20,20 +20,16 @@
                   <v-row>
                     <v-col cols="6">
                       <v-btn-toggle v-model="filter['filter[type]']">
-                        <v-btn value="sku">
-                          SKU
-                        </v-btn>
-                        <v-btn value="spu">
-                          SPU
-                        </v-btn>
+                        <v-btn value="sku"> SKU </v-btn>
+                        <v-btn value="spu"> SPU </v-btn>
                       </v-btn-toggle>
                     </v-col>
                   </v-row>
                 </v-card-text>
                 <v-card-actions>
                   <v-spacer></v-spacer>
-                  <v-btn @click="handleResetFilter" text>Reset</v-btn>
-                  <v-btn @click="handleApplyFilter" color="primary"
+                  <v-btn text @click="handleResetFilter">Reset</v-btn>
+                  <v-btn color="primary" @click="handleApplyFilter"
                     >Apply</v-btn
                   >
                 </v-card-actions>
@@ -45,23 +41,23 @@
             <v-btn slot="toolbar" icon @click="handleCreateItem">
               <v-icon>mdi-plus</v-icon>
             </v-btn>
-            <template v-slot:item.name="{ item }">
+            <template #[`item.name`]="{ item }">
               <div>
                 <span>{{ item.name }}</span>
                 <v-icon
                   class="mx-2"
-                  @click="handleShowTranslation('name', item)"
                   size="18"
+                  @click="handleShowTranslation('name', item)"
                   >mdi-translate</v-icon
                 >
               </div>
               <div>
                 <v-avatar
+                  v-for="locale in getLocales"
+                  :key="locale.value"
                   class="mr-1"
                   tile
                   size="16"
-                  v-for="locale in getLocales"
-                  :key="locale.value"
                 >
                   <img
                     :src="locale.svg"
@@ -72,22 +68,22 @@
                 </v-avatar>
               </div>
             </template>
-            <template v-slot:item.values="{ item }">
+            <template #[`item.values`]="{ item }">
               <v-chip
-                class="mr-1"
-                x-small
                 v-for="val in item.values"
                 :key="val.slug"
+                class="mr-1"
+                x-small
                 label
               >
                 {{ val.value }}
               </v-chip>
             </template>
-            <template v-slot:item.action="{ item }">
+            <template #[`item.action`]="{ item }">
               <v-menu>
-                <template v-slot:activator="{ on: menu }">
+                <template #activator="{ on: menu }">
                   <v-tooltip bottom>
-                    <template v-slot:activator="{ on: tooltip }">
+                    <template #activator="{ on: tooltip }">
                       <v-btn icon v-on="onTooltip({ ...tooltip, ...menu })">
                         <v-icon>mdi-dots-vertical</v-icon>
                       </v-btn>
@@ -132,8 +128,7 @@
 </template>
 
 <script>
-import AdvanceTable from '@/components/table/AdvanceTable'
-import { mapActions, mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
 import ResizeMixin from '@/mixins/Resize'
 import TooltipMixin from '@/mixins/Tooltip'
 import FormTranslation from '@/components/form/FormTranslation'
@@ -144,7 +139,6 @@ export default {
   components: {
     FormTranslation,
     FormProperty,
-    AdvanceTable
   },
   mixins: [ResizeMixin, TooltipMixin],
   data() {
@@ -161,36 +155,36 @@ export default {
       items: [],
       filter: {
         'filter[name]': null,
-        'filter[type]': null
+        'filter[type]': null,
       },
       translatable: ['name'],
       categories: [],
       headers: [
         {
           text: 'ID',
-          value: 'id'
+          value: 'id',
         },
         {
           text: 'Name',
           value: 'name',
-          width: 200
+          width: 200,
         },
         {
           text: 'Value',
-          value: 'values'
+          value: 'values',
         },
         {
           text: 'Type',
-          value: 'type'
+          value: 'type',
         },
         {
           text: 'Unit',
-          value: 'unit'
+          value: 'unit',
         },
         {
           text: 'Action',
-          value: 'action'
-        }
+          value: 'action',
+        },
       ],
       serverItemsLength: 0,
       itemsPerPage: 15,
@@ -198,24 +192,24 @@ export default {
         {
           text: 'View Item',
           icon: 'mdi-eye',
-          click: this.handleViewItem
+          click: this.handleViewItem,
         },
         {
           text: 'Edit Item',
           icon: 'mdi-pencil',
-          click: this.handleEditItem
+          click: this.handleEditItem,
         },
         {
           text: 'Edit Value',
           icon: 'mdi-pencil',
-          click: this.handleEditValue
+          click: this.handleEditValue,
         },
         {
           text: 'Delete Item',
           icon: 'mdi-close',
-          click: this.handleDeleteItem
-        }
-      ]
+          click: this.handleDeleteItem,
+        },
+      ],
     }
   },
   computed: {
@@ -223,9 +217,9 @@ export default {
     entity() {
       return {
         model: 'App\\Models\\Mall\\Property',
-        id: this.selectedItem ? this.selectedItem.id : 0
+        id: this.selectedItem ? this.selectedItem.id : 0,
       }
-    }
+    },
   },
   watch: {
     '$route.query': {
@@ -233,8 +227,8 @@ export default {
         Object.assign(this.filter, query)
         this.fetchRecord(query)
       },
-      immediate: true
-    }
+      immediate: true,
+    },
   },
   methods: {
     fetchRecord(query) {
@@ -253,7 +247,7 @@ export default {
     },
     handleCreateItem() {
       this.$router.push({
-        path: `/mall/property/create`
+        path: `/mall/property/create`,
       })
     },
     handleViewItem(item) {
@@ -261,7 +255,7 @@ export default {
     },
     handleEditItem(item) {
       this.$router.push({
-        path: `/mall/property/item/${item.id}`
+        path: `/mall/property/item/${item.id}`,
       })
     },
     handleDeleteItem({ id }) {
@@ -283,7 +277,7 @@ export default {
       this.filter.t = Date.now()
       this.$router.replace({
         path: this.$route.path,
-        query: this.filter
+        query: this.filter,
       })
     },
     handleCategoryChange(val) {
@@ -297,7 +291,7 @@ export default {
       this.filter.t = Date.now()
       this.$router.replace({
         path: this.$route.path,
-        query: this.filter
+        query: this.filter,
       })
     },
 
@@ -305,7 +299,7 @@ export default {
       this.filter = {
         page: 1,
         'filter[name]': null,
-        'filter[type]': null
+        'filter[type]': null,
       }
       this.handleApplyFilter()
     },
@@ -321,14 +315,14 @@ export default {
     hasTranslation(locale, translations) {
       const grey = translations[locale] ? false : true
       return {
-        'grey-bg': grey
+        'grey-bg': grey,
       }
     },
     handleTranslated() {
       this.showTranslation = false
       this.fetchRecord(this.filter)
-    }
-  }
+    },
+  },
 }
 </script>
 

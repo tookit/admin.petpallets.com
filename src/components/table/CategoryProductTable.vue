@@ -254,8 +254,10 @@ export default {
       return this.selectedItem ? this.selectedItem.name : ''
     },
     skuSet() {
-      return this.category.properties ? this.category.properties.filter(item => item.options.length > 1) : []
-    }
+      return this.category.properties
+        ? this.category.properties.filter((item) => item.options.length > 1)
+        : []
+    },
   },
   watch: {
     category: {
