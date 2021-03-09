@@ -123,6 +123,12 @@ const actions = {
       return resp
     })
   },
+  importCategoryProp({}, id) {
+    return request({
+      url: `/mall/category/${id}/import`,
+      method: 'put',
+    })
+  },
 }
 const mutations = {
   SET_PRODUCT_PROPERTIES(state, data) {

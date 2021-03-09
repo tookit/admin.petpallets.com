@@ -8,6 +8,9 @@
         <v-btn icon @click="handleCreateItem">
           <v-icon>mdi-plus</v-icon>
         </v-btn>
+        <v-btn icon @click="handleInheritedProp">
+          <v-icon>mdi-set-merge</v-icon>
+        </v-btn>        
       </v-toolbar>
       <v-divider />
       <v-card-text class="pa-0">
@@ -198,6 +201,10 @@ export default {
     },
     attachPropForProduct(item) {
       console.log(item)
+    },
+    handleInheritedProp() {
+      const category_id = this.product.category_id
+      this.$store.dispatch('importCategoryProp', category_id)
     }
   },
 }
