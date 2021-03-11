@@ -5,7 +5,7 @@
         <v-container fluid>
           <v-row>
             <template v-for="item in getSkuProperties">
-              <v-col :cols="6" :key="item.id">
+              <v-col :key="item.id" :cols="6">
                 <v-autocomplete
                   v-model="formModel.specs[item.name]"
                   outlined
@@ -42,7 +42,7 @@
     </v-card-text>
     <v-card-actions class="py-3">
       <v-spacer></v-spacer>
-      <v-btn @click="handleSubmit()" :loading="loading" tile color="primary">
+      <v-btn :loading="loading" tile color="primary" @click="handleSubmit()">
         save
       </v-btn>
     </v-card-actions>
@@ -56,7 +56,7 @@ export default {
   components: {},
   props: {
     item: Object,
-    productId: [Number, String]
+    productId: [Number, String],
   },
   data() {
     return {
@@ -67,21 +67,22 @@ export default {
       formModel: {
         specs: {},
         stock: 0,
-        price: 0
-      }
+        price: 0,
+      },
     }
   },
   computed: {
-    ...mapGetters(['getSkuProperties'])
+    ...mapGetters(['getSkuProperties']),
   },
   watch: {
     item: {
       handler(item) {
         this.assignModel(item)
       },
-      immediate: true
-    }
+      immediate: true,
+    },
   },
+  created() {},
   methods: {
     assignModel(data) {
       if (data) {
@@ -96,7 +97,7 @@ export default {
       this.formModel = {
         specs: {},
         stock: 0,
-        price: 0
+        price: 0,
       }
     },
     handleSubmit() {
@@ -104,7 +105,7 @@ export default {
       this.$store
         .dispatch('attachSkuForProduct', {
           id: this.productId,
-          data: this.formModel
+          data: this.formModel,
         })
         .then(() => {
           this.loading = false
@@ -113,9 +114,8 @@ export default {
         .catch(() => {
           this.loading = false
         })
-    }
+    },
   },
-  created() {}
 }
 </script>
 

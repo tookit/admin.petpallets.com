@@ -10,7 +10,7 @@
         </v-btn>
         <v-btn icon @click="handleInheritedProp">
           <v-icon>mdi-set-merge</v-icon>
-        </v-btn>        
+        </v-btn>
       </v-toolbar>
       <v-divider />
       <v-card-text class="pa-0">

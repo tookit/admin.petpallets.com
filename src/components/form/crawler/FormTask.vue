@@ -15,16 +15,11 @@
                 :items="getVendors"
                 :return-object="false"
               >
-                <template v-slot:item="data">
-                  <template v-if="typeof data.item !== 'object'">
-                    <v-list-item-content v-text="data.item" />
-                  </template>
-                  <template v-else>
-                    <v-list-item-content>
-                      <v-list-item-title v-text="data.item.text" />
-                      <v-list-item-subtitle v-text="data.item.url" />
-                    </v-list-item-content>
-                  </template>
+                <template #item="data">
+                  <v-list-item-content>
+                    <v-list-item-title v-text="data.item.text" />
+                    <v-list-item-subtitle v-text="data.item.url" />
+                  </v-list-item-content>
                 </template>
               </v-autocomplete>
             </v-col>
@@ -54,7 +49,7 @@
     </v-card-text>
     <v-card-actions class="py-3">
       <v-spacer />
-      <v-btn @click="handleSubmit()" :loading="loading" tile color="primary">
+      <v-btn :loading="loading" tile color="primary" @click="handleSubmit()">
         save
       </v-btn>
     </v-card-actions>
@@ -69,7 +64,7 @@ export default {
   name: 'FormTask',
   components: {},
   props: {
-    item: Object
+    item: Object,
   },
   data() {
     return {
@@ -78,29 +73,30 @@ export default {
       formModel: {
         vendor_id: null,
         link: null,
-        type: 'item'
+        type: 'item',
       },
       formRules: {
         vendor_id: [(v) => !!v || 'Vendor is required'],
         link: [
           (v) => {
             return URL.test(v) || 'Link is not a valid URL'
-          }
-        ]
-      }
+          },
+        ],
+      },
     }
   },
   computed: {
-    ...mapGetters(['getVendors'])
+    ...mapGetters(['getVendors']),
   },
   watch: {
     item: {
       handler(item) {
         this.item ? this.assignModel(item) : this.initModel()
       },
-      immediate: true
-    }
+      immediate: true,
+    },
   },
+  created() {},
   methods: {
     assignModel(data) {
       this.formModel = mergeDeep(this.formModel, data)
@@ -109,7 +105,7 @@ export default {
       this.formModel = {
         vendor_id: null,
         link: null,
-        type: 'item'
+        type: 'item',
       }
     },
     handleSubmit() {
@@ -120,7 +116,7 @@ export default {
           this.$store
             .dispatch('updateCrawlerTask', {
               id: this.item.id,
-              data: data
+              data: data,
             })
             .then(() => {
               this.$emit('form:success')
@@ -142,9 +138,8 @@ export default {
             })
         }
       }
-    }
+    },
   },
-  created() {}
 }
 </script>
 

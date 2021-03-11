@@ -218,10 +218,9 @@
     >
       <v-sheet class="d-flex flex-row">
         <div class="flex">
-          <property-product-table :product-id="selectedItem.id" />
+          <form-product-property :product="selectedItem" />
         </div>
         <div class="flex pa-3">
-          // eslint-disable-next-line vue/no-v-html
           <div v-html="selectedItem.specs" />
         </div>
       </v-sheet>
@@ -233,11 +232,11 @@
 import TooltipMixin from '@/mixins/Tooltip'
 import VCascader from '@/components/cascader/'
 import { mapGetters } from 'vuex'
-import PropertyProductTable from '../../components/table/PropertyProductTable.vue'
+import FormProductProperty from '@/components/form/product/FormProductProperty.vue'
 export default {
   name: 'ProductList',
   showFormProperty: false,
-  components: { VCascader, PropertyProductTable },
+  components: { VCascader, FormProductProperty },
   mixins: [TooltipMixin],
   data() {
     return {

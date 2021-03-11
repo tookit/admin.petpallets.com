@@ -94,7 +94,7 @@ export default {
       handler(val) {
         if (this.multiple) {
           return (this.selectedItems =
-            val.length > 0 ? this.findPathNodes(val) : [])
+            val && val.length > 0 ? this.findPathNodes(val) : [])
         } else {
           return (this.selectedItems = val ? this.findPath(val) : [])
         }

@@ -58,6 +58,7 @@
                 v-model="formModel.categories"
                 :items="getProductCategories"
                 multiple
+                outlined
                 item-text="name"
                 item-value="id"
                 name="Category"
