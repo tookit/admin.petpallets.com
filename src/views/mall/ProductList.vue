@@ -213,17 +213,24 @@
     <v-dialog
       v-if="selectedItem"
       v-model="showFormProperty"
-      width="1240"
+      width="800"
       scrollable
     >
-      <v-sheet class="d-flex flex-row">
-        <div class="flex">
+      <v-card>
+        <v-toolbar flat dark color="primary">
+          <v-toolbar-title>
+            {{ selectedItem.name }} - {{ selectedItem.id }}
+          </v-toolbar-title>
+          <v-spacer />
+          <v-icon @click="showFormProperty = false">mdi-close</v-icon>
+        </v-toolbar>
+        <v-card-text class="pa-0">
           <form-product-property :product="selectedItem" />
-        </div>
-        <div class="flex pa-3">
+        </v-card-text>
+      </v-card>
+      <!-- <div class="flex pa-3">
           <div v-html="selectedItem.specs" />
-        </div>
-      </v-sheet>
+        </div> -->
     </v-dialog>
   </div>
 </template>

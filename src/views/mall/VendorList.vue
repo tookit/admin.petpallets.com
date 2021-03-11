@@ -204,9 +204,9 @@ export default {
           click: this.handleEditLink,
         },
         {
-          text: 'Edit List Rule',
+          text: 'Edit Item Rule',
           icon: 'mdi-hammer',
-          click: this.handleEditList,
+          click: this.handleEditItemMap,
         },
         {
           text: 'Delete Item',
@@ -301,7 +301,7 @@ export default {
         },
       })
     },
-    handleEditList(item) {
+    handleEditItemMap(item) {
       this.$root.$dialog.show({
         title: `Edit Data Map - ${item.website}`,
         component: FormItemMap,

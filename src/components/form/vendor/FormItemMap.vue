@@ -1,115 +1,93 @@
 <template>
   <v-form ref="form" v-model="valid">
-    <v-container fluid>
-      <v-row>
-        <v-col :cols="6">
-          <v-text-field
-            v-model="formModel.title"
-            outlined
-            label="Title"
-            name="Title"
-            placeholder="Title selector"
-            :rules="formRules.title"
-          />
-        </v-col>
-        <v-col :cols="6">
-          <v-text-field
-            v-model="formModel.description"
-            :rules="formRules.description"
-            label="Description"
-            name="Description"
-            placeholder="Description selector"
-            outlined
-          />
-        </v-col>
-        <v-col :cols="12">
-          <v-text-field
-            v-model="formModel.specs"
-            :rules="formRules.specs"
-            label="Specs"
-            name="Specs"
-            placeholder="Specs selector"
-            outlined
-          />
-        </v-col>
-        <v-col :cols="6">
-          <v-text-field
-            v-model="formModel.image"
-            :rules="formRules.image"
-            label="Image "
-            name="Image "
-            placeholder="Image selector"
-            outlined
-          />
-        </v-col>
-        <v-col :cols="6">
-          <v-text-field
-            v-model="formModel.image_range"
-            :rules="formRules.image_range"
-            label="Image Range"
-            name="Image Range"
-            placeholder="Image Range"
-            outlined
-          />
-        </v-col>
-      </v-row>
-    </v-container>
+    <AceEditor
+      v-model="rawData"
+      lang="json"
+      theme="monokai"
+      width="100%"
+      height="500px"
+      :options="{
+        enableBasicAutocompletion: true,
+        enableLiveAutocompletion: true,
+        fontSize: 14,
+        highlightActiveLine: true,
+        enableSnippets: true,
+        showLineNumbers: true,
+        tabSize: 2,
+        showPrintMargin: false,
+        showGutter: true,
+      }"
+      :commands="[
+        {
+          name: 'save',
+          bindKey: { win: 'Ctrl-s', mac: 'Command-s' },
+          readOnly: true,
+        },
+      ]"
+      @init="editorInit"
+    />
   </v-form>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import AceEditor from 'vuejs-ace-editor'
 export default {
   name: 'FormItemMap',
-  components: {},
+  components: { AceEditor },
   props: {
-    item: Object
+    item: Object,
   },
   data() {
     return {
       loading: false,
       valid: true,
       formModel: {
-        title: null,
-        description: null,
-        specs: null,
-        image: null,
-        image_range: null
       },
       formRules: {
-        title: [(v) => !!v || 'Title is required']
-      }
+        title: [(v) => !!v || 'Title is required'],
+      },
     }
   },
   computed: {
-    ...mapGetters(['getCountries'])
+    rawData: {
+      get() {
+        return this.item
+          ? JSON.stringify(this.item.product_map, undefined, 2)
+          : ''
+      },
+      set(val) {
+        this.assignModel(val)
+      },
+    },
   },
   watch: {
     item: {
       handler(item) {
-        console.log(item)
         this.item && item.product_map
           ? this.assignModel(item.product_map)
           : this.initModel()
       },
-      immediate: true
-    }
+      immediate: true,
+    },
   },
   methods: {
+    editorInit: function () {
+      require('brace/ext/language_tools') //language extension prerequsite...
+      require('brace/mode/html')
+      require('brace/mode/json') //language
+      require('brace/mode/less')
+      require('brace/theme/monokai')
+    },
     assignModel(data) {
-      console.log(data)
-      for (let key in this.formModel) {
-        this.formModel[key] = data[key] || null
+      // const obj = JSON.parse(data)
+      try {
+        const obj = JSON.parse(data)
+        this.formModel = obj
+      } catch (e) {
       }
     },
     initModel() {
-      this.formModel = {
-        title: null,
-        description: null,
-        specs: null,
-        image: null,
-        image_range: null
-      }
+      this.formModel = null
     },
     handleSubmit() {
       if (this.$refs.form.validate()) {
@@ -119,8 +97,8 @@ export default {
           .dispatch('updateVendor', {
             id: this.item.id,
             data: {
-              product_map: data
-            }
+              product_map: data,
+            },
           })
           .then(() => {
             this.loading = false
@@ -132,7 +110,7 @@ export default {
     },
     transformData(data) {
       return data
-    }
-  }
+    },
+  },
 }
 </script>

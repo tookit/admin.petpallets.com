@@ -89,7 +89,10 @@
                   <a :href="item.link" target="_blank">{{ item.link }}</a>
                 </template>
                 <template #[`item.raw_data`]="{ item }">
-                  <v-icon small @click="handleViewRawData(item)"
+                  <v-icon
+                    :disabled="!item.raw_data"
+                    small
+                    @click="handleViewRawData(item)"
                     >mdi-database</v-icon
                   >
                 </template>
@@ -114,6 +117,7 @@
                       <v-list-item
                         v-for="action in actions"
                         :key="action.text"
+                        :disabled="computeDisabled(action, item)"
                         @click="action.click(item)"
                       >
                         <v-list-item-icon class="mr-2">
@@ -190,6 +194,24 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <v-dialog v-model="showRuleDialog" scrollable width="840px">
+      <v-card>
+        <v-toolbar dark color="primary">
+          <v-toolbar-title>Rule</v-toolbar-title>
+          <v-spacer />
+          <v-btn icon @click="showRuleDialog = false">
+            <v-icon color="white">mdi-close</v-icon>
+          </v-btn>
+        </v-toolbar>
+        <v-card-text class="pa-0">
+          <form-item-map />
+        </v-card-text>
+        <v-card-actions class="py-3">
+          <v-spacer />
+          <v-btn tile color="primary">save </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -199,6 +221,7 @@ import ResizeMixin from '@/mixins/Resize'
 import TooltipMixin from '@/mixins/Tooltip'
 import VGrid from '@/components/grid'
 import FormTask from '@/components/form/crawler/FormTask'
+import FormItemMap from '@/components/form/vendor/FormItemMap'
 import AceEditor from 'vuejs-ace-editor'
 export default {
   name: 'TaskList',
@@ -206,10 +229,12 @@ export default {
     VGrid,
     FormTask,
     AceEditor,
+    FormItemMap,
   },
   mixins: [ResizeMixin, TooltipMixin],
   data() {
     return {
+      showRuleDialog: false,
       showDataDialog: false,
       showOverlay: false,
       showFormDialog: false,
@@ -238,6 +263,10 @@ export default {
           value: 'link',
         },
         {
+          text: 'Product',
+          value: 'product_id',
+        },        
+        {
           text: 'Type',
           value: 'type',
         },
@@ -252,10 +281,6 @@ export default {
         {
           text: 'Status',
           value: 'status',
-        },
-        {
-          text: 'Imported',
-          value: 'imported',
         },
         {
           text: 'Created',
@@ -321,6 +346,19 @@ export default {
   },
   methods: {
     //
+    computeDisabled(action, item) {
+      switch (action.text) {
+        case 'Run Task':
+          return !item.rule ? true : false
+          break
+        case 'Import':
+          return !item.raw_data ? true : false
+          break
+        default:
+          return false
+          break
+      }
+    },
     editorInit: function () {
       require('brace/ext/language_tools') //language extension prerequsite...
       require('brace/mode/html')
@@ -363,7 +401,6 @@ export default {
     handleViewRawData(item) {
       this.selectedItem = item
       this.showDataDialog = true
-      console.log(item)
     },
     handleCreateItem() {
       this.selectedItem = null
@@ -379,10 +416,12 @@ export default {
         this.$store
           .dispatch('runCrawlerTask', id)
           .then(() => {
-            this.items = this.items.filter((item) => item.id !== id)
+            this.handleRefreshItem()
             this.showOverlay = false
           })
-          .catch(() => (this.showOverlay = false))
+          .catch(() => {
+            this.showOverlay = false
+          })
       }
     },
     handleLinkProduct({ id, status, type }) {
@@ -391,6 +430,7 @@ export default {
         this.$store
           .dispatch('linkProduct', id)
           .then(() => {
+            this.handleRefreshItem()
             this.showOverlay = false
           })
           .catch(() => (this.showOverlay = false))

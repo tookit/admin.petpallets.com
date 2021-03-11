@@ -100,6 +100,8 @@ export default {
   methods: {
     assignModel(data) {
       this.formModel = mergeDeep(this.formModel, data)
+      const { vendor_id } = this.formModel
+      this.formModel.vendor_id = vendor_id.toString()
     },
     initModel() {
       this.formModel = {
