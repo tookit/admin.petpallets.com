@@ -49,6 +49,20 @@ const actions = {
       params: query,
     })
   },
+
+  fetchValueById({}, id) {
+    return request({
+      url: `/mall/property/${id}/value`,
+      method: 'get',
+    })
+  },
+
+  getPropertyById({}, id) {
+    return request({
+      url: `/mall/property/${id}`,
+      method: 'get',
+    })
+  },
   fetchCategoryProperty({}, query) {
     return request({
       url: '/mall/cat_property',
@@ -91,6 +105,12 @@ const actions = {
       commit('DELETE_PROPERTY', id)
     })
   },
+  deletePropertyValue({}, id) {
+    return request({
+      url: `/mall/property_value/${id}`,
+      method: 'delete',
+    })
+  },
   deleteCategoryProperty({}, id) {
     return request({
       url: `/mall/cat_property/${id}`,
@@ -101,6 +121,13 @@ const actions = {
     return request({
       url: `/mall/product_property/${id}`,
       method: 'delete',
+    })
+  },
+  attachValueForProperty({}, { id, data }) {
+    return request({
+      url: `/mall/property/${id}/value`,
+      method: 'put',
+      data: data,
     })
   },
   detachPropertyForCategory({}, { cid, data }) {

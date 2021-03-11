@@ -80,20 +80,6 @@ const actions = {
     })
   },
 
-  fetchValueById({}, { id, query }) {
-    return request({
-      url: `/mall/property/${id}/value`,
-      method: 'get',
-      params: query,
-    })
-  },
-
-  getPropertyById({}, id) {
-    return request({
-      url: `/mall/property/${id}`,
-      method: 'get',
-    })
-  },
 
   fetchSpecByProductId({}, id) {
     return request({
@@ -102,13 +88,7 @@ const actions = {
     })
   },
 
-  attachValueForProperty({}, { id, data }) {
-    return request({
-      url: `/mall/property/${id}/value`,
-      method: 'put',
-      data: data,
-    })
-  },
+
   getPropertyValuesByProductId({}, id) {
     return request({
       url: `/mall/item/${id}/property`,
@@ -145,12 +125,7 @@ const actions = {
       data: data,
     })
   },
-  deletePropertyValue({}, id) {
-    return request({
-      url: `/mall/property_value/${id}`,
-      method: 'delete',
-    })
-  },
+
   updateProductProperty({}, { id, data }) {
     return request({
       url: `/mall/product_property/${id}`,

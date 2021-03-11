@@ -19,7 +19,7 @@
     </v-card-text>
     <v-card-actions class="py-3">
       <v-spacer></v-spacer>
-      <v-btn @click="handleSubmit()" :loading="loading" tile color="primary">
+      <v-btn :loading="loading" tile color="primary" @click="handleSubmit()">
         save
       </v-btn>
     </v-card-actions>
@@ -41,22 +41,22 @@ export default {
       search: null,
       tags: [],
       formModel: {
-        value: null
-      }
+        value: null,
+      },
     }
   },
   computed: {
     formTitle() {
       return 'Property Value'
-    }
+    },
   },
   watch: {
     item: {
       handler(item) {
         this.assignModel(item)
       },
-      immediate: true
-    }
+      immediate: true,
+    },
   },
   methods: {
     assignModel(data) {
@@ -70,7 +70,7 @@ export default {
     },
     initModel() {
       this.formModel = {
-        value: null
+        value: null,
       }
     },
     handleSubmit() {
@@ -86,9 +86,8 @@ export default {
           this.loading = false
           this.$emit('form:error')
         })
-    }
+    },
   },
-  created() {}
 }
 </script>
 

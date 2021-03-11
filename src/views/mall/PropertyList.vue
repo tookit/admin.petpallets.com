@@ -100,7 +100,7 @@
                   >
                     {{ val.value }}
                   </v-chip>
-                  <v-icon small @click="handleEditItem(item)">
+                  <v-icon small @click="handleEditValue(item)">
                     {{
                       item.values.length > 0
                         ? 'mdi-dots-horizontal'
@@ -164,6 +164,18 @@
         @click:close="showPropertyDialog = false"
       />
     </v-dialog>
+    <v-dialog v-model="showValueDialog" scrollable width="800">
+      <v-card>
+        <v-toolbar flat dark color="primary">
+          <v-toolbar-title> Value </v-toolbar-title>
+          <v-spacer />
+          <v-icon @click="showValueDialog = false">mdi-close</v-icon>
+        </v-toolbar>
+        <v-card-text class="pa-0">
+          <property-value-table v-if="selectedItem" :property="selectedItem" />
+        </v-card-text>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -173,15 +185,18 @@ import ResizeMixin from '@/mixins/Resize'
 import TooltipMixin from '@/mixins/Tooltip'
 import FormTranslation from '@/components/form/FormTranslation'
 import FormProperty from '@/components/form/product/FormProperty'
+import PropertyValueTable from '@/components/table/PropertyValueTable'
 export default {
   name: 'PropertyList',
   components: {
     FormTranslation,
     FormProperty,
+    PropertyValueTable,
   },
   mixins: [ResizeMixin, TooltipMixin],
   data() {
     return {
+      showValueDialog: false,
       showPropertyDialog: false,
       // trans
       showTranslation: false,
@@ -234,11 +249,6 @@ export default {
       ],
       items: [],
       actions: [
-        {
-          text: 'View Item',
-          icon: 'mdi-eye',
-          click: this.handleViewItem,
-        },
         {
           text: 'Edit Item',
           icon: 'mdi-pencil',
@@ -306,6 +316,10 @@ export default {
           this.loadingItems = false
         })
     },
+    handleEditValue(item) {
+      this.selectedItem = item
+      this.showValueDialog = true
+    },
     handleItemStatus(key, val, id) {
       let data = {}
       data[key] = val
@@ -320,9 +334,6 @@ export default {
     handleCreateItem() {
       this.selectedItem = null
       this.showPropertyDialog = true
-    },
-    handleViewItem(item) {
-      window.open(item.href, '_blank')
     },
     handleEditItem(item) {
       this.selectedItem = item
