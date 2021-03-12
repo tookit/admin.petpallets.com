@@ -2,13 +2,13 @@ import { AuthLayout, DefaultLayout, RouterWrapper } from '@/components/layouts'
 export const publicRoute = [
   {
     path: '*',
-    component: () => import('@/views/error/NotFound.vue')
+    component: () => import('@/views/error/NotFound.vue'),
   },
   {
     path: '/auth',
     component: AuthLayout,
     meta: {
-      title: 'Login'
+      title: 'Login',
     },
     redirect: '/auth/login',
     hidden: true,
@@ -18,30 +18,30 @@ export const publicRoute = [
         name: 'login',
 
         meta: {
-          title: 'Login'
+          title: 'Login',
         },
-        component: () => import('@/views/auth/Login.vue')
-      }
-    ]
+        component: () => import('@/views/auth/Login.vue'),
+      },
+    ],
   },
 
   {
     path: '/404',
     name: '404',
     meta: {
-      title: 'Not Found'
+      title: 'Not Found',
     },
-    component: () => import('@/views/error/NotFound.vue')
+    component: () => import('@/views/error/NotFound.vue'),
   },
 
   {
     path: '/500',
     name: '500',
     meta: {
-      title: 'Server Error'
+      title: 'Server Error',
     },
-    component: () => import('@/views/error/Error.vue')
-  }
+    component: () => import('@/views/error/Error.vue'),
+  },
 ]
 
 export const protectedRoute = [
@@ -52,7 +52,7 @@ export const protectedRoute = [
       title: 'Home',
       group: 'apps',
       icon: '',
-      hiddenInMenu: true
+      hiddenInMenu: true,
     },
     redirect: '/dashboard',
     children: [
@@ -63,8 +63,8 @@ export const protectedRoute = [
         meta: {
           title: 'Dashboard',
           hiddenInMenu: false,
-          icon: 'mdi-monitor-dashboard'
-        }
+          icon: 'mdi-monitor-dashboard',
+        },
       },
 
       {
@@ -74,11 +74,11 @@ export const protectedRoute = [
           group: 'mall',
           title: 'Mall',
           hiddenInMenu: false,
-          icon: 'mdi-store'
+          icon: 'mdi-store',
         },
         component: RouterWrapper,
         redirect: {
-          path: '/mall/product'
+          path: '/mall/product',
         },
         children: [
           // product
@@ -88,11 +88,11 @@ export const protectedRoute = [
             meta: {
               title: 'Product',
               hiddenInMenu: false,
-              icon: 'mdi-basket'
+              icon: 'mdi-basket',
             },
             component: RouterWrapper,
             redirect: {
-              path: '/mall/product/list'
+              path: '/mall/product/list',
             },
             children: [
               {
@@ -102,8 +102,8 @@ export const protectedRoute = [
                 meta: {
                   title: 'Product List',
                   hiddenInMenu: false,
-                  icon: 'mdi-basket'
-                }
+                  icon: 'mdi-basket',
+                },
               },
               {
                 path: '/mall/product/create',
@@ -113,8 +113,8 @@ export const protectedRoute = [
                 meta: {
                   title: 'Create Product',
                   hiddenInMenu: true,
-                  icon: 'mdi-view'
-                }
+                  icon: 'mdi-view',
+                },
               },
               {
                 path: '/mall/product/item/:id',
@@ -124,22 +124,22 @@ export const protectedRoute = [
                 meta: {
                   title: 'Edit Product',
                   hiddenInMenu: true,
-                  icon: 'mdi-view'
-                }
-              }
-            ]
+                  icon: 'mdi-view',
+                },
+              },
+            ],
           },
           {
             path: '/mall/quote',
             name: 'mall.quote',
             component: RouterWrapper,
             redirect: {
-              path: '/mall/quote/list'
+              path: '/mall/quote/list',
             },
             meta: {
               title: 'Quote',
               hiddenInMenu: false,
-              icon: 'mdi-quora'
+              icon: 'mdi-quora',
             },
             children: [
               {
@@ -149,8 +149,8 @@ export const protectedRoute = [
                 meta: {
                   title: 'Quote List',
                   hiddenInMenu: false,
-                  icon: 'mdi-quora'
-                }
+                  icon: 'mdi-quora',
+                },
               },
               {
                 path: '/mall/quote/item/:id',
@@ -160,10 +160,10 @@ export const protectedRoute = [
                 meta: {
                   title: 'Update quote',
                   hiddenInMenu: true,
-                  icon: 'mdi-view'
-                }
-              }
-            ]
+                  icon: 'mdi-view',
+                },
+              },
+            ],
           },
           //vendor
           {
@@ -172,11 +172,11 @@ export const protectedRoute = [
             meta: {
               title: 'Vendor',
               hiddenInMenu: false,
-              icon: 'mdi-alpha-v-circle'
+              icon: 'mdi-alpha-v-circle',
             },
             component: RouterWrapper,
             redirect: {
-              path: '/mall/vendor/list'
+              path: '/mall/vendor/list',
             },
             children: [
               {
@@ -186,8 +186,8 @@ export const protectedRoute = [
                 meta: {
                   title: 'Vendor List',
                   hiddenInMenu: false,
-                  icon: 'mdi-basket'
-                }
+                  icon: 'mdi-basket',
+                },
               },
               {
                 path: '/mall/vendor/create',
@@ -197,8 +197,8 @@ export const protectedRoute = [
                 meta: {
                   title: 'Create vendor',
                   hiddenInMenu: true,
-                  icon: 'mdi-view'
-                }
+                  icon: 'mdi-view',
+                },
               },
               {
                 path: '/mall/vendor/item/:id',
@@ -208,10 +208,10 @@ export const protectedRoute = [
                 meta: {
                   title: 'Update vendor',
                   hiddenInMenu: true,
-                  icon: 'mdi-view'
-                }
-              }
-            ]
+                  icon: 'mdi-view',
+                },
+              },
+            ],
           },
 
           //category
@@ -221,11 +221,11 @@ export const protectedRoute = [
             meta: {
               title: 'Category',
               hiddenInMenu: false,
-              icon: 'mdi-buffer'
+              icon: 'mdi-buffer',
             },
             component: RouterWrapper,
             redirect: {
-              path: '/mall/category/list'
+              path: '/mall/category/list',
             },
             children: [
               {
@@ -235,8 +235,8 @@ export const protectedRoute = [
                 meta: {
                   title: 'Category List',
                   hiddenInMenu: false,
-                  icon: 'mdi-buffer'
-                }
+                  icon: 'mdi-buffer',
+                },
               },
               {
                 path: '/mall/category/create',
@@ -246,8 +246,8 @@ export const protectedRoute = [
                 meta: {
                   title: 'Create  Category',
                   hiddenInMenu: true,
-                  icon: 'mdi-view'
-                }
+                  icon: 'mdi-view',
+                },
               },
               {
                 path: '/mall/category/item/:id',
@@ -257,10 +257,10 @@ export const protectedRoute = [
                 meta: {
                   title: 'Edit  Category',
                   hiddenInMenu: true,
-                  icon: 'mdi-view'
-                }
-              }
-            ]
+                  icon: 'mdi-view',
+                },
+              },
+            ],
           },
           // property
           {
@@ -269,11 +269,11 @@ export const protectedRoute = [
             meta: {
               title: 'Property',
               hiddenInMenu: false,
-              icon: 'mdi-filter-variant'
+              icon: 'mdi-filter-variant',
             },
             component: RouterWrapper,
             redirect: {
-              path: '/mall/property/list'
+              path: '/mall/property/list',
             },
             children: [
               {
@@ -283,8 +283,8 @@ export const protectedRoute = [
                 meta: {
                   title: 'Property List',
                   hiddenInMenu: false,
-                  icon: 'mdi-filter-variant'
-                }
+                  icon: 'mdi-filter-variant',
+                },
               },
 
               {
@@ -295,8 +295,8 @@ export const protectedRoute = [
                 meta: {
                   title: 'Create Property',
                   hiddenInMenu: true,
-                  icon: 'mdi-view'
-                }
+                  icon: 'mdi-view',
+                },
               },
               {
                 path: '/mall/property/item/:id',
@@ -306,11 +306,11 @@ export const protectedRoute = [
                 meta: {
                   title: 'Edit Property',
                   hiddenInMenu: true,
-                  icon: 'mdi-view'
-                }
-              }
-            ]
-          }
+                  icon: 'mdi-view',
+                },
+              },
+            ],
+          },
           // {
           //   path: '/mall/property-value/list',
           //   name: 'mall.property-value.list',
@@ -321,7 +321,7 @@ export const protectedRoute = [
           //     icon: 'mdi-view-list'
           //   }
           // },
-        ]
+        ],
       },
       {
         path: '/cms',
@@ -330,11 +330,11 @@ export const protectedRoute = [
           group: 'cms',
           title: 'CMS',
           hiddenInMenu: false,
-          icon: 'mdi-newspaper'
+          icon: 'mdi-newspaper',
         },
         component: RouterWrapper,
         redirect: {
-          path: '/cms/news'
+          path: '/cms/news',
         },
         children: [
           {
@@ -342,12 +342,12 @@ export const protectedRoute = [
             name: 'cms.news',
             component: RouterWrapper,
             redirect: {
-              path: '/cms/news/list'
+              path: '/cms/news/list',
             },
             meta: {
               title: 'News',
               hiddenInMenu: false,
-              icon: 'mdi-post'
+              icon: 'mdi-post',
             },
             children: [
               {
@@ -357,8 +357,8 @@ export const protectedRoute = [
                 meta: {
                   title: 'News',
                   hiddenInMenu: false,
-                  icon: 'mdi-post'
-                }
+                  icon: 'mdi-post',
+                },
               },
               {
                 path: '/cms/news/item/:id',
@@ -368,8 +368,8 @@ export const protectedRoute = [
                 meta: {
                   title: 'Edit News',
                   hiddenInMenu: true,
-                  icon: 'mdi-view'
-                }
+                  icon: 'mdi-view',
+                },
               },
               {
                 path: '/cms/news/create',
@@ -379,10 +379,10 @@ export const protectedRoute = [
                 meta: {
                   title: 'Create News',
                   hiddenInMenu: true,
-                  icon: 'mdi-view'
-                }
-              }
-            ]
+                  icon: 'mdi-view',
+                },
+              },
+            ],
           },
           // menu
           // {
@@ -438,12 +438,12 @@ export const protectedRoute = [
             name: 'cms.abbrs',
             component: RouterWrapper,
             redirect: {
-              path: '/cms/abbrs/list'
+              path: '/cms/abbrs/list',
             },
             meta: {
               title: 'Abbr',
               hiddenInMenu: false,
-              icon: 'mdi-alpha-a'
+              icon: 'mdi-alpha-a',
             },
             children: [
               {
@@ -453,8 +453,8 @@ export const protectedRoute = [
                 meta: {
                   title: 'Abbr List',
                   hiddenInMenu: false,
-                  icon: 'mdi-tag'
-                }
+                  icon: 'mdi-tag',
+                },
               },
               {
                 path: '/cms/abbrs/create',
@@ -464,8 +464,8 @@ export const protectedRoute = [
                 meta: {
                   title: 'Create Abbr',
                   hiddenInMenu: true,
-                  icon: 'mdi-view'
-                }
+                  icon: 'mdi-view',
+                },
               },
               {
                 path: '/cms/abbrs/item/:id',
@@ -475,10 +475,10 @@ export const protectedRoute = [
                 meta: {
                   title: 'Edit Abbr',
                   hiddenInMenu: true,
-                  icon: 'mdi-view'
-                }
-              }
-            ]
+                  icon: 'mdi-view',
+                },
+              },
+            ],
           },
           // tags
           {
@@ -486,12 +486,12 @@ export const protectedRoute = [
             name: 'cms.tags',
             component: RouterWrapper,
             redirect: {
-              path: '/cms/tags/list'
+              path: '/cms/tags/list',
             },
             meta: {
               title: 'Tags',
               hiddenInMenu: false,
-              icon: 'mdi-tag'
+              icon: 'mdi-tag',
             },
             children: [
               {
@@ -501,8 +501,8 @@ export const protectedRoute = [
                 meta: {
                   title: 'Tag List',
                   hiddenInMenu: false,
-                  icon: 'mdi-tag'
-                }
+                  icon: 'mdi-tag',
+                },
               },
               {
                 path: '/cms/tags/create',
@@ -512,8 +512,8 @@ export const protectedRoute = [
                 meta: {
                   title: 'Create Tag',
                   hiddenInMenu: true,
-                  icon: 'mdi-view'
-                }
+                  icon: 'mdi-view',
+                },
               },
               {
                 path: '/cms/tags/item/:id',
@@ -523,10 +523,10 @@ export const protectedRoute = [
                 meta: {
                   title: 'Edit Tag',
                   hiddenInMenu: true,
-                  icon: 'mdi-view'
-                }
-              }
-            ]
+                  icon: 'mdi-view',
+                },
+              },
+            ],
           },
           //categories
 
@@ -535,12 +535,12 @@ export const protectedRoute = [
             name: 'cms.categories',
             component: RouterWrapper,
             redirect: {
-              path: '/cms/categories/list'
+              path: '/cms/categories/list',
             },
             meta: {
               title: 'Category',
               hiddenInMenu: false,
-              icon: 'mdi-buffer'
+              icon: 'mdi-buffer',
             },
             children: [
               {
@@ -550,8 +550,8 @@ export const protectedRoute = [
                 meta: {
                   title: 'Category List',
                   hiddenInMenu: false,
-                  icon: 'mdi-tag'
-                }
+                  icon: 'mdi-tag',
+                },
               },
               {
                 path: '/cms/categories/create',
@@ -561,8 +561,8 @@ export const protectedRoute = [
                 meta: {
                   title: 'Create Category',
                   hiddenInMenu: true,
-                  icon: 'mdi-view'
-                }
+                  icon: 'mdi-view',
+                },
               },
               {
                 path: '/cms/categories/item/:id',
@@ -572,10 +572,10 @@ export const protectedRoute = [
                 meta: {
                   title: 'Edit Category',
                   hiddenInMenu: true,
-                  icon: 'mdi-view'
-                }
-              }
-            ]
+                  icon: 'mdi-view',
+                },
+              },
+            ],
           },
 
           //slider
@@ -584,12 +584,12 @@ export const protectedRoute = [
             name: 'cms.slider',
             component: RouterWrapper,
             redirect: {
-              path: '/cms/slider/list'
+              path: '/cms/slider/list',
             },
             meta: {
               title: 'Slider',
               hiddenInMenu: false,
-              icon: 'mdi-image-multiple'
+              icon: 'mdi-image-multiple',
             },
             children: [
               {
@@ -599,8 +599,8 @@ export const protectedRoute = [
                 meta: {
                   title: 'Slider List',
                   hiddenInMenu: false,
-                  icon: 'mdi-image-multiple'
-                }
+                  icon: 'mdi-image-multiple',
+                },
               },
               {
                 path: '/cms/slider/create',
@@ -610,8 +610,8 @@ export const protectedRoute = [
                 meta: {
                   title: 'Create Tag',
                   hiddenInMenu: true,
-                  icon: 'mdi-view'
-                }
+                  icon: 'mdi-view',
+                },
               },
               {
                 path: '/cms/slider/item/:id',
@@ -621,12 +621,12 @@ export const protectedRoute = [
                 meta: {
                   title: 'Edit Tag',
                   hiddenInMenu: true,
-                  icon: 'mdi-view'
-                }
-              }
-            ]
-          }
-        ]
+                  icon: 'mdi-view',
+                },
+              },
+            ],
+          },
+        ],
       },
       {
         path: '/crawler',
@@ -635,11 +635,11 @@ export const protectedRoute = [
           group: 'crawler',
           title: 'Crawler',
           hiddenInMenu: false,
-          icon: 'mdi-robot-outline'
+          icon: 'mdi-robot-outline',
         },
         component: RouterWrapper,
         redirect: {
-          path: '/crawler/task/list'
+          path: '/crawler/task/list',
         },
         children: [
           {
@@ -649,10 +649,10 @@ export const protectedRoute = [
             meta: {
               title: 'Tasks',
               hiddenInMenu: false,
-              icon: 'mdi-playlist-check'
-            }
-          }
-        ]
+              icon: 'mdi-playlist-check',
+            },
+          },
+        ],
       },
       {
         path: '/media',
@@ -661,9 +661,9 @@ export const protectedRoute = [
           group: 'media',
           title: 'Media',
           hiddenInMenu: false,
-          icon: 'mdi-image'
+          icon: 'mdi-image',
         },
-        component: () => import('@/views/Media.vue')
+        component: () => import('@/views/Media.vue'),
       },
       {
         path: '/setting',
@@ -672,9 +672,9 @@ export const protectedRoute = [
           group: 'setting',
           title: 'Setting',
           hiddenInMenu: false,
-          icon: 'mdi-cogs'
+          icon: 'mdi-cogs',
         },
-        component: () => import('@/views/Setting.vue')
+        component: () => import('@/views/Setting.vue'),
       },
       {
         path: '/acl',
@@ -683,11 +683,11 @@ export const protectedRoute = [
           group: 'acl',
           title: 'ACL',
           hiddenInMenu: false,
-          icon: 'mdi-shield-account'
+          icon: 'mdi-shield-account',
         },
         component: RouterWrapper,
         redirect: {
-          path: '/acl/user'
+          path: '/acl/user',
         },
         children: [
           {
@@ -697,8 +697,8 @@ export const protectedRoute = [
             meta: {
               title: 'Users',
               hiddenInMenu: false,
-              icon: 'mdi-account'
-            }
+              icon: 'mdi-account',
+            },
           },
           {
             path: '/acl/user/create',
@@ -707,8 +707,8 @@ export const protectedRoute = [
             meta: {
               title: 'Create User',
               hiddenInMenu: true,
-              icon: 'mdi-view'
-            }
+              icon: 'mdi-view',
+            },
           },
           {
             path: '/acl/user/item/:id',
@@ -718,8 +718,8 @@ export const protectedRoute = [
             meta: {
               title: 'Edit User',
               hiddenInMenu: true,
-              icon: 'mdi-view'
-            }
+              icon: 'mdi-view',
+            },
           },
           {
             path: '/acl/role',
@@ -728,8 +728,8 @@ export const protectedRoute = [
             meta: {
               title: 'Roles',
               hiddenInMenu: false,
-              icon: 'mdi-account-group'
-            }
+              icon: 'mdi-account-group',
+            },
           },
           {
             path: '/acl/role/create',
@@ -738,8 +738,8 @@ export const protectedRoute = [
             meta: {
               title: 'Create Role',
               hiddenInMenu: true,
-              icon: 'mdi-view'
-            }
+              icon: 'mdi-view',
+            },
           },
           {
             path: '/acl/role/item/:id',
@@ -749,20 +749,20 @@ export const protectedRoute = [
             meta: {
               title: 'Edit Role',
               hiddenInMenu: true,
-              icon: 'mdi-view'
-            }
-          }
-        ]
+              icon: 'mdi-view',
+            },
+          },
+        ],
       },
       {
         path: '/403',
         name: 'Forbidden',
         meta: {
           title: 'Access Denied',
-          hiddenInMenu: true
+          hiddenInMenu: true,
         },
-        component: () => import('@/views/error/Deny.vue')
-      }
-    ]
-  }
+        component: () => import('@/views/error/Deny.vue'),
+      },
+    ],
+  },
 ]

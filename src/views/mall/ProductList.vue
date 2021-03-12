@@ -504,12 +504,14 @@ export default {
     },
     handleShowLightBox(item) {
       this.selectedItem = item
-      this.images = item.media.map((media) => {
-        return {
-          src: media.cloud_url,
-          tile: item.name,
-        }
-      })
+      this.images = item.media
+        ? item.media.map((media) => {
+            return {
+              src: media.cloud_url,
+              title: item.name,
+            }
+          })
+        : []
       this.showLightbox = true
     },
   },

@@ -93,10 +93,6 @@
                 @click:append="handleShowTranslation('description')"
               />
             </v-col>
-            <v-col :cols="12">
-              <label for="">Spec</label>
-              <v-editor v-model="formModel.raw_spec" outlined />
-            </v-col>
           </v-row>
         </v-container>
       </v-form>
@@ -145,10 +141,9 @@ import { mapGetters } from 'vuex'
 import VCascader from '@/components/cascader/'
 import MediaTable from '@/components/table/MediaTable'
 import FormTranslation from '@/components/form/FormTranslation'
-import VEditor from '@/components/editor/Jodit'
 export default {
   name: 'FormProductCategory',
-  components: { VCascader, MediaTable, FormTranslation, VEditor },
+  components: { VCascader, MediaTable, FormTranslation },
   props: {
     item: Object,
   },
@@ -163,7 +158,6 @@ export default {
       formModel: {
         name: null,
         description: null,
-        raw_spec: '',
         slug: null,
         reference_url: null,
         icon: null,
@@ -203,8 +197,6 @@ export default {
       for (let key in this.formModel) {
         this.formModel[key] = data[key]
       }
-      const { raw_spec } = data
-      this.formModel['raw_spec'] = raw_spec ? raw_spec : ''
     },
     initModel() {
       this.formModel = {
