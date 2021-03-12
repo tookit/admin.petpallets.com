@@ -207,30 +207,22 @@
     </v-container>
     <vue-easy-lightbox
       :visible="showLightbox"
-      :imgs="imgs"
+      :imgs="images"
       @hide="showLightbox = false"
     />
     <v-dialog
       v-if="selectedItem"
       v-model="showFormProperty"
-      width="800"
+      width="1024"
       scrollable
     >
-      <v-card>
-        <v-toolbar flat dark color="primary">
-          <v-toolbar-title>
-            {{ selectedItem.name }} - {{ selectedItem.id }}
-          </v-toolbar-title>
-          <v-spacer />
-          <v-icon @click="showFormProperty = false">mdi-close</v-icon>
-        </v-toolbar>
-        <v-card-text class="pa-0">
-          <form-product-property :product="selectedItem" />
-        </v-card-text>
-      </v-card>
-      <!-- <div class="flex pa-3">
-          <div v-html="selectedItem.specs" />
-        </div> -->
+      <form-spec-import
+        in-dialog
+        height="500px"
+        :title="selectedItem.name"
+        :product-id="selectedItem.id"
+        @close:dialog="showFormProperty = false"
+      />
     </v-dialog>
   </div>
 </template>
@@ -239,11 +231,11 @@
 import TooltipMixin from '@/mixins/Tooltip'
 import VCascader from '@/components/cascader/'
 import { mapGetters } from 'vuex'
-import FormProductProperty from '@/components/form/product/FormProductProperty.vue'
+import FormSpecImport from '@/components/form/product/FormSpecImport.vue'
 export default {
   name: 'ProductList',
   showFormProperty: false,
-  components: { VCascader, FormProductProperty },
+  components: { VCascader, FormSpecImport },
   mixins: [TooltipMixin],
   data() {
     return {
@@ -340,18 +332,6 @@ export default {
       'getFlagLabel',
       'getVendors',
     ]),
-    imgs() {
-      let temp = []
-      this.items.forEach((item) => {
-        item.media.forEach((m) => {
-          temp.push({
-            src: m.cloud_url,
-            title: item.name,
-          })
-        })
-      })
-      return temp
-    },
     directory() {
       return this.selectedItem ? `fiber/${this.selectedItem.id}` : 'fiber'
     },
@@ -522,14 +502,14 @@ export default {
         query: this.filter,
       })
     },
-    //lightbox
     handleShowLightBox(item) {
-      this.images = [
-        {
-          src: item.screenshot_url,
-          title: '',
-        },
-      ]
+      this.selectedItem = item
+      this.images = item.media.map((media) => {
+        return {
+          src: media.cloud_url,
+          tile: item.name,
+        }
+      })
       this.showLightbox = true
     },
   },

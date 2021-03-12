@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-toolbar v-show="inDialog" dark tile color="primary">
-      <v-toolbar-title>Import form Spec </v-toolbar-title>
+      <v-toolbar-title> {{ title }}</v-toolbar-title>
       <v-spacer />
       <v-icon @click="$emit('close:dialog')">mdi-close</v-icon>
     </v-toolbar>
@@ -78,6 +78,10 @@ export default {
       type: String,
       default: '500px',
     },
+    title: {
+      type: String,
+      default: 'Import Spec',
+    },    
   },
   data() {
     return {
