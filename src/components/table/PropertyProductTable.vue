@@ -25,6 +25,9 @@
         <v-btn icon @click="handleCreateItem">
           <v-icon>mdi-plus</v-icon>
         </v-btn>
+        <v-btn icon @click="showSpecDialog = true">
+          <v-icon>mdi-cloud</v-icon>
+        </v-btn>
       </v-toolbar>
       <v-divider />
       <v-card v-show="showFilter" flat class="grey lighten-4">
@@ -105,16 +108,25 @@
         </v-card-text>
       </v-card>
     </v-dialog>
+    <v-dialog v-model="showSpecDialog" scrollable width="1024px">
+      <form-spec-import
+        in-dialog
+        height="500px"
+        :product-id="productId"
+        @form:success="fetchRecords(filter)"
+        @dialog:close="showSpecDialog = false"
+      />
+    </v-dialog>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import FormDirectProperty from '@/components/form/product/FormDirectProperty'
+import FormSpecImport from '@/components/form/product/FormSpecImport'
 import ResizeMixin from '@/mixins/Resize'
 import TooltipMixin from '@/mixins/Tooltip'
 export default {
-  components: { FormDirectProperty },
+  components: { FormDirectProperty, FormSpecImport },
   mixins: [ResizeMixin, TooltipMixin],
   props: {
     productId: [Number, String],
@@ -122,6 +134,7 @@ export default {
   },
   data() {
     return {
+      showSpecDialog: false,
       showAttachDialog: false,
       //filter
       search: '',
@@ -172,15 +185,7 @@ export default {
       ],
     }
   },
-  computed: {
-    ...mapGetters(['getLocales']),
-    entity() {
-      return {
-        model: 'App\\Models\\Mall\\Property',
-        id: this.selectedItem ? this.selectedItem.id : 0,
-      }
-    },
-  },
+  computed: {},
   watch: {
     '$route.query': {
       handler(data) {

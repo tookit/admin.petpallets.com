@@ -32,6 +32,7 @@
                 v-model="formModel.flag"
                 :items="getProductFlags"
                 label="Flag"
+                outlined
                 placeholder="Flag"
               />
             </v-col>
@@ -281,5 +282,3 @@ export default {
   },
 }
 </script>
-
-<style></style>

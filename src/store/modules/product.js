@@ -4,6 +4,7 @@ const state = {
     {
       text: 'Default',
       value: 1,
+      description: 'Default',
     },
     {
       text: 'Promoted',
@@ -45,7 +46,7 @@ const getters = {
   },
 }
 const actions = {
-  fetchProducts({}, query) {
+  fetchProducts({ }, query) {
     return request({
       url: `/mall/item`,
       method: 'get',
@@ -53,33 +54,32 @@ const actions = {
     })
   },
 
-  fetchImageByProductId({}, id) {
+  fetchImageByProductId({ }, id) {
     return request({
       url: `/mall/item/${id}/image`,
       method: 'get',
     })
   },
-  getProductById({}, id) {
+  getProductById({ }, id) {
     return request({
       url: `/mall/item/${id}`,
       method: 'get',
     })
   },
 
-  updateProduct({}, { id, data }) {
+  updateProduct({ }, { id, data }) {
     return request({
       url: `/mall/item/${id}`,
       method: 'put',
       data: data,
     })
   },
-  deleteProduct({}, id) {
+  deleteProduct({ }, id) {
     return request({
       url: `/mall/item/${id}`,
       method: 'delete',
     })
   },
-
 
   fetchSpecByProductId({}, id) {
     return request({
@@ -88,21 +88,34 @@ const actions = {
     })
   },
 
+  fetchRawSpec({}, id) {
+    return request({
+      url: `/mall/item/${id}/spec`,
+      method: 'get',
+    })
+  },
+  importRawSpec({}, { id, data }) {
+    return request({
+      url: `/mall/item/${id}/spec`,
+      method: 'post',
+      data: data,
+    })
+  },
 
-  getPropertyValuesByProductId({}, id) {
+  getPropertyValuesByProductId({ }, id) {
     return request({
       url: `/mall/item/${id}/property`,
       method: 'get',
     })
   },
-  attachPropsForProduct({}, { id, data }) {
+  attachPropsForProduct({ }, { id, data }) {
     return request({
       url: `/mall/item/${id}/property`,
       method: 'post',
       data: data,
     })
   },
-  detachPropsForProduct({}, { id, property_value_id }) {
+  detachPropsForProduct({ }, { id, property_value_id }) {
     return request({
       url: `/mall/item/${id}/property`,
       method: 'delete',
@@ -111,14 +124,14 @@ const actions = {
       },
     })
   },
-  attachDirectPropForProduct({}, { id, data }) {
+  attachDirectPropForProduct({ }, { id, data }) {
     return request({
       url: `/mall/item/${id}/property`,
       method: 'put',
       data: data,
     })
   },
-  attachSkuForProduct({}, { id, data }) {
+  attachSkuForProduct({ }, { id, data }) {
     return request({
       url: `/mall/item/${id}/sku`,
       method: 'post',
@@ -126,14 +139,14 @@ const actions = {
     })
   },
 
-  updateProductProperty({}, { id, data }) {
+  updateProductProperty({ }, { id, data }) {
     return request({
       url: `/mall/product_property/${id}`,
       method: 'put',
       data: data,
     })
   },
-  attachCategoryProperty({}, id) {
+  attachCategoryProperty({ }, id) {
     return request({
       url: `/mall/item/${id}/cat_property`,
       method: 'post',

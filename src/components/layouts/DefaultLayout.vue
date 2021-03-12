@@ -45,9 +45,8 @@ export default {
     this.$store.dispatch('fetchVendors', { pageSize: -1 })
     this.$store.dispatch('fetchTags', { pageSize: -1 })
     this.$store.dispatch('fetchProperty', { pageSize: -1 })
-
-    // this.$store.dispatch('fetchMediaExt')
-    // this.$store.dispatch('fetchMediaDir')
+    this.$store.dispatch('fetchMediaExt')
+    this.$store.dispatch('fetchMediaDir')
   },
   methods: {
     handleToggleDrawer() {

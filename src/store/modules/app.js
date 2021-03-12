@@ -10,54 +10,54 @@ const state = {
       text: 'English',
       code: 'US',
       value: 'en',
-      svg: '/flag/us.svg'
+      svg: '/flag/us.svg',
     },
     {
       text: '中文',
       code: 'CN',
       value: 'zh',
-      svg: '/flag/cn.svg'
+      svg: '/flag/cn.svg',
     },
     {
       text: 'France',
       code: 'FR',
       value: 'fr',
-      svg: '/flag/fr.svg'
+      svg: '/flag/fr.svg',
     },
     {
       text: 'Spanish',
       code: 'ES',
       value: 'es',
-      svg: '/flag/es.svg'
+      svg: '/flag/es.svg',
     },
     {
       text: 'Portugal',
       code: 'PT',
       value: 'pt',
-      svg: '/flag/pt.svg'
+      svg: '/flag/pt.svg',
     },
     {
       text: 'Japanese',
       code: 'JP',
       value: 'ja',
-      svg: '/flag/jp.svg'
+      svg: '/flag/jp.svg',
     },
     {
       text: 'Korean',
       code: 'KR',
       value: 'ko',
-      svg: '/flag/kr.svg'
+      svg: '/flag/kr.svg',
     },
     {
       text: 'Dedutch',
       code: 'DE',
       value: 'de',
-      svg: '/flag/de.svg'
-    }
+      svg: '/flag/de.svg',
+    },
   ],
   locale: 'en',
   breadcrumbs: [],
-  countries: []
+  countries: [],
 }
 const getters = {
   getTheme: (state) => {
@@ -69,7 +69,7 @@ const getters = {
   getLocales: (state) => state.locales,
   getBreadcrumbs: (state) => state.breadcrumbs,
   getLocale: (state) => state.locale,
-  getCountries: (state) => state.countries
+  getCountries: (state) => state.countries,
 }
 const actions = {
   changeLocale({ commit }, locale) {
@@ -87,7 +87,7 @@ const actions = {
         text: route.meta.title,
         to: to,
         exact: true,
-        disabled: false
+        disabled: false,
       }
     })
     commit('UPDATE_BREADCRUMBS', breadcrumbs)
@@ -96,14 +96,14 @@ const actions = {
   getProfile({ commit }) {
     return request({
       url: `/me`,
-      method: 'get'
+      method: 'get',
     })
   },
 
   fetchState({ commit }) {
     return request({
       url: `/state`,
-      method: 'get'
+      method: 'get',
     })
   },
 
@@ -123,15 +123,15 @@ const actions = {
       method: 'post',
       data: {
         target,
-        text
-      }
+        text,
+      },
     })
   },
   fetchFieldTranslation({ commit }, data) {
     return request({
       url: `/field-translation`,
       method: 'post',
-      data: data
+      data: data,
     })
   },
 
@@ -139,9 +139,9 @@ const actions = {
     return request({
       url: `/field-translation`,
       method: 'put',
-      data: data
+      data: data,
     })
-  }
+  },
 }
 const mutations = {
   SET_COUNTRY(state, data) {
@@ -154,8 +154,11 @@ const mutations = {
     state.breadcrumbs = data
   },
   APPEND_BREADCRUMB(state, breadcrumb) {
-    state.breadcrumbs.push(breadcrumb)
-  }
+    const find = state.breadcrumbs.find((item) => item.text === breadcrumb.text)
+    if (!find) {
+      state.breadcrumbs.push(breadcrumb)
+    }
+  },
 }
 
 export default {
@@ -163,5 +166,5 @@ export default {
   state,
   getters,
   actions,
-  mutations
+  mutations,
 }

@@ -4,18 +4,26 @@
       <v-row>
         <v-col>
           <v-tabs
-            class="route-tab border-bottom"
             v-model="defaultTab"
+            class="route-tab border-bottom"
             @change="onTabChange"
           >
             <v-tab
-              v-for="(item, key) in tabs"
+              v-for="(tab, key) in tabs"
+              v-show="showTab(tab)"
               :key="key"
-              v-show="showTab(item)"
-              :href="'#' + item.value"
+              :href="'#' + tab.value"
             >
-              {{ item.text }}
+              {{ tab.text }}
             </v-tab>
+            <a
+              v-if="item"
+              class="v-tab flex-right"
+              :href="item.href"
+              target="_blank"
+            >
+              view
+            </a>
           </v-tabs>
           <v-tabs-items v-model="defaultTab">
             <v-tab-item key="general" value="general">
@@ -23,11 +31,11 @@
             </v-tab-item>
             <v-tab-item key="media" value="media">
               <media-table
-                @selected="handleSelectMedia"
                 :directory="directory"
                 :entity-id="id"
                 entity="App\Models\Mall\Product"
                 show-select
+                @selected="handleSelectMedia"
               />
             </v-tab-item>
             <v-tab-item key="property" value="property">
@@ -53,14 +61,14 @@ import PropertyProductTable from '@/components/table/PropertyProductTable'
 import FormSeo from '@/components/form/FormSeo'
 import MediaTable from '@/components/table/MediaTable'
 export default {
-  props: {
-    id: [Number, String]
-  },
   components: {
     FormSeo,
     MediaTable,
     FormProduct,
-    PropertyProductTable
+    PropertyProductTable,
+  },
+  props: {
+    id: [Number, String],
   },
   data() {
     return {
@@ -68,24 +76,24 @@ export default {
       tabs: [
         {
           text: this.__('general'),
-          value: 'general'
+          value: 'general',
         },
         {
           text: this.__('property'),
-          value: 'property'
+          value: 'property',
         },
         {
           text: this.__('media'),
-          value: 'media'
+          value: 'media',
         },
         {
           text: this.__('seo'),
-          value: 'seo'
-        }
+          value: 'seo',
+        },
       ],
       loading: false,
       item: null,
-      images: []
+      images: [],
     }
   },
   computed: {
@@ -94,7 +102,7 @@ export default {
     },
     directory() {
       return `fiber/${this.id}`
-    }
+    },
   },
   watch: {
     id: {
@@ -103,8 +111,8 @@ export default {
           this.fetchRecord(id)
         }
       },
-      immediate: true
-    }
+      immediate: true,
+    },
   },
   methods: {
     onTabChange(tab) {
@@ -112,16 +120,9 @@ export default {
         path: this.$route.path,
         query: {
           tab: tab,
-          t: Date.now()
-        }
+          t: Date.now(),
+        },
       })
-      if (this.item) {
-        this.$store.commit('APPEND_BREADCRUMB', {
-          text: this.item.name,
-          exact: true,
-          disabled: false
-        })
-      }
     },
     fetchRecord(id) {
       this.loading = true
@@ -131,7 +132,7 @@ export default {
         this.$store.commit('APPEND_BREADCRUMB', {
           text: this.item.name,
           exact: true,
-          disabled: false
+          disabled: false,
         })
       })
     },
@@ -145,8 +146,8 @@ export default {
         return value === 'general'
       }
     },
-    handleSelectMedia() {}
-  }
+    handleSelectMedia() {},
+  },
 }
 </script>
 

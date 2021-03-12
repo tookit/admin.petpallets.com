@@ -15,6 +15,10 @@ const getters = {
       })
       .sort()
   },
+  getPropertyName: (state) => (name) => {
+    const find = state.properties.find(item => item.name === name)
+    return find ? find.name : ''
+  },
   getSkuProperties: (state) => {
     return state.properties.filter((item) => item.type === 'sku')
   },
@@ -50,20 +54,20 @@ const actions = {
     })
   },
 
-  fetchValueById({}, id) {
+  fetchValueById({ }, id) {
     return request({
       url: `/mall/property/${id}/value`,
       method: 'get',
     })
   },
 
-  getPropertyById({}, id) {
+  getPropertyById({ }, id) {
     return request({
       url: `/mall/property/${id}`,
       method: 'get',
     })
   },
-  fetchCategoryProperty({}, query) {
+  fetchCategoryProperty({ }, query) {
     return request({
       url: '/mall/cat_property',
       method: 'get',
@@ -71,7 +75,7 @@ const actions = {
     })
   },
 
-  fetchProductProperty({}, query) {
+  fetchProductProperty({ }, query) {
     return request({
       url: '/mall/product_property',
       method: 'get',
@@ -105,32 +109,32 @@ const actions = {
       commit('DELETE_PROPERTY', id)
     })
   },
-  deletePropertyValue({}, id) {
+  deletePropertyValue({ }, id) {
     return request({
       url: `/mall/property_value/${id}`,
       method: 'delete',
     })
   },
-  deleteCategoryProperty({}, id) {
+  deleteCategoryProperty({ }, id) {
     return request({
       url: `/mall/cat_property/${id}`,
       method: 'delete',
     })
   },
-  deleteProductProperty({}, id) {
+  deleteProductProperty({ }, id) {
     return request({
       url: `/mall/product_property/${id}`,
       method: 'delete',
     })
   },
-  attachValueForProperty({}, { id, data }) {
+  attachValueForProperty({ }, { id, data }) {
     return request({
       url: `/mall/property/${id}/value`,
       method: 'put',
       data: data,
     })
   },
-  detachPropertyForCategory({}, { cid, data }) {
+  detachPropertyForCategory({ }, { cid, data }) {
     return request({
       url: `/mall/category/${cid}/property`,
       method: 'delete',

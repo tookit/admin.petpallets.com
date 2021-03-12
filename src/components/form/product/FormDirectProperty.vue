@@ -39,6 +39,7 @@
                 :loading="isLoading"
                 :search-input.sync="searchValue"
                 placeholder="Property Value"
+                multiple
                 item-text="value"
                 item-value="value"
                 :return-object="false"
@@ -95,15 +96,11 @@ export default {
   },
   watch: {
     searchName(val) {
-      // Items have already been loaded
       if (val || this.items.length > 0) return
-      // Items have already been requested
       if (this.isLoading) return
       this.$store.dispatch('fetchProperty', {
         pageSize: -1,
       })
-
-      // Lazily load input items
     },
   },
   methods: {
@@ -132,5 +129,3 @@ export default {
   },
 }
 </script>
-
-<style></style>

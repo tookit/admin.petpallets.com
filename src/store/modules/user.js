@@ -1,44 +1,44 @@
 import request from '@/utils/request'
 
 const state = {
-  users: []
+  users: [],
 }
 const getters = {}
 const actions = {
-  fetchUsers({ commit }, query) {
+  fetchUsers(query) {
     return request({
       url: `/acl/user`,
       method: 'get',
-      params: query
+      params: query,
     })
   },
-  getUserById({ commit }, id) {
+  getUserById(id) {
     return request({
       url: `/acl/user/${id}`,
-      method: 'get'
+      method: 'get',
     })
   },
-  createUser({ commit }, data) {
+  createUser(data) {
     return request({
       url: `/acl/user`,
       method: 'post',
-      data: data
+      data: data,
     })
   },
-  updateUser({ commit }, { id, data }) {
+  updateUser({ id, data }) {
     return request({
       url: `/acl/user/${id}`,
       method: 'put',
-      data: data
+      data: data,
     })
   },
 
-  deleteUser({ commit }, id) {
+  deleteUser(id) {
     return request({
       url: `/acl/user/${id}`,
-      method: 'delete'
+      method: 'delete',
     })
-  }
+  },
 }
 const mutations = {
   SET_USERS(state, { data }) {
@@ -47,12 +47,12 @@ const mutations = {
   DELETE_USER(state, { data }) {
     state.users = state.users.filter((item) => item.id !== data.id)
   },
-  UPDATE_USER(state, { data }) {
+  UPDATE_USER() {
     // state.users = state.users.filter((item) => item.id !== data.id)
   },
-  ADD_USER(state, { data }) {
+  ADD_USER() {
     // state.users = state.users.filter((item) => item.id !== data.id)
-  }
+  },
 }
 
 export default {
@@ -60,5 +60,5 @@ export default {
   state,
   getters,
   actions,
-  mutations
+  mutations,
 }

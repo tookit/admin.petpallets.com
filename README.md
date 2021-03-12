@@ -1,5 +1,6 @@
 # todo
 
-1. property change -> value reset and change
-2. auto load product property by category
-3. auto parse property from specs
+1. api property change -> value reset and change 
+2. api auto load product property by category
+3. api auto parse property from specs
+4. 
