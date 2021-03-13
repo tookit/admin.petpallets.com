@@ -32,7 +32,7 @@ export default {
   components: {},
   props: {
     item: Object,
-    propertyId: [Number, String]
+    propertyId: [Number, String],
   },
   data() {
     return {
@@ -75,17 +75,31 @@ export default {
     },
     handleSubmit() {
       this.loading = true
-      const data = { id: this.propertyId, data: this.formModel }
-      this.$store
-        .dispatch('attachValueForProperty', data)
-        .then(() => {
-          this.loading = false
-          this.$emit('form:success')
-        })
-        .catch(() => {
-          this.loading = false
-          this.$emit('form:error')
-        })
+      if (this.item) {
+        const data = { id: this.item.id, data: this.formModel }
+        this.$store
+          .dispatch('updatePropertyValue', data)
+          .then(() => {
+            this.loading = false
+            this.$emit('form:success')
+          })
+          .catch(() => {
+            this.loading = false
+            this.$emit('form:error')
+          })
+      } else {
+        const data = { id: this.propertyId, data: this.formModel }
+        this.$store
+          .dispatch('attachValueForProperty', data)
+          .then(() => {
+            this.loading = false
+            this.$emit('form:success')
+          })
+          .catch(() => {
+            this.loading = false
+            this.$emit('form:error')
+          })
+      }
     },
   },
 }

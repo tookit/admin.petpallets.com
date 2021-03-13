@@ -228,6 +228,10 @@ export default {
           value: 'name',
         },
         {
+          text: 'Slug',
+          value: 'slug',
+        },
+        {
           text: 'Value',
           value: 'values',
         },

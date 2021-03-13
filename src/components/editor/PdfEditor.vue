@@ -29,7 +29,6 @@
 <script>
 import { Jodit } from 'jodit'
 import MediaTable from '@/components/table/MediaTable'
-
 export default {
   name: 'PdfEditor',
   components: {
@@ -61,7 +60,7 @@ export default {
     value: {
       handler(val) {
         if (this.editor && val) {
-          this.editor.value = val
+          this.editor.value = this.cleanHtml(val)
         }
       },
     },
@@ -90,7 +89,7 @@ export default {
       useSearch: false,
       // editHTMLDocumentMode: true,
       iframe: true,
-      iframeCSSLinks: ['https://kamefiber.com/css/pdf.css'],
+      iframeCSSLinks: ['http://local.kamefiber.com/css/pdf.css'],
       uploader: {
         insertImageAsBase64URI: true,
       },
@@ -117,6 +116,9 @@ export default {
         image.setAttribute('alt', item.fingerprint)
         this.editor.selection.insertImage(image)
       }
+    },
+    cleanHtml(val) {
+      return val.replace(/style=(\'|\")([ -0-9a-zA-Z:]*[ 0-9a-zA-Z;]*)*\1/g, '')
     },
   },
 }

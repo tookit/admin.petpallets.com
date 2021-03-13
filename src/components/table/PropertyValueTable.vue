@@ -57,7 +57,9 @@
     <v-dialog v-model="showFormDialog" scrollable width="800">
       <v-card>
         <v-toolbar flat dark color="primary">
-          <v-toolbar-title> Value </v-toolbar-title>
+          <v-toolbar-title>
+            {{ selectedItem ? 'Edit Value' : 'Create Value' }}
+          </v-toolbar-title>
           <v-spacer />
           <v-icon @click="showFormDialog = false">mdi-close</v-icon>
         </v-toolbar>
