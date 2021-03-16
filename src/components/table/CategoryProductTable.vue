@@ -137,7 +137,10 @@
           <v-icon @click="showFormProperty = false">mdi-close</v-icon>
         </v-toolbar>
         <v-card-text class="pa-0">
-          <form-product-property :product="selectedItem" />
+          <form-product-property
+            :product="selectedItem"
+            @close:dialog="showFormProperty = false"
+          />
         </v-card-text>
       </v-card>
     </v-dialog>

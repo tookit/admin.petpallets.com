@@ -145,7 +145,10 @@
                 <template #[`item.name`]="{ item }">
                   <a :href="item.href" target="_blank"> {{ item.name }} </a>
                   <br />
-                  <v-icon small @click="handleEditProp(item)"
+                  <v-icon
+                    v-show="item.property_values.length > 0"
+                    small
+                    @click="handleEditProp(item)"
                     >mdi-pencil</v-icon
                   >
                 </template>

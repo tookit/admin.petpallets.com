@@ -114,7 +114,7 @@
         height="500px"
         :product-id="productId"
         @form:success="fetchRecords(filter)"
-        @dialog:close="showSpecDialog = false"
+        @close:dialog="showSpecDialog = false"
       />
     </v-dialog>
   </div>

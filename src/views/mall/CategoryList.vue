@@ -53,14 +53,20 @@
                     {{ item.products_count }}
                   </v-chip>
                 </template>
-                <!-- <template v-slot:[`item.name`]="{ item }">
-                  <a :href="item.href" target="_blank"> {{ item.name }} </a>
-                </template> -->
+                <template #[`item.flag`]="{ item }">
+                  <v-select
+                    v-model="item.flag"
+                    label="Flag"
+                    dense
+                    :items="getProductFlags"
+                    @change="handleFieldUpdate('flag', item.flag, item.id)"
+                  />
+                </template>
                 <template #[`item.is_active`]="{ item }">
                   <v-switch
                     v-model="item.is_active"
                     @change="
-                      handleItemStatus('is_active', item.is_active, item.id)
+                      handleFieldUpdate('is_active', item.is_active, item.id)
                     "
                   />
                 </template>
@@ -191,17 +197,24 @@ export default {
           value: 'order_column',
         },
         {
+          text: this.__('flag'),
+          value: 'flag',
+          width: 50,
+        },
+        {
           text: this.__('status'),
           value: 'is_active',
+          width: 50,
         },
         {
           text: this.__('products'),
           value: 'products_count',
+          width: 50,
         },
         {
           text: this.__('action'),
           value: 'action',
-          width: 42,
+          width: 50,
         },
       ],
       items: [],
@@ -327,7 +340,7 @@ export default {
         },
       })
     },
-    handleItemStatus(key, val, id) {
+    handleFieldUpdate(key, val, id) {
       let data = {}
       data[key] = val
       this.$store

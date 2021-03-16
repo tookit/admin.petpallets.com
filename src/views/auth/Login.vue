@@ -4,19 +4,19 @@
       <v-col>
         <v-card class="pa-3 page-login__card" tile>
           <v-card-title>
-            <h1 class="primary--text display-1 page-login_title">
-              Kamefiber
-            </h1>
+            <h1 class="primary--text display-1 page-login_title">Kamefiber</h1>
           </v-card-title>
           <v-card-text>
             <v-form
               ref="form"
+              v-model="formValid"
               class="my-10"
               lazy-validation
-              v-model="formValid"
             >
               <v-text-field
+                v-model="formModel.username"
                 append-icon="mdi-email"
+                aria-autocomplete="off"
                 autocomplete="off"
                 name="login"
                 :label="__('$vuetify.username')"
@@ -25,10 +25,11 @@
                 required
                 outlined
                 :rules="formRule.username"
-                v-model="formModel.username"
               />
               <v-text-field
+                v-model="formModel.password"
                 append-icon="mdi-lock"
+                aria-autocomplete="off"
                 autocomplete="off"
                 name="password"
                 :label="__('$vuetify.password')"
@@ -37,14 +38,13 @@
                 :rules="formRule.password"
                 required
                 outlined
-                v-model="formModel.password"
-                v-on:keyup.enter="login"
+                @keyup.enter="login"
               />
             </v-form>
           </v-card-text>
           <v-card-actions>
             <v-spacer />
-            <v-btn large tile color="primary" @click="login" :loading="loading">
+            <v-btn large tile color="primary" :loading="loading" @click="login">
               {{ __('$vuetify.login') }}
             </v-btn>
           </v-card-actions>
@@ -63,36 +63,36 @@ export default {
       formValid: false,
       formModel: {
         username: null,
-        password: null
+        password: null,
       },
       formRule: {
         username: [
-          (v) => !!v || this.__('$vuetify.rule.required', ['username'])
+          (v) => !!v || this.__('$vuetify.rule.required', ['username']),
         ],
         password: [
-          (v) => !!v || this.__('$vuetify.rule.required', ['password'])
-        ]
+          (v) => !!v || this.__('$vuetify.rule.required', ['password']),
+        ],
       },
       socialIcons: [
         {
           text: 'Google',
-          icon: 'mdi-google'
+          icon: 'mdi-google',
         },
         {
           text: 'Facebook',
-          icon: 'mdi-facebook'
+          icon: 'mdi-facebook',
         },
         {
           text: 'Twitter',
-          icon: 'mdi-twitter'
-        }
-      ]
+          icon: 'mdi-twitter',
+        },
+      ],
     }
   },
   computed: {
     prefix() {
       return ''
-    }
+    },
   },
   methods: {
     login() {
@@ -110,8 +110,8 @@ export default {
           })
       }
     },
-    handleSocialLogin() {}
-  }
+    handleSocialLogin() {},
+  },
 }
 </script>
 

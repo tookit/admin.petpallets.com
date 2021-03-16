@@ -43,11 +43,7 @@
           </v-combobox>
         </template>
         <template #[`item.property_value`]="{ item }">
-          <v-text-field
-            dense
-            hide-details
-            :value="item.property_value"
-          ></v-text-field>
+          <v-text-field v-model="item.property_value" dense hide-details />
         </template>
         <template #[`item.unit`]="{ item }">
           <v-text-field v-model="item.unit" dense hide-details></v-text-field>
@@ -81,7 +77,7 @@ export default {
     title: {
       type: String,
       default: 'Import Spec',
-    },    
+    },
   },
   data() {
     return {
@@ -98,17 +94,17 @@ export default {
           value: 'value',
         },
         {
-          text: 'Unit',
-          value: 'unit',
-          width: 50,
-        },
-        {
           text: 'Import Name',
           value: 'property_name',
         },
         {
           text: 'Import Value',
           value: 'property_value',
+        },
+        {
+          text: 'Unit',
+          value: 'unit',
+          width: 50,
         },
         {
           text: 'Seperator',
@@ -160,6 +156,7 @@ export default {
       this.loading = true
       const selected = this.selectedItems.map((item) => item.name)
       const options = this.items.filter((item) => selected.includes(item.name))
+      console.log(options)
       const data = {
         id: this.productId,
         data: {

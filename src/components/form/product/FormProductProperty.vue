@@ -38,7 +38,9 @@
             />
           </template>
           <template #[`item.action`]="{ item }">
-            <v-icon small @click="attachPropForProduct(item)">mdi-arrow-down</v-icon>
+            <v-icon small @click="attachPropForProduct(item)"
+              >mdi-arrow-down</v-icon
+            >
           </template>
         </v-data-table>
         <v-divider />
@@ -136,11 +138,11 @@ export default {
   },
   computed: {
     filteredProps() {
-      const props = this.catProps.map(item => item.property_id)
-      return this.productProps.filter(item => {
+      const props = this.catProps.map((item) => item.property_id)
+      return this.productProps.filter((item) => {
         return !props.includes(item.property_id)
       })
-    }
+    },
   },
   watch: {
     product: {
@@ -160,7 +162,7 @@ export default {
     },
     fetchRecords(item) {
       this.loadingItems = true
-      this.catProps =  this.productProps = []
+      this.catProps = this.productProps = []
 
       return this.$store
         .dispatch('getPropertyValuesByProductId', item.id)
@@ -205,7 +207,7 @@ export default {
     handleInheritedProp() {
       const category_id = this.product.category_id
       this.$store.dispatch('importCategoryProp', category_id)
-    }
+    },
   },
 }
 </script>
