@@ -49,6 +49,9 @@
             <v-tab-item key="spec" value="spec">
               <form-category-spec :category="item" />
             </v-tab-item>
+            <v-tab-item key="landing" value="landing">
+              <form-category-landing :category="item" />
+            </v-tab-item> 
           </v-tabs-items>
         </v-col>
       </v-row>
@@ -60,6 +63,7 @@
 import FormProductCategory from '@/components/form/product/FormProductCategory'
 import FormSeo from '@/components/form/FormSeo'
 import FormCategorySpec from '@/components/form/product/FormCategorySpec'
+import FormCategoryLanding from '@/components/form/product/FormCategoryLanding'
 import CategoryProductTable from '@/components/table/CategoryProductTable'
 import PropertyCategoryTable from '@/components/table/PropertyCategoryTable'
 import MediaTable from '@/components/table/MediaTable'
@@ -67,6 +71,7 @@ export default {
   components: {
     FormSeo,
     FormCategorySpec,
+    FormCategoryLanding,
     CategoryProductTable,
     MediaTable,
     PropertyCategoryTable,
@@ -105,6 +110,10 @@ export default {
           text: 'Spec',
           value: 'spec',
         },
+        {
+          text: 'Landing',
+          value: 'landing',
+        },        
         {
           text: this.__('seo'),
           value: 'seo',

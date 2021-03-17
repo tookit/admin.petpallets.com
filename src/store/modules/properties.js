@@ -91,6 +91,14 @@ const actions = {
     })
   },
 
+  mergePropertyValue({}, data) {
+    return request({
+      url: `/mall/property_value/merge`,
+      method: 'put',
+      data: data,
+    })
+  },
+
   createProperty({ commit }, data) {
     return request({
       url: '/mall/property',

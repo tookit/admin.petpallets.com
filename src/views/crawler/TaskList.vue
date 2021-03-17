@@ -349,7 +349,7 @@ export default {
     computeDisabled(action, item) {
       switch (action.text) {
         case 'Run Task':
-          return !item.rule ? true : false
+          return false
           break
         case 'Import':
           return !item.raw_data ? true : false
