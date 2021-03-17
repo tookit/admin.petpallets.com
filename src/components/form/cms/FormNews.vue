@@ -46,11 +46,11 @@
             </v-col>
             <v-col :cols="12">
               <v-combobox
+                v-model="formModel.tags"
                 outlined
                 multiple
                 small-chips
                 label="Tags"
-                v-model="formModel.tags"
                 :items="getTagsByType('post')"
                 :loading="isLoading"
                 :search-input.sync="searchName"
@@ -59,7 +59,7 @@
                 item-value="name"
                 :return-object="false"
               >
-                <template v-slot:no-data>
+                <template #no-data>
                   <v-list-item>
                     <v-list-item-content>
                       <v-list-item-title>
@@ -124,7 +124,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import VEditor from '@/components/editor/Jodit'
+import VEditor from '@/components/editor/VEditor'
 import FormTranslation from '@/components/form/FormTranslation'
 import ImageHolder from '@/components/image/ImageHolder'
 
@@ -133,10 +133,10 @@ export default {
   components: {
     VEditor,
     ImageHolder,
-    FormTranslation
+    FormTranslation,
   },
   props: {
-    item: Object
+    item: Object,
   },
   data() {
     return {
@@ -157,8 +157,8 @@ export default {
         content: '',
         is_active: false,
         tags: [],
-        category_id: 0
-      }
+        category_id: 0,
+      },
     }
   },
   computed: {
@@ -172,16 +172,16 @@ export default {
     entity() {
       return {
         model: 'App\\Models\\CMS\\Post',
-        id: this.item ? this.item.id : 0
+        id: this.item ? this.item.id : 0,
       }
-    }
+    },
   },
   watch: {
     item: {
       handler(item) {
         return item ? this.assignModel(item) : this.initModel()
       },
-      immediate: true
+      immediate: true,
     },
     searchName(val) {
       if (this.getTagsByType('fiber').length > 0 || !val) return
@@ -190,7 +190,7 @@ export default {
       this.$store.dispatch('fetchTags', { pageSize: -1 }).then(() => {
         this.isLoading = false
       })
-    }
+    },
   },
   methods: {
     assignModel(data) {
@@ -210,7 +210,7 @@ export default {
         img: null,
         is_actvie: false,
         tags: [],
-        category_id: 0
+        category_id: 0,
       }
     },
     handleSubmit() {
@@ -219,7 +219,7 @@ export default {
         this.$store
           .dispatch('updateNews', {
             id: this.item.id,
-            data: this.formModel
+            data: this.formModel,
           })
           .then(() => {
             this.loading = false
@@ -233,7 +233,7 @@ export default {
           .then(({ data }) => {
             this.loading = false
             this.$router.push({
-              path: `/cms/news/item/${data.id}`
+              path: `/cms/news/item/${data.id}`,
             })
           })
           .catch(() => {
@@ -259,8 +259,8 @@ export default {
       this.translationField = field
       this.translationText = this.formModel[field]
       this.showTranslation = true
-    }
-  }
+    },
+  },
 }
 </script>
 
