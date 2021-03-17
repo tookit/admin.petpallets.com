@@ -3,6 +3,7 @@
     <v-card>
       <v-toolbar flat>
         <v-text-field
+          v-model="filter['filter[property.fingerprint]']"
           text
           solo
           flat
@@ -11,7 +12,6 @@
           "
           append-icon="mdi-magnify"
           :placeholder="__('search')"
-          v-model="filter['filter[property.fingerprint]']"
           hide-details
           clearable
           @keyup.enter="handleApplyFilter"
@@ -19,10 +19,10 @@
           @click:prepend="showFilter = !showFilter"
           @click:clear="handleClear"
         />
-        <v-btn @click="handleRefreshItem" icon>
+        <v-btn icon @click="handleRefreshItem">
           <v-icon>mdi-refresh</v-icon>
         </v-btn>
-        <v-btn @click="handleCreateItem" icon>
+        <v-btn icon @click="handleCreateItem">
           <v-icon>mdi-plus</v-icon>
         </v-btn>
       </v-toolbar>
@@ -31,7 +31,8 @@
         <v-card-text>
           <v-row>
             <v-col cols="4">
-              <v-autocomplete
+              <v-combobox
+                v-model="filter['filter[directory]']"
                 outlined
                 clearable
                 name="directory"
@@ -39,25 +40,24 @@
                 :items="getMediaDir"
                 item-text="directory"
                 item-value="directory"
-                v-model="filter['filter[directory]']"
               />
             </v-col>
             <v-col cols="4">
               <v-autocomplete
+                v-model="filter['filter[disk]']"
                 outlined
                 clearable
                 name="disk"
                 placeholder="Disk"
                 :items="['local', 'oss']"
-                v-model="filter['filter[disk]']"
               />
             </v-col>
           </v-row>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn @click="handleResetFilter" text>{{ __('reset') }}</v-btn>
-          <v-btn tile @click="handleApplyFilter" color="primary">{{
+          <v-btn text @click="handleResetFilter">{{ __('reset') }}</v-btn>
+          <v-btn tile color="primary" @click="handleApplyFilter">{{
             __('apply')
           }}</v-btn>
         </v-card-actions>
@@ -72,31 +72,31 @@
           :server-items-length="serverItemsLength"
           :items-per-page.sync="filter['pageSize']"
           :page.sync="filter['page']"
-          @update:page="handlePageChanged"
-          @update:items-per-page="handlePageSizeChanged"
           item-key="id"
           :show-select="showSelect"
           :single-select="singleSelect"
+          @update:page="handlePageChanged"
+          @update:items-per-page="handlePageSizeChanged"
           @item-selected="handleItemSelected"
         >
-          <template v-slot:[`item.cloud_url`]="{ item }">
+          <template #[`item.cloud_url`]="{ item }">
             <div
-              @click.stop="handleViewImage"
               :href="item.cloud_url"
               class="glightbox"
               target="blank"
+              @click.stop="handleViewImage"
             >
               <img class="ma-2" :src="item.tiny_image" height="50" width="50" />
             </div>
           </template>
-          <template v-slot:[`item.size`]="{ item }">
+          <template #[`item.size`]="{ item }">
             <span>{{ item.size | bytes }}</span>
           </template>
-          <template v-slot:[`item.action`]="{ item }">
+          <template #[`item.action`]="{ item }">
             <v-menu>
-              <template v-slot:activator="{ on: menu }">
+              <template #activator="{ on: menu }">
                 <v-tooltip bottom>
-                  <template v-slot:activator="{ on: tooltip }">
+                  <template #activator="{ on: tooltip }">
                     <v-btn icon v-on="onTooltip({ ...tooltip, ...menu })">
                       <v-icon>mdi-dots-vertical</v-icon>
                     </v-btn>
@@ -124,17 +124,15 @@
     <v-dialog v-model="showEditDialog" width="800px" scrollable>
       <v-card>
         <v-toolbar dark tile color="primary">
-          <v-toolbar-title>
-            Edit Image
-          </v-toolbar-title>
+          <v-toolbar-title> Edit Image </v-toolbar-title>
           <v-spacer />
           <v-icon @click="showEditDialog = false">mdi-close</v-icon>
         </v-toolbar>
-        <v-card-text class="pa-0" v-if="selectedItem">
+        <v-card-text v-if="selectedItem" class="pa-0">
           <form-media
+            :item="selectedItem"
             @form:cancel="handleFormCancel"
             @form:success="handleUploadSuccess"
-            :item="selectedItem"
           />
         </v-card-text>
       </v-card>
@@ -142,9 +140,7 @@
     <v-dialog v-model="showUploadDialog" width="800px" scrollable>
       <v-card>
         <v-toolbar dark tile color="primary">
-          <v-toolbar-title>
-            Upload
-          </v-toolbar-title>
+          <v-toolbar-title> Upload </v-toolbar-title>
           <v-spacer />
           <v-icon @click="showUploadDialog = false">mdi-close</v-icon>
         </v-toolbar>
@@ -153,9 +149,9 @@
             :action="uploadAction"
             :entity-id="entityId"
             :entity="entity"
+            :item="selectedItem"
             @form:cancel="handleFormCancel"
             @form:success="handleUploadSuccess"
-            :item="selectedItem"
           />
         </v-card-text>
       </v-card>
@@ -178,23 +174,28 @@ import FormUpload from '../form/media/FormUpload.vue'
 import FormMedia from '../form/media/FormMedia.vue'
 export default {
   components: { FormUpload, FormMedia },
+  filters: {
+    bytes: (val) => {
+      return bytes(val)
+    },
+  },
   mixins: [ResizeMixin, TooltipMixin],
   props: {
     directory: String,
     entityId: {
       type: [Number, String],
-      default: null
+      default: null,
     },
     entity: {
       type: String,
-      default: null
+      default: null,
     },
     showSelect: Boolean,
     singleSelect: Boolean,
     value: {
       type: Array,
-      default: () => []
-    }
+      default: () => [],
+    },
   },
   data() {
     return {
@@ -212,7 +213,7 @@ export default {
         pageSize: 30,
         'filter[directory]': this.directory,
         'filter[disk]': null,
-        'filter[fingerprint]': null
+        'filter[fingerprint]': null,
       },
       // table
       selectedItem: null,
@@ -222,11 +223,11 @@ export default {
       headers: [
         {
           text: 'ID',
-          value: 'id'
+          value: 'id',
         },
         {
           text: 'Image',
-          value: 'cloud_url'
+          value: 'cloud_url',
         },
         // {
         //   text: 'Filename',
@@ -234,66 +235,62 @@ export default {
         // },
         {
           text: 'Fingerprint',
-          value: 'fingerprint'
+          value: 'fingerprint',
         },
         {
           text: 'Size',
-          value: 'size'
+          value: 'size',
         },
         {
           text: 'Directory',
-          value: 'directory'
+          value: 'directory',
         },
         {
           text: 'Disk',
-          value: 'disk'
+          value: 'disk',
         },
         {
           text: 'Featured',
-          value: 'custom_properties.featured'
+          value: 'custom_properties.featured',
         },
         {
           text: 'Created',
-          value: 'created_at'
+          value: 'created_at',
         },
         {
           text: 'Action',
-          value: 'action'
-        }
+          value: 'action',
+        },
       ],
       items: [],
       actions: [
         {
           text: 'Edit Item',
           icon: 'mdi-pencil',
-          click: this.handleEditItem
+          click: this.handleEditItem,
         },
         {
           text: 'Delete Item',
           icon: 'mdi-close',
-          click: this.handleDeleteItem
-        }
-      ]
-    }
-  },
-  filters: {
-    bytes: (val) => {
-      return bytes(val)
+          click: this.handleDeleteItem,
+        },
+      ],
     }
   },
   computed: {
     ...mapGetters(['getLocales', 'getMediaDir']),
     uploadAction() {
-      return `${process.env.VUE_APP_BASE_API_HOST}/api/media?dir=${this.directory}`
+      const directory = this.directory ? this.directory : this.filter['filter[directory]']
+      return `${process.env.VUE_APP_BASE_API_HOST}/api/media?dir=${directory}`
     },
     imgs() {
       return this.items.map((item) => {
         return {
           src: item.cloud_url,
-          title: item.fingerprint
+          title: item.fingerprint,
         }
       })
-    }
+    },
   },
   watch: {
     '$route.query': {
@@ -310,14 +307,14 @@ export default {
           this.fetchRecords(this.filter)
         }
       },
-      immediate: true
+      immediate: true,
     },
     selectedItems: {
       handler(val) {
         this.$emit('input', val)
       },
-      immediate: true
-    }
+      immediate: true,
+    },
   },
   created() {},
   methods: {
@@ -333,7 +330,7 @@ export default {
         pageSize: 30,
         'filter[directory]': null,
         'filter[disk]': null,
-        'filter[fingerprint]': null
+        'filter[fingerprint]': null,
       }
     },
     fetchRecords(query) {
@@ -375,7 +372,7 @@ export default {
       this.filter.t = Date.now()
       this.$router.replace({
         path: this.$route.path,
-        query: this.filter
+        query: this.filter,
       })
     },
     handlePageSizeChanged(size) {
@@ -383,7 +380,7 @@ export default {
       this.filter.t = Date.now()
       this.$router.replace({
         path: this.$route.path,
-        query: this.filter
+        query: this.filter,
       })
     },
     handleResetFilter() {
@@ -395,7 +392,7 @@ export default {
         this.filter.t = Date.now()
         this.$router.replace({
           path: this.$route.path,
-          query: this.filter
+          query: this.filter,
         })
       } else {
         this.fetchRecords(this.filter)
@@ -406,7 +403,7 @@ export default {
       this.filter.t = Date.now()
       this.$router.replace({
         path: this.$route.path,
-        query: this.filter
+        query: this.filter,
       })
     },
     //option
@@ -426,7 +423,7 @@ export default {
     },
     handleItemSelected(e) {
       // this.$emit('input', this.selectedItems)
-    }
-  }
+    },
+  },
 }
 </script>

@@ -86,11 +86,12 @@ export default {
       'fullsize',
       'preview',
     ]
+    const base = process.env.VUE_APP_BASE_API_HOST;
     const defaultOptions = {
       useSearch: false,
       height: '600',
       iframe: true,
-      iframeCSSLinks: ['http://local.kamefiber.com/css/main.css'],
+      iframeCSSLinks: [`${base}/css/main.css`],
       uploader: {
         insertImageAsBase64URI: true,
       },
