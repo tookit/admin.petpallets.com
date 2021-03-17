@@ -1,6 +1,6 @@
 <template>
   <div class="v-editor">
-    <iframe ref="editor" @onLoad="injectJs()" />
+    <iframe ref="editor" />
     <v-dialog v-model="showDialog" scrollable>
       <v-card>
         <v-toolbar dark color="primary">
@@ -67,7 +67,6 @@ export default {
     },
   },
   mounted() {
-    const iframe = this.$refs.editor
     const vm = this
     const btns = [
       'source',
@@ -111,16 +110,6 @@ export default {
     this.editor.destruct()
   },
   methods: {
-    injectJS() {
-      var iFrameHead = window.frames['myiframe'].document.getElementsByTagName(
-        'head'
-      )[0]
-      var myscript = document.createElement('script')
-      myscript.type = 'text/javascript'
-      myscript.src =
-        'http://local.kamefiber.com/js/app.js?id=9c4ecf184c1dbee2d056"' // replace this with your SCRIPT
-      iFrameHead.appendChild(myscript)
-    },
     handleAttachMedia(selectedItems) {
       if (selectedItems.length > 0) {
         const item = selectedItems.shift()
