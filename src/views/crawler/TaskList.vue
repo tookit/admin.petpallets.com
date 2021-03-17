@@ -96,6 +96,14 @@
                     >mdi-database</v-icon
                   >
                 </template>
+                <template #[`item.rule`]="{ item }">
+                  <v-icon
+                    :disabled="!item.rule"
+                    small
+                    @click="handleViewRule(item)"
+                    >mdi-pipe</v-icon
+                  >
+                </template>
                 <template #[`item.status`]="{ item }">
                   <v-chip small :color="getTaskStatusColor(item.status)">
                     {{ item.status }}
@@ -135,18 +143,7 @@
       </v-row>
     </v-container>
     <v-dialog v-model="showFormDialog" scrollable width="840px">
-      <v-card>
-        <v-toolbar dark color="primary">
-          <v-toolbar-title>{{ formTitle }}</v-toolbar-title>
-          <v-spacer />
-          <v-btn icon @click="showFormDialog = false">
-            <v-icon color="white">mdi-close</v-icon>
-          </v-btn>
-        </v-toolbar>
-        <v-card-text class="pa-0">
-          <form-task :item="selectedItem" />
-        </v-card-text>
-      </v-card>
+      <form-task :item="selectedItem" />
     </v-dialog>
     <v-overlay :value="showOverlay">
       <v-progress-circular indeterminate size="64" />
@@ -194,24 +191,6 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <v-dialog v-model="showRuleDialog" scrollable width="840px">
-      <v-card>
-        <v-toolbar dark color="primary">
-          <v-toolbar-title>Rule</v-toolbar-title>
-          <v-spacer />
-          <v-btn icon @click="showRuleDialog = false">
-            <v-icon color="white">mdi-close</v-icon>
-          </v-btn>
-        </v-toolbar>
-        <v-card-text class="pa-0">
-          <form-item-map />
-        </v-card-text>
-        <v-card-actions class="py-3">
-          <v-spacer />
-          <v-btn tile color="primary">save </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
   </div>
 </template>
 
@@ -221,7 +200,6 @@ import ResizeMixin from '@/mixins/Resize'
 import TooltipMixin from '@/mixins/Tooltip'
 import VGrid from '@/components/grid'
 import FormTask from '@/components/form/crawler/FormTask'
-import FormItemMap from '@/components/form/vendor/FormItemMap'
 import AceEditor from 'vuejs-ace-editor'
 export default {
   name: 'TaskList',
@@ -229,12 +207,10 @@ export default {
     VGrid,
     FormTask,
     AceEditor,
-    FormItemMap,
   },
   mixins: [ResizeMixin, TooltipMixin],
   data() {
     return {
-      showRuleDialog: false,
       showDataDialog: false,
       showOverlay: false,
       showFormDialog: false,
@@ -265,7 +241,7 @@ export default {
         {
           text: 'Product',
           value: 'product_id',
-        },        
+        },
         {
           text: 'Type',
           value: 'type',
@@ -273,6 +249,10 @@ export default {
         {
           text: 'Data',
           value: 'raw_data',
+        },
+        {
+          text: 'Rule',
+          value: 'rule',
         },
         {
           text: 'Http Status',
@@ -318,9 +298,6 @@ export default {
   },
   computed: {
     ...mapGetters(['getVendors', 'getTaskStatusColor']),
-    formTitle() {
-      return !this.selectedItems ? 'Create Task' : 'Edit Task'
-    },
     rawData: {
       get() {
         return this.selectedItem
@@ -349,7 +326,7 @@ export default {
     computeDisabled(action, item) {
       switch (action.text) {
         case 'Run Task':
-          return false
+          return !item.rule ? true : false
           break
         case 'Import':
           return !item.raw_data ? true : false
@@ -398,6 +375,10 @@ export default {
         })
     },
     //action
+    handleViewRule(item) {
+      this.selectedItem = item
+      this.showFormDialog = true
+    },
     handleViewRawData(item) {
       this.selectedItem = item
       this.showDataDialog = true

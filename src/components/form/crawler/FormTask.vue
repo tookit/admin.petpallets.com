@@ -1,5 +1,10 @@
 <template>
   <v-card :loading="loading">
+    <v-toolbar flat dark color="primary">
+      <v-toolbar-title> {{ formTitle }} </v-toolbar-title>
+      <v-spacer />
+      <v-icon @click="$emit('close:dialog')">mdi-close</v-icon>
+    </v-toolbar>
     <v-card-text>
       <v-form ref="form" v-model="valid">
         <v-container fluid>
@@ -43,6 +48,34 @@
                 outlined
               />
             </v-col>
+            <v-col v-if="item" :cols="12">
+              <AceEditor
+                v-model="rawData"
+                lang="json"
+                theme="monokai"
+                width="100%"
+                height="500px"
+                :options="{
+                  enableBasicAutocompletion: true,
+                  enableLiveAutocompletion: true,
+                  fontSize: 14,
+                  highlightActiveLine: true,
+                  enableSnippets: true,
+                  showLineNumbers: true,
+                  tabSize: 2,
+                  showPrintMargin: false,
+                  showGutter: true,
+                }"
+                :commands="[
+                  {
+                    name: 'save',
+                    bindKey: { win: 'Ctrl-s', mac: 'Command-s' },
+                    readOnly: true,
+                  },
+                ]"
+                @init="editorInit"
+              />
+            </v-col>
           </v-row>
         </v-container>
       </v-form>
@@ -60,9 +93,10 @@
 import { URL } from '@/utils/regex'
 import { mergeDeep } from 'vuetify/lib/util/helpers'
 import { mapGetters } from 'vuex'
+import AceEditor from 'vuejs-ace-editor'
 export default {
   name: 'FormTask',
-  components: {},
+  components: { AceEditor },
   props: {
     item: Object,
   },
@@ -73,6 +107,7 @@ export default {
       formModel: {
         vendor_id: null,
         link: null,
+        rule: '',
         type: 'item',
       },
       formRules: {
@@ -87,6 +122,15 @@ export default {
   },
   computed: {
     ...mapGetters(['getVendors']),
+    formTitle() {
+      return !this.item ? 'Create Task' : 'Edit Task'
+    },
+    rawData: {
+      get() {
+        return this.item ? JSON.stringify(this.item.rule, undefined, 2) : ''
+      },
+      set() {},
+    },
   },
   watch: {
     item: {
@@ -98,6 +142,14 @@ export default {
   },
   created() {},
   methods: {
+    editorInit: function () {
+      require('brace/ext/language_tools') //language extension prerequsite...
+      require('brace/mode/html')
+      require('brace/mode/json') //language
+      require('brace/mode/less')
+      require('brace/theme/monokai')
+      require('brace/snippets/javascript') //snippet
+    },
     assignModel(data) {
       this.formModel = mergeDeep(this.formModel, data)
       const { vendor_id } = this.formModel
@@ -108,12 +160,14 @@ export default {
         vendor_id: null,
         link: null,
         type: 'item',
+        rule: '',
       }
     },
     handleSubmit() {
       if (this.$refs.form.validate()) {
         this.loading = true
         const data = this.formModel
+        data.rule = JSON.parse(this.rawData)
         if (this.item && this.item.id) {
           this.$store
             .dispatch('updateCrawlerTask', {
