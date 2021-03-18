@@ -182,7 +182,7 @@ export const protectedRoute = [
               {
                 path: '/mall/vendor/list',
                 name: 'mall.vendor.list',
-                component: () => import('@/views/mall/VendorList.vue'),
+                component: () => import('@/views/mall/vendor/VendorList.vue'),
                 meta: {
                   title: 'Vendor List',
                   hiddenInMenu: false,
@@ -193,7 +193,7 @@ export const protectedRoute = [
                 path: '/mall/vendor/create',
                 name: 'mall.vendor.create',
                 props: true,
-                component: () => import('@/views/mall/VendorItem.vue'),
+                component: () => import('@/views/mall/vendor/VendorItem.vue'),
                 meta: {
                   title: 'Create vendor',
                   hiddenInMenu: true,
@@ -204,7 +204,7 @@ export const protectedRoute = [
                 path: '/mall/vendor/item/:id',
                 name: 'mall.vendor.update',
                 props: true,
-                component: () => import('@/views/mall/VendorItem.vue'),
+                component: () => import('@/views/mall/vendor/VendorItem.vue'),
                 meta: {
                   title: 'Update vendor',
                   hiddenInMenu: true,

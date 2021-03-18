@@ -41,8 +41,7 @@ export default {
     return {
       loading: false,
       valid: true,
-      formModel: {
-      },
+      formModel: {},
       formRules: {
         title: [(v) => !!v || 'Title is required'],
       },
@@ -83,8 +82,7 @@ export default {
       try {
         const obj = JSON.parse(data)
         this.formModel = obj
-      } catch (e) {
-      }
+      } catch (e) {}
     },
     initModel() {
       this.formModel = null

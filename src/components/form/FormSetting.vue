@@ -4,7 +4,7 @@
       <v-form>
         <v-container fluid>
           <v-row>
-            <v-col :cols="12" v-for="(val, key) in formModel" :key="key">
+            <v-col v-for="(val, key) in formModel" :key="key" :cols="12">
               <v-text-field
                 v-model="formModel[key]"
                 outlined
@@ -49,14 +49,14 @@
 export default {
   name: 'FormSetting',
   props: {
-    item: Object
+    item: Object,
   },
   data() {
     return {
       showDialog: false,
       loading: false,
       setting_key: null,
-      formModel: {}
+      formModel: {},
     }
   },
   computed: {},
@@ -67,8 +67,8 @@ export default {
           this.assignModel(item)
         }
       },
-      immediate: true
-    }
+      immediate: true,
+    },
   },
   methods: {
     assignModel(data) {
@@ -95,8 +95,8 @@ export default {
     handleConfirm() {
       this.formModel[this.setting_key] = ''
       this.showDialog = false
-    }
-  }
+    },
+  },
 }
 </script>
 

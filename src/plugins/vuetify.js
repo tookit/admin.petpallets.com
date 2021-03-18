@@ -1,11 +1,12 @@
 import Vue from 'vue'
 
 import Vuetify from 'vuetify/lib'
+
+Vue.use(Vuetify)
 // locale
 import zhHans from '@/locale/zh-Hans'
 import en from '@/locale/en'
 import store from '../store'
-Vue.use(Vuetify)
 
 export default new Vuetify({
   lang: {

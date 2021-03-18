@@ -1,5 +1,5 @@
 <template>
-  <div class="page-user-list">
+  <div class="page-user__list">
     <v-container>
       <v-row>
         <v-col>
@@ -18,16 +18,16 @@
                   <v-row>
                     <v-col cols="6">
                       <v-switch
-                        label="Active"
                         v-model="filter['filter[is_active]']"
+                        label="Active"
                       />
                     </v-col>
                   </v-row>
                 </v-card-text>
                 <v-card-actions>
                   <v-spacer></v-spacer>
-                  <v-btn @click="handleResetFilter" text>Reset</v-btn>
-                  <v-btn @click="handleApplyFilter" color="primary"
+                  <v-btn text @click="handleResetFilter">Reset</v-btn>
+                  <v-btn color="primary" @click="handleApplyFilter"
                     >Apply</v-btn
                   >
                 </v-card-actions>
@@ -36,27 +36,27 @@
             <v-btn slot="toolbar" icon @click="handleCreate">
               <v-icon>mdi-plus</v-icon>
             </v-btn>
-            <template v-slot:[`item.avatar`]="{ item }">
+            <template #[`item.avatar`]="{ item }">
               <v-avatar v-if="item.avatar" size="50" class="ma-3">
                 <img :src="item.avatar" />
               </v-avatar>
             </template>
-            <template v-slot:[`item.categories`]="{ item }">
-              <v-chip small outlined v-for="c in item.categories" :key="c.id">
+            <template #[`item.categories`]="{ item }">
+              <v-chip v-for="c in item.categories" :key="c.id" small outlined>
                 {{ c.name }}
               </v-chip>
             </template>
-            <template v-slot:[`item.is_active`]="{ item }">
+            <template #[`item.is_active`]="{ item }">
               <v-switch
                 v-model="item.is_active"
                 @change="handleItemStatus(item)"
               />
             </template>
-            <template v-slot:[`item.action`]="{ item }">
+            <template #[`item.action`]="{ item }">
               <v-menu>
-                <template v-slot:activator="{ on: menu }">
+                <template #activator="{ on: menu }">
                   <v-tooltip bottom>
-                    <template v-slot:activator="{ on: tooltip }">
+                    <template #activator="{ on: tooltip }">
                       <v-btn icon v-on="{ ...tooltip, ...menu }">
                         <v-icon>mdi-dots-vertical</v-icon></v-btn
                       >
@@ -91,7 +91,7 @@ import { mapActions } from 'vuex'
 export default {
   name: 'PageUser',
   components: {
-    AdvanceTable
+    AdvanceTable,
   },
   data() {
     return {
@@ -100,7 +100,7 @@ export default {
       showLightbox: false,
       index: 0,
       filter: {
-        'filter[active]': null
+        'filter[active]': null,
       },
       //
       loading: false,
@@ -108,36 +108,36 @@ export default {
       headers: [
         {
           text: 'ID',
-          value: 'id'
+          value: 'id',
         },
         {
           text: 'Avatar',
-          value: 'avatar'
+          value: 'avatar',
         },
         {
           text: 'Username',
-          value: 'username'
+          value: 'username',
         },
         {
           text: 'Email',
-          value: 'email'
+          value: 'email',
         },
         {
           text: 'Mobile',
-          value: 'mobile'
+          value: 'mobile',
         },
         {
           text: 'Gender',
-          value: 'gender'
+          value: 'gender',
         },
         {
           text: 'Active',
-          value: 'active'
+          value: 'active',
         },
         {
           text: 'Action',
-          value: 'action'
-        }
+          value: 'action',
+        },
       ],
       serverItemsLength: 0,
       itemsPerPage: 15,
@@ -145,25 +145,25 @@ export default {
         {
           text: 'View Item',
           icon: 'mdi-eye',
-          click: this.handleViewItem
+          click: this.handleViewItem,
         },
         {
           text: 'Edit Item',
           icon: 'mdi-pencil',
-          click: this.handleEditItem
+          click: this.handleEditItem,
         },
         {
           text: 'Delete Item',
           icon: 'mdi-close',
-          click: this.handleDeleteItem
-        }
-      ]
+          click: this.handleDeleteItem,
+        },
+      ],
     }
   },
   computed: {
     imgs() {
       return this.items.map((item) => item.img)
-    }
+    },
   },
   methods: {
     ...mapActions(['fetchUsers']),
@@ -177,24 +177,24 @@ export default {
     },
     handleCreate() {
       this.$router.push({
-        path: `/acl/user/create`
+        path: `/acl/user/create`,
       })
     },
     handleViewItem(item) {
       this.$router.push({
-        path: `/acl/user/${item.id}`
+        path: `/acl/user/${item.id}`,
       })
     },
     handleEditItem(item) {
       this.$router.push({
-        path: `/acl/user/item/${item.id}`
+        path: `/acl/user/item/${item.id}`,
       })
     },
     handleItemStatus(val) {
       this.$store
         .dispatch('updateSlider', {
           id: val.id,
-          data: { is_active: val.is_active }
+          data: { is_active: val.is_active },
         })
         .then(() => {})
     },
@@ -207,7 +207,7 @@ export default {
     },
     handlePageChanged(page) {
       this.fetchRecord({
-        page: page
+        page: page,
       })
     },
     handleViewImage(item) {
@@ -224,7 +224,7 @@ export default {
       this.filter.t = Date.now()
       this.$router.replace({
         path: this.$route.path,
-        query: this.filter
+        query: this.filter,
       })
     },
 
@@ -232,16 +232,16 @@ export default {
       this.filter.t = Date.now()
       this.$router.replace({
         path: this.$route.path,
-        query: null
+        query: null,
       })
     },
     handleInputChange(val) {
       this.filter['filter[name]'] = val
-    }
+    },
   },
   created() {
     this.fetchRecord()
-  }
+  },
 }
 </script>
 

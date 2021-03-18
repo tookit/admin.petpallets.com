@@ -1,5 +1,5 @@
 <template>
-  <div class="mall-vendor-list">
+  <div class="mall-vendor__list">
     <v-container>
       <v-row>
         <v-col cols="12">
@@ -132,7 +132,6 @@ export default {
         'filter[name]': null,
         'filter[type]': null,
       },
-      // table
       selectedItem: null,
       loadingItems: false,
       serverItemsLength: 0,

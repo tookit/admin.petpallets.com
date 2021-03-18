@@ -1,211 +1,102 @@
 <template>
-  <v-form ref="form" v-model="valid">
-    <v-container>
-      <v-row>
-        <v-col :cols="12">
-          <v-text-field
-            v-model="formModel.name"
-            outlined
-            label="Name"
-            name="Name"
-            placeholder="name"
-            :rules="formRules.name"
-          />
-        </v-col>
-        <v-col :cols="6">
-          <v-textarea
-            v-model="formModel.description"
-            label="Description"
-            placeholder="Description"
-            counter
-            outlined
-          />
-        </v-col>
-        <v-col :cols="6">
-          <v-textarea
-            v-model="formModel.address"
-            label="Address"
-            placeholder="Address"
-            counter
-            outlined
-          />
-        </v-col>
-        <v-col :cols="6">
-          <v-autocomplete
-            v-model="formModel.country"
-            label="Country"
-            outlined
-            placeholder="Country"
-            :items="getCountries"
-            item-text="country"
-            item-value="code"
-          >
-            <template #item="data">
-              <v-list-item-avatar tile>
-                <img :src="data.item.flag_base64" />
-              </v-list-item-avatar>
-              <v-list-item-content>
-                <v-list-item-title
-                  v-text="data.item.country"
-                ></v-list-item-title>
-                <v-list-item-subtitle
-                  v-text="data.item.code"
-                ></v-list-item-subtitle>
-              </v-list-item-content>
-            </template>
-          </v-autocomplete>
-        </v-col>
-        <v-col :cols="6">
-          <v-text-field
-            v-model="formModel.city"
-            label="City"
-            outlined
-            placeholder="City"
-          />
-        </v-col>
-        <v-col :cols="6">
-          <v-text-field
-            v-model="formModel.website"
-            :rules="formRules.website"
-            label="Website"
-            outlined
-            placeholder="Website"
-            append-icon="mdi-eye"
-          />
-        </v-col>
-        <v-col :cols="6">
-          <v-text-field
-            v-model="formModel.email"
-            label="Email"
-            outlined
-            placeholder="Email"
-          />
-        </v-col>
-        <v-col :cols="6">
-          <v-text-field
-            v-model="formModel.contact"
-            label="Contact"
-            outlined
-            placeholder="Contact"
-          />
-        </v-col>
-        <v-col :cols="6">
-          <v-text-field
-            v-model="formModel.mobile"
-            label="Mobile"
-            outlined
-            placeholder="mobile"
-          />
-        </v-col>
-      </v-row>
-    </v-container>
-  </v-form>
+  <v-card :loading="loading">
+    <v-toolbar dark color="primary" flat>
+      <v-toolbar-title>{{ formTitle }}</v-toolbar-title>
+    </v-toolbar>
+    <v-card-text>
+      <v-form-builder ref="builder" v-model="formModel" :items="formItems" />
+    </v-card-text>
+    <v-card-actions class="py-3">
+      <v-spacer />
+      <v-btn :loading="loading" tile color="primary" @click="handleSubmit"
+        >save</v-btn
+      >
+    </v-card-actions>
+  </v-card>
 </template>
 
 <script>
 import { URL } from '@/utils/regex'
-import { getObjectValueByPath } from 'vuetify/lib/util/helpers'
 import { mapGetters } from 'vuex'
+import VFormBuilder from '@/components/form-builder/VFormBuilder'
+import { VTextarea, VTextField, VAutocomplete } from 'vuetify/lib'
 export default {
   name: 'FormVendor',
-  components: {},
+  components: { VFormBuilder },
   props: {
     item: Object,
   },
   data() {
     return {
       loading: false,
-      valid: true,
-      search: null,
-      formModel: {
-        name: null,
-        description: null,
-        website: null,
-        country: null,
-        city: null,
-        address: null,
-        mobile: null,
-        contact: null,
-        email: null,
-      },
-      multiLanguages: ['name', 'description', 'address', 'contact'],
-      formRules: {
-        name: [(v) => !!v || 'Name is required'],
-        website: [
-          (v) => {
-            return URL.test(v) || 'Website is not a valid URL'
+      formModel: {},
+      formItems: [
+        {
+          element: VTextField,
+          cols: 12,
+          props: {
+            name: 'name',
+            outlined: true,
+            rules: [(v) => !!v || 'Name is required'],
           },
-        ],
-      },
+        },
+        {
+          element: VTextarea,
+          cols: 6,
+          props: {
+            name: 'description',
+            outlined: true,
+          },
+        },
+        {
+          element: VTextarea,
+          cols: 6,
+          props: {
+            name: 'address',
+            outlined: true,
+          },
+        },
+        {
+          element: VAutocomplete,
+          cols: 6,
+          props: {
+            name: 'country',
+            outlined: true,
+          },
+        },
+        {
+          element: VTextField,
+          cols: 6,
+          props: {
+            name: 'website',
+            outlined: true,
+            rules: [
+              (v) => {
+                return URL.test(v) || 'Website is not a valid URL'
+              },
+            ],
+          },
+        },
+      ],
     }
   },
   computed: {
     ...mapGetters(['getCountries']),
+    formTitle() {
+      return this.item ? `Edit Vendor - ${this.item.name} ` : 'Create Vendor'
+    }
   },
   watch: {
     item: {
       handler(item) {
-        this.item ? this.assignModel(item) : this.initModel()
+        this.formModel = item || {}
       },
       immediate: true,
     },
   },
   methods: {
-    assignModel(data) {
-      for (let key in this.formModel) {
-        if (
-          typeof data[key] === 'object' &&
-          this.multiLanguages.includes(key)
-        ) {
-          this.formModel[key] = getObjectValueByPath(data[key], 'en')
-        } else {
-          this.formModel[key] = data[key] || null
-        }
-      }
-    },
-    initModel() {
-      this.formModel = {
-        name: null,
-        description: null,
-        website: null,
-        country: null,
-        city: null,
-        address: null,
-        mobile: null,
-        contact: null,
-        email: null,
-      }
-    },
     handleSubmit() {
-      if (this.$refs.form.validate()) {
-        this.loading = true
-        const data = this.transformData(this.formModel)
-        if (this.item && this.item.id) {
-          return this.$store
-            .dispatch('updateVendor', {
-              id: this.item.id,
-              data: data,
-            })
-            .then(() => {
-              this.loading = false
-            })
-            .catch(() => {
-              this.loading = false
-            })
-        } else {
-          return this.$store
-            .dispatch('createVendor', data)
-            .then(() => {
-              this.loading = false
-            })
-            .catch(() => {
-              this.loading = false
-            })
-        }
-      }
-    },
-    transformData(data) {
-      return data
+      console.log(this.$refs.builder)
     },
   },
 }

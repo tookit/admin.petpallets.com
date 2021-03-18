@@ -6,6 +6,10 @@ import { getObjectValueByPath } from 'vuetify/lib/util/helpers'
 export default {
   name: 'v-form-builder',
   props: {
+    title: {
+      type: String,
+      default: 'Form'
+    },
     items: {
       type: Array,
       default: () => [],
