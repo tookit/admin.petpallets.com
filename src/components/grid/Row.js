@@ -3,13 +3,12 @@ import Vue from 'vue' // Utils
 
 import { getObjectValueByPath } from 'vuetify/lib/util/helpers'
 export default Vue.extend({
-  name: 'row',
   functional: true,
   props: {
     headers: Array,
     index: Number,
     item: Object,
-    rtl: Boolean
+    rtl: Boolean,
   },
 
   render(h, { props, slots, data }) {
@@ -29,7 +28,7 @@ export default Vue.extend({
             isMobile: false,
             header,
             index: props.index,
-            value
+            value,
           })
         )
       } else if (regularSlot) {
@@ -48,13 +47,13 @@ export default Vue.extend({
             textAlign,
             header.cellClass,
             {
-              'v-data-table__divider': header.divider
-            }
-          ]
+              'v-data-table__divider': header.divider,
+            },
+          ],
         },
         children
       )
     })
     return h('tr', data, columns)
-  }
+  },
 })
