@@ -3,10 +3,10 @@
     <v-container>
       <v-row>
         <v-col cols="12">
-          <v-card>
+          <v-sheet class="grid-filter">
             <v-toolbar flat>
               <v-text-field
-                v-model="filter['filter[name]']"
+                v-model="filter.name"
                 text
                 solo
                 flat
@@ -30,10 +30,7 @@
               </v-btn>
             </v-toolbar>
             <v-divider />
-            <v-card v-show="showFilter" flat class="grey lighten-4">
-              <v-card-text>
-                <v-row> </v-row>
-              </v-card-text>
+            <v-sheet v-show="showFilter" flat class="grey lighten-4">
               <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn text @click="handleResetFilter">{{ __('reset') }}</v-btn>
@@ -41,67 +38,65 @@
                   __('apply')
                 }}</v-btn>
               </v-card-actions>
-            </v-card>
-            <v-card-text class="pa-0">
-              <v-grid
-                :loading="loadingItems"
-                :headers="headers"
-                :items="items"
-                :footer-props="{ itemsPerPageOptions: [15, 30, 50] }"
-                :server-items-length="serverItemsLength"
-                :items-per-page.sync="filter['pageSize']"
-                :page.sync="filter['page']"
-                item-key="id"
-                show-select
-                @update:page="handlePageChanged"
-                @update:items-per-page="handlePageSizeChanged"
+            </v-sheet>
+          </v-sheet>
+          <v-grid
+            :loading="loadingItems"
+            :headers="headers"
+            :items="items"
+            :footer-props="{ itemsPerPageOptions: [15, 30, 50] }"
+            :server-items-length="serverItemsLength"
+            :options.sync="gridOptions"
+            @update:items-per-page="handleApplyFilter"
+            @update:page="handleApplyFilter"
+            @update:sort-by="handleApplyFilter"
+            item-key="id"
+            show-select
+          >
+            <template #[`item.website`]="{ item }">
+              <a :href="item.website" target="_blank">{{ item.website }}</a>
+            </template>
+            <template #[`item.tasks_count`]="{ item }">
+              <v-chip
+                small
+                label
+                @click.stop="
+                  () => {
+                    selectedItem = item
+                    showMapDialog = true
+                  }
+                "
               >
-                <template #[`item.website`]="{ item }">
-                  <a :href="item.website" target="_blank">{{ item.website }}</a>
-                </template>
-                <template #[`item.tasks_count`]="{ item }">
-                  <v-chip
-                    small
-                    label
-                    @click.stop="
-                      () => {
-                        selectedItem = item
-                        showMapDialog = true
-                      }
-                    "
-                  >
-                    {{ item.tasks_count }}
-                  </v-chip>
-                </template>
-                <template #[`item.action`]="{ item }">
-                  <v-menu>
-                    <template #activator="{ on: menu }">
-                      <v-tooltip bottom>
-                        <template #activator="{ on: tooltip }">
-                          <v-btn icon v-on="onTooltip({ ...tooltip, ...menu })">
-                            <v-icon>mdi-dots-vertical</v-icon>
-                          </v-btn>
-                        </template>
-                        <span>{{ __('action') }}</span>
-                      </v-tooltip>
+                {{ item.tasks_count }}
+              </v-chip>
+            </template>
+            <template #[`item.action`]="{ item }">
+              <v-menu>
+                <template #activator="{ on: menu }">
+                  <v-tooltip bottom>
+                    <template #activator="{ on: tooltip }">
+                      <v-btn icon v-on="onTooltip({ ...tooltip, ...menu })">
+                        <v-icon>mdi-dots-vertical</v-icon>
+                      </v-btn>
                     </template>
-                    <v-list class="pa-0" dense>
-                      <v-list-item
-                        v-for="action in actions"
-                        :key="action.text"
-                        @click="action.click(item)"
-                      >
-                        <v-list-item-icon class="mr-2">
-                          <v-icon small>{{ action.icon }}</v-icon>
-                        </v-list-item-icon>
-                        <v-list-item-title>{{ action.text }}</v-list-item-title>
-                      </v-list-item>
-                    </v-list>
-                  </v-menu>
+                    <span>{{ __('action') }}</span>
+                  </v-tooltip>
                 </template>
-              </v-grid>
-            </v-card-text>
-          </v-card>
+                <v-list class="pa-0" dense>
+                  <v-list-item
+                    v-for="action in actions"
+                    :key="action.text"
+                    @click="action.click(item)"
+                  >
+                    <v-list-item-icon class="mr-2">
+                      <v-icon small>{{ action.icon }}</v-icon>
+                    </v-list-item-icon>
+                    <v-list-item-title>{{ action.text }}</v-list-item-title>
+                  </v-list-item>
+                </v-list>
+              </v-menu>
+            </template>
+          </v-grid>
         </v-col>
       </v-row>
     </v-container>
@@ -109,7 +104,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import ResizeMixin from '@/mixins/Resize'
 import TooltipMixin from '@/mixins/Tooltip'
 import VGrid from '@/components/grid'
@@ -117,24 +111,30 @@ import FormVendor from '@/components/form/vendor/FormVendor'
 import FormLinkMap from '@/components/form/vendor/FormLinkMap'
 import FormItemMap from '@/components/form/vendor/FormItemMap'
 export default {
+  name: 'PageVendor',
   components: {
     VGrid,
   },
   mixins: [ResizeMixin, TooltipMixin],
   data() {
     return {
-      //filter
+      //filter section
       search: '',
       showFilter: true,
       filter: {
-        page: 1,
-        pageSize: 30,
-        'filter[name]': null,
-        'filter[type]': null,
+        name: null,
       },
+      //grid
       selectedItem: null,
       loadingItems: false,
       serverItemsLength: 0,
+      sortBy: [],
+      gridOptions: {
+        page: 1,
+        itemsPerPage: 30,
+        sortBy: [],
+        sortDesc: [],
+      },
       headers: [
         {
           text: this.__('id'),
@@ -188,11 +188,6 @@ export default {
       items: [],
       actions: [
         {
-          text: 'View Item',
-          icon: 'mdi-eye',
-          click: this.handleViewItem,
-        },
-        {
           text: 'Edit Item',
           icon: 'mdi-pencil',
           click: this.handleEditItem,
@@ -215,51 +210,46 @@ export default {
       ],
     }
   },
-  computed: {
-    ...mapGetters(['getLocales']),
-    entity() {
-      return {
-        model: 'App\\Models\\Mall\\Property',
-        id: this.selectedItem ? this.selectedItem.id : 0,
-      }
-    },
-  },
+  computed: {},
   watch: {
     '$route.query': {
-      handler(data) {
-        if (Object.keys(data).length === 0 && data.constructor === Object) {
-          this.resetFilter()
-          this.fetchRecords(this.filter)
-        } else {
-          const query = this.updateFilterQuery(data)
-          this.fetchRecords(query)
-        }
+      handler(query) {
+        this.updatePageConfig(query)
+        this.fetchRecords()
       },
       immediate: true,
     },
   },
-  created() {},
   methods: {
     //
-    updateFilterQuery(query) {
-      const filter = Object.assign(this.filter, query)
-      filter.page = parseInt(filter.page)
-      filter.pageSize = parseInt(filter.pageSize)
-      return filter
+    updatePageConfig(query) {
+      const { page, pageSize, name } = query
+      this.gridOptions.page = page ? parseInt(page) : 1
+      this.gridOptions.itemsPerPage = pageSize ? parseInt(pageSize) : 30
+      this.filter.name = name || null
     },
-    resetFilter() {
-      this.filter = {
-        page: 1,
-        pageSize: 30,
-        'filter[name]': null,
-        'filter[type]': null,
+    buildApiQuery() {
+      return {
+        sort: this.gridOptions.sortBy[0],
+        page: this.gridOptions.page,
+        pageSize: this.gridOptions.itemsPerPage,
+        'filter[name]': this.filter.name,
       }
     },
-    fetchRecords(query) {
+    buildRouteQuery() {
+      return {
+        ...this.filter,
+        sort: this.gridOptions.sortBy[0],
+        page: this.gridOptions.page,
+        pageSize: this.gridOptions.itemsPerPage,
+      }
+    },
+    fetchRecords() {
+      const params = this.buildApiQuery()
       this.loadingItems = true
       this.items = []
       return this.$store
-        .dispatch('fetchVendors', query)
+        .dispatch('fetchVendors', params)
         .then(({ data, meta }) => {
           this.items = data
           this.serverItemsLength = meta.total
@@ -268,6 +258,30 @@ export default {
         .catch(() => {
           this.loadingItems = false
         })
+    },
+    // filter
+    handleRefreshItem() {
+      this.fetchRecords()
+    },    
+    handleResetFilter() {
+      this.$router.replace({
+        path: this.$route.path,
+        query: {},
+      })
+    },
+    handleApplyFilter() {
+      const query = this.buildRouteQuery()
+      query.t = Date.now()
+      this.$router.replace({
+        path: this.$route.path,
+        query: query,
+      })
+    },
+    handleClear() {
+      this.$router.replace({
+        path: this.$route.path,
+        query: {},
+      })
     },
     //action
     handleCreateItem() {
@@ -278,9 +292,6 @@ export default {
           item: null,
         },
       })
-    },
-    handleViewItem(item) {
-      window.open(item.href, '_blank')
     },
     handleEditItem(item) {
       this.$root.$dialog.show({
@@ -315,46 +326,6 @@ export default {
           this.items = this.items.filter((item) => item.id !== id)
         })
       }
-    },
-
-    handleRefreshItem() {
-      this.fetchRecords(this.filter)
-    },
-    // filter
-    handlePageChanged(page) {
-      this.filter.page = page
-      this.filter.t = Date.now()
-      this.$router.replace({
-        path: this.$route.path,
-        query: this.filter,
-      })
-    },
-    handlePageSizeChanged(size) {
-      this.filter.pageSize = size
-      this.filter.t = Date.now()
-      this.$router.replace({
-        path: this.$route.path,
-        query: this.filter,
-      })
-    },
-    handleResetFilter() {
-      this.resetFilter()
-      this.fetchRecords(this.filter)
-    },
-    handleApplyFilter() {
-      this.filter.t = Date.now()
-      this.$router.replace({
-        path: this.$route.path,
-        query: this.filter,
-      })
-    },
-    handleClear() {
-      this.resetFilter()
-      this.filter.t = Date.now()
-      this.$router.replace({
-        path: this.$route.path,
-        query: this.filter,
-      })
     },
   },
 }

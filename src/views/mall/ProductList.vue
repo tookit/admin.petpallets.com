@@ -146,7 +146,7 @@
                   <a :href="item.href" target="_blank"> {{ item.name }} </a>
                   <br />
                   <v-icon
-                    v-show="item.property_values.length > 0"
+                    v-show="item.property_values.length === 0"
                     small
                     @click="handleEditProp(item)"
                     >mdi-pencil</v-icon
