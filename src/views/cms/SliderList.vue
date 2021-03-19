@@ -21,7 +21,6 @@
 <script>
 import FormSlider from '@/components/form/cms/FormSlider'
 import ListGrid from '@/components/list/ListGrid'
-import { VAutocomplete } from 'vuetify/lib'
 import ImageViewer from '@/components/image/ImageViewer'
 export default {
   name: 'PageSlider',
@@ -84,18 +83,7 @@ export default {
   },
   computed: {
     filterItems() {
-      return [
-        {
-          cols: 6,
-          element: VAutocomplete,
-          props: {
-            name: 'type',
-            items: this.getTagTypes,
-            outlined: true,
-            hideDetails: true,
-          },
-        },
-      ]
+      return []
     },
   },
   watch: {},
