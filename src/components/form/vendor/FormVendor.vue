@@ -4,6 +4,7 @@
     v-model="formModel"
     :items="formItems"
     :loading="loading"
+    color="primary"
     @form:submit="handleSubmit"
   />
 </template>
@@ -12,7 +13,7 @@
 import { URL } from '@/utils/regex'
 import { mapGetters } from 'vuex'
 import VFormBuilder from '@/components/builder/VFormBuilder'
-import { VTextarea, VTextField } from 'vuetify/lib'
+import { VTextarea, VTextField, VAutocomplete } from 'vuetify/lib'
 export default {
   name: 'FormVendor',
   components: {
@@ -26,74 +27,94 @@ export default {
       loading: false,
       valid: true,
       search: null,
-      formItems: [
+      formModel: {},
+    }
+  },
+  computed: {
+    ...mapGetters(['getCountries']),
+    formItems() {
+      return [
         {
           cols: 6,
           element: VTextField,
           props: {
             name: 'name',
+            required: true,
+            rules: [(v) => !!v || 'Name is required'],
           },
         },
         {
           cols: 6,
           element: VTextField,
           props: {
+            name: 'website',
+            required: true,
+            rules: [(v) => URL.test(v) || 'Website is not a valid URL'],
+          },
+        },
+        {
+          cols: 6,
+          element: VTextarea,
+          props: {
             name: 'description',
           },
         },
-      ],
-      formModel: {
-        name: null,
-        description: null,
-        website: null,
-        country: null,
-        city: null,
-        address: null,
-        mobile: null,
-        contact: null,
-        email: null,
-      },
-      multiLanguages: ['name', 'description', 'address', 'contact'],
-      formRules: {
-        name: [(v) => !!v || 'Name is required'],
-        website: [
-          (v) => {
-            return URL.test(v) || 'Website is not a valid URL'
+        {
+          cols: 6,
+          element: VTextarea,
+          props: {
+            name: 'address',
           },
-        ],
-      },
-    }
-  },
-  computed: {
-    ...mapGetters(['getCountries']),
+        },
+        {
+          cols: 6,
+          element: VAutocomplete,
+          props: {
+            name: 'country',
+            items: this.countires,
+          },
+        },
+        {
+          cols: 6,
+          element: VTextField,
+          props: {
+            name: 'city',
+          },
+        },
+        {
+          cols: 6,
+          element: VTextField,
+          props: {
+            name: 'mobile',
+          },
+        },
+        {
+          cols: 6,
+          element: VTextField,
+          props: {
+            name: 'email',
+          },
+        },
+      ]
+    },
+    countires() {
+      return this.getCountries.map((item) => {
+        return {
+          text: item.country,
+          value: item.country,
+        }
+      })
+    },
   },
   watch: {
     item: {
       handler(item) {
-        this.item ? this.assignModel(item) : this.initModel()
+        this.formModel = item || {}
       },
       immediate: true,
     },
   },
   methods: {
-    assignModel(data) {
-      for (let key in this.formModel) {
-        this.formModel[key] = data[key] || null
-      }
-    },
-    initModel() {
-      this.formModel = {
-        name: null,
-        description: null,
-        website: null,
-        country: null,
-        city: null,
-        address: null,
-        mobile: null,
-        contact: null,
-        email: null,
-      }
-    },
     handleSubmit() {
       const form = this.$refs.builder.$refs.form
       if (form.validate()) {

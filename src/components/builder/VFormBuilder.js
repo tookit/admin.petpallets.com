@@ -100,7 +100,7 @@ export default {
         VToolbar,
         {
           props: {
-            color: this.colro,
+            color: this.color,
           },
         },
         [
