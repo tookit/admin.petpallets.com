@@ -33,6 +33,8 @@
           class="grey lighten-4"
           :items="filterItems"
           color="primary"
+          cancel-text="reset"
+          save-text="apply"
           @form:cancel="handleResetFilter"
           @form:submit="handleApplyFilter"
         />
@@ -151,7 +153,7 @@ export default {
       this.search = getObjectValueByPath(query, this.searchField)
       this.filterItems.forEach((item) => {
         const key = item.props.name
-        this.filters[key] = getObjectValueByPath(query, key)
+        this.filters[key] = getObjectValueByPath(query, key) || null
       })
     },
     buildApiQuery() {

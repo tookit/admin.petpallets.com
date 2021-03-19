@@ -6,8 +6,10 @@
           <list-grid
             :headers="headers"
             :filter-items="filterItems"
+            :actions="actions"
             action="fetchUsers"
             search-field="username"
+            @create="handleCreateItem"
           />
         </v-col>
       </v-row>
@@ -82,11 +84,6 @@ export default {
       ],
       actions: [
         {
-          text: 'View Item',
-          icon: 'mdi-eye',
-          click: this.handleViewItem,
-        },
-        {
           text: 'Edit Item',
           icon: 'mdi-pencil',
           click: this.handleEditItem,
@@ -108,7 +105,8 @@ export default {
           props: {
             name: 'gender',
             items: ['male', 'female', 'other'],
-            required: true,
+            dense: true,
+            hideDetails: true,
             outlined: true,
           },
         },
@@ -119,20 +117,34 @@ export default {
   methods: {
     //action
     handleCreateItem() {
-      this.$root.$dialog.show({
+      const dialog = this.$root.$dialog
+      dialog.loadComponent({
         component: FormUser,
         data: {
           item: null,
         },
+        on: {
+          'form:cancel': () => {
+            dialog.hide()
+          },
+        },
       })
+      dialog.show()
     },
     handleEditItem(item) {
-      this.$root.$dialog.show({
+      const dialog = this.$root.$dialog
+      dialog.loadComponent({
         component: FormUser,
         data: {
           item: item,
         },
+        on: {
+          'form:cancel': () => {
+            dialog.hide()
+          },
+        },
       })
+      dialog.show()
     },
     handleDeleteItem({ id }) {
       if (window.confirm('Are you sure to delete this item ?')) {

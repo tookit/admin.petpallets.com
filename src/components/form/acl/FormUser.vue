@@ -2,10 +2,13 @@
   <v-form-builder
     ref="builder"
     v-model="formModel"
+    :title="formTitle"
     :items="formItems"
     :loading="loading"
     color="primary"
+    show-header
     @form:submit="handleSubmit"
+    @form:cancel="$emit('form:cancel')"
   />
 </template>
 
@@ -27,6 +30,9 @@ export default {
     }
   },
   computed: {
+    formTitle() {
+      return this.item ? 'Edit User - ' + this.item.username : 'Create User'
+    },
     formItems() {
       return [
         {

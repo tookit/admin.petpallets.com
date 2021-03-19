@@ -1,6 +1,6 @@
 <template>
   <v-dialog v-model="visible" :width="width" scrollable>
-    <component :is="component" v-bind="data" ref="comp" />
+    <component :is="component" v-bind="data" ref="comp" v-on="on" />
   </v-dialog>
 </template>
 
@@ -15,31 +15,24 @@ export default {
   },
   data() {
     return {
-      submiting: false,
       visible: false,
-      title: null,
       data: null,
       on: {},
       component: null,
     }
   },
   methods: {
-    show({ title, component, data }) {
+    loadComponent(option) {
+      const { component, data, on } = option
       this.component = component
-      this.title = title
+      this.on = on
       this.data = data
+    },
+    show() {
       this.visible = true
     },
     hide() {
-      ;(this.title = null), (this.component = null)
-    },
-    handleSubmit() {
-      this.$refs.comp
-        .handleSubmit()
-        .then(() => {
-          this.submiting = false
-        })
-        .catch(() => (this.submiting = false))
+      this.visible = false
     },
   },
 }

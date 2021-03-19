@@ -19,6 +19,14 @@ export default {
       type: String,
       default: 'Form',
     },
+    saveText: {
+      type: String,
+      default: 'Save',
+    },
+    cancelText: {
+      type: String,
+      default: 'Cancel',
+    },
     loading: Boolean,
     color: {
       type: String,
@@ -102,6 +110,7 @@ export default {
         {
           props: {
             color: this.color,
+            dark: true,
           },
         },
         [
@@ -128,6 +137,7 @@ export default {
             {
               props: {
                 text: true,
+                tile: true,
               },
               on: {
                 click: () => {
@@ -135,14 +145,15 @@ export default {
                 },
               },
             },
-            'cancel'
+            this.cancelText
           ),
           this.$createElement(
             VBtn,
             {
               props: {
                 color: this.color,
-                loading: this.loading
+                loading: this.loading,
+                tile: true,
               },
               on: {
                 click: () => {
@@ -150,7 +161,7 @@ export default {
                 },
               },
             },
-            'save'
+            this.saveText
           ),
         ]
       )
