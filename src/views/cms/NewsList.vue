@@ -21,7 +21,7 @@
 <script>
 import FormNews from '@/components/form/cms/FormNews'
 import ListGrid from '@/components/list/ListGrid'
-import { VSwitch } from 'vuetify/lib'
+import { VSwitch, VAvatar, VImg } from 'vuetify/lib'
 export default {
   name: 'PagePost',
   components: {
@@ -38,6 +38,18 @@ export default {
           text: 'Image',
           value: 'image',
           sortable: true,
+          render: (item) => {
+            return this.$createElement(
+              VAvatar,
+              {
+                class: 'ma-2',
+                props: {
+                  size: 48,
+                },
+              },
+              [this.$createElement(VImg, { props: { src: item.image } })]
+            )
+          },
         },
         {
           text: 'Name',

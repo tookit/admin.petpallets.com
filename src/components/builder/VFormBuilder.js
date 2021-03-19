@@ -49,22 +49,12 @@ export default {
   watch: {
     value: {
       handler(val) {
-        this.initFormData(val)
+        this.formData = val || {}
       },
       immediate: true,
     },
   },
   methods: {
-    initFormData(val) {
-      if (this.items.length > 0 && val) {
-        this.items.forEach((item) => {
-          const key = item.props.name
-          this.formData[key] = val[key]
-        })
-      } else {
-        this.formData = {}
-      }
-    },
     genFormItem(item) {
       const { name } = item.props
       const value = getObjectValueByPath(this.formData, item.props.name) ?? null

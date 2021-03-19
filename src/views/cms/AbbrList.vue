@@ -46,7 +46,7 @@ export default {
           render: (item) => {
             return this.$createElement(ImageViewer, {
               props: {
-                items: item,
+                items: item.media,
               },
             })
           },

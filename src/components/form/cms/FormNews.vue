@@ -116,12 +116,14 @@ export default {
     item: {
       handler(item) {
         this.initFormModel(item)
+        // this.formModel = item || {}
       },
-      immediate: true,
+      // immediate: true,
     },
   },
   methods: {
     initFormModel(val) {
+      console.log(val)
       if (this.formItems.length > 0 && val) {
         this.formItems.forEach((item) => {
           const key = item.props.name
