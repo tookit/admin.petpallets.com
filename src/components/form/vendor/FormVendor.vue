@@ -1,120 +1,23 @@
 <template>
-  <v-card>
-    <v-toolbar color="primary" dark>Form</v-toolbar>
-    <v-form ref="form" v-model="valid">
-      <v-container>
-        <v-row>
-          <v-col :cols="12">
-            <v-text-field
-              v-model="formModel.name"
-              outlined
-              label="Name"
-              name="Name"
-              placeholder="name"
-              :rules="formRules.name"
-            />
-          </v-col>
-          <v-col :cols="6">
-            <v-textarea
-              v-model="formModel.description"
-              label="Description"
-              placeholder="Description"
-              counter
-              outlined
-            />
-          </v-col>
-          <v-col :cols="6">
-            <v-textarea
-              v-model="formModel.address"
-              label="Address"
-              placeholder="Address"
-              counter
-              outlined
-            />
-          </v-col>
-          <v-col :cols="6">
-            <v-autocomplete
-              v-model="formModel.country"
-              label="Country"
-              outlined
-              placeholder="Country"
-              :items="getCountries"
-              item-text="country"
-              item-value="code"
-            >
-              <template #item="data">
-                <v-list-item-avatar tile>
-                  <img :src="data.item.flag_base64" />
-                </v-list-item-avatar>
-                <v-list-item-content>
-                  <v-list-item-title
-                    v-text="data.item.country"
-                  ></v-list-item-title>
-                  <v-list-item-subtitle
-                    v-text="data.item.code"
-                  ></v-list-item-subtitle>
-                </v-list-item-content>
-              </template>
-            </v-autocomplete>
-          </v-col>
-          <v-col :cols="6">
-            <v-text-field
-              v-model="formModel.city"
-              label="City"
-              outlined
-              placeholder="City"
-            />
-          </v-col>
-          <v-col :cols="6">
-            <v-text-field
-              v-model="formModel.website"
-              :rules="formRules.website"
-              label="Website"
-              outlined
-              placeholder="Website"
-              append-icon="mdi-eye"
-            />
-          </v-col>
-          <v-col :cols="6">
-            <v-text-field
-              v-model="formModel.email"
-              label="Email"
-              outlined
-              placeholder="Email"
-            />
-          </v-col>
-          <v-col :cols="6">
-            <v-text-field
-              v-model="formModel.contact"
-              label="Contact"
-              outlined
-              placeholder="Contact"
-            />
-          </v-col>
-          <v-col :cols="6">
-            <v-text-field
-              v-model="formModel.mobile"
-              label="Mobile"
-              outlined
-              placeholder="mobile"
-            />
-          </v-col>
-        </v-row>
-      </v-container>
-    </v-form>
-    <v-divider />
-    <v-card-actions class="justify-end">
-      <v-btn text @click="handleSubmit">cancel</v-btn>
-      <v-btn color="primary" @click="handleSubmit">Save</v-btn>
-    </v-card-actions>
-  </v-card>
+  <v-form-builder
+    ref="builder"
+    v-model="formModel"
+    :items="formItems"
+    :loading="loading"
+    @form:submit="handleSubmit"
+  />
 </template>
 
 <script>
 import { URL } from '@/utils/regex'
 import { mapGetters } from 'vuex'
+import VFormBuilder from '@/components/builder/VFormBuilder'
+import { VTextarea, VTextField } from 'vuetify/lib'
 export default {
   name: 'FormVendor',
+  components: {
+    VFormBuilder,
+  },
   props: {
     item: Object,
   },
@@ -123,6 +26,22 @@ export default {
       loading: false,
       valid: true,
       search: null,
+      formItems: [
+        {
+          cols: 6,
+          element: VTextField,
+          props: {
+            name: 'name',
+          },
+        },
+        {
+          cols: 6,
+          element: VTextField,
+          props: {
+            name: 'description',
+          },
+        },
+      ],
       formModel: {
         name: null,
         description: null,
@@ -176,7 +95,8 @@ export default {
       }
     },
     handleSubmit() {
-      if (this.$refs.form.validate()) {
+      const form = this.$refs.builder.$refs.form
+      if (form.validate()) {
         this.loading = true
         const data = this.transformData(this.formModel)
         if (this.item && this.item.id) {

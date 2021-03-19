@@ -47,11 +47,11 @@
             :footer-props="{ itemsPerPageOptions: [15, 30, 50] }"
             :server-items-length="serverItemsLength"
             :options.sync="gridOptions"
+            item-key="id"
+            show-select
             @update:items-per-page="handleApplyFilter"
             @update:page="handleApplyFilter"
             @update:sort-by="handleApplyFilter"
-            item-key="id"
-            show-select
           >
             <template #[`item.website`]="{ item }">
               <a :href="item.website" target="_blank">{{ item.website }}</a>
@@ -262,7 +262,7 @@ export default {
     // filter
     handleRefreshItem() {
       this.fetchRecords()
-    },    
+    },
     handleResetFilter() {
       this.$router.replace({
         path: this.$route.path,

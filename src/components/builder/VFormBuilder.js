@@ -1,14 +1,27 @@
-import VContainer from 'vuetify/lib/components/VGrid/VContainer'
-import VRow from 'vuetify/lib/components/VGrid/VRow'
-import VCol from 'vuetify/lib/components/VGrid/VCol'
-import VForm from 'vuetify/lib/components/VForm/VForm'
+import {
+  VContainer,
+  VRow,
+  VCol,
+  VForm,
+  VCard,
+  VCardActions,
+  VToolbar,
+  VToolbarTitle,
+  VBtn,
+} from 'vuetify/lib'
+
 import { getObjectValueByPath } from 'vuetify/lib/util/helpers'
 export default {
   name: 'v-form-builder',
   props: {
     title: {
       type: String,
-      default: 'Form'
+      default: 'Form',
+    },
+    loading: Boolean,
+    color: {
+      type: String,
+      default: 'white',
     },
     items: {
       type: Array,
@@ -67,7 +80,7 @@ export default {
       })
     },
     genFormWrapper() {
-      return this.$createElement(VForm, [
+      return this.$createElement(VForm, { ref: 'form' }, [
         this.$createElement(
           VContainer,
           {
@@ -82,8 +95,71 @@ export default {
         ),
       ])
     },
+    genFormTitle() {
+      return this.$createElement(
+        VToolbar,
+        {
+          props: {
+            color: this.colro,
+          },
+        },
+        [
+          this.$createElement(
+            VToolbarTitle,
+            {
+              props: {},
+            },
+            this.title
+          ),
+        ]
+      )
+    },
+    genFormFooter() {
+      return this.$createElement(
+        VCardActions,
+        {
+          class: 'justify-end',
+          props: {},
+        },
+        [
+          this.$createElement(
+            VBtn,
+            {
+              props: {
+                text: true,
+              },
+              on: {
+                click: () => {
+                  this.$emit('form:cancel')
+                },
+              },
+            },
+            'cancel'
+          ),
+          this.$createElement(
+            VBtn,
+            {
+              props: {
+                color: this.color,
+                loading: this.loading
+              },
+              on: {
+                click: () => {
+                  this.$emit('form:submit')
+                },
+              },
+            },
+            'save'
+          ),
+        ]
+      )
+    },
   },
   render(h) {
-    return h('div', [this.genFormWrapper()])
+    return h(VCard, { props: { loading: this.loading } }, [
+      this.genFormTitle(),
+      this.genFormWrapper(),
+      this.genFormFooter(),
+    ])
   },
 }
