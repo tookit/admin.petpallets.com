@@ -14,15 +14,15 @@
 import FormAbbr from '@/components/form/cms/FormAbbr'
 export default {
   name: 'NewsItem',
-  props: {
-    id: [Number, String]
-  },
   components: {
-    FormAbbr
+    FormAbbr,
+  },
+  props: {
+    id: [Number, String],
   },
   data() {
     return {
-      item: null
+      item: null,
     }
   },
   computed: {},
@@ -33,16 +33,16 @@ export default {
           this.fetchRecord(id)
         }
       },
-      immediate: true
-    }
+      immediate: true,
+    },
   },
   methods: {
     fetchRecord(id) {
       this.$store.dispatch('getAbbrById', id).then(({ data }) => {
         this.item = data
       })
-    }
-  }
+    },
+  },
 }
 </script>
 
