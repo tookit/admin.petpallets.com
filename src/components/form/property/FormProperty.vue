@@ -1,19 +1,22 @@
 <template>
-  <v-form-builder
-    ref="builder"
-    v-model="formModel"
-    :items="formItems"
-    :loading="loading"
-    color="primary"
-    show-header
-    @form:submit="handleSubmit"
-    @form:cancel="$emit('form:cancel')"
-  />
+  <div>
+    <v-form-builder
+      ref="builder"
+      v-model="formModel"
+      :items="formItems"
+      :loading="loading"
+      color="primary"
+      show-header
+      @form:submit="handleSubmit"
+      @form:cancel="$emit('form:cancel')"
+    />
+  </div>
 </template>
 
 <script>
 import VFormBuilder from '@/components/builder/VFormBuilder'
-import { VTextarea, VTextField, VAutocomplete, VCombobox } from 'vuetify/lib'
+import { VTextarea, VTextField, VCombobox } from 'vuetify/lib'
+
 export default {
   name: 'FormProperty',
   components: {
