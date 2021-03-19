@@ -29,6 +29,7 @@
       <v-divider />
       <v-sheet v-show="showFilter">
         <v-form-builder
+          v-model="filters"
           class="grey lighten-4"
           :items="filterItems"
           color="primary"
@@ -117,6 +118,7 @@ export default {
     return {
       //filter section
       search: '',
+      filters: {},
       showFilter: true,
       //grid
       selectedItem: null,
@@ -135,19 +137,22 @@ export default {
   watch: {
     '$route.query': {
       handler(query) {
-        this.updatePageConfig(query)
+        this.updateListOption(query)
         this.fetchRecords()
       },
       immediate: true,
     },
   },
   methods: {
-    //
-    updatePageConfig(query) {
+    updateListOption(query) {
       const { page, pageSize } = query
       this.gridOptions.page = page ? parseInt(page) : 1
       this.gridOptions.itemsPerPage = pageSize ? parseInt(pageSize) : 30
       this.search = getObjectValueByPath(query, this.searchField)
+      this.filterItems.forEach((item) => {
+        const key = item.props.name
+        this.filters[key] = getObjectValueByPath(query, key)
+      })
     },
     buildApiQuery() {
       const query = {
@@ -157,13 +162,16 @@ export default {
       }
       const filterKey = `filter[${this.searchField}]`
       query[filterKey] = this.search
+      for (let key in this.filters) {
+        let k = [`filter[${key}]`]
+        query[k] = this.filters[key]
+      }
       return query
     },
     buildRouteQuery() {
-      const filter = {}
-      filter[this.searchField] = this.search
+      this.filters[this.searchField] = this.search
       return {
-        ...filter,
+        ...this.filters,
         sort: this.gridOptions.sortBy[0],
         page: this.gridOptions.page,
         pageSize: this.gridOptions.itemsPerPage,

@@ -5,6 +5,7 @@
         <v-col cols="12">
           <list-grid
             :headers="headers"
+            :filter-items="filterItems"
             action="fetchUsers"
             search-field="username"
           />
@@ -19,7 +20,7 @@ import ResizeMixin from '@/mixins/Resize'
 import TooltipMixin from '@/mixins/Tooltip'
 import FormUser from '@/components/form/acl/FormUser'
 import ListGrid from '@/components/list/ListGrid'
-import { VAvatar, VImg } from 'vuetify/lib'
+import { VAvatar, VImg, VSelect } from 'vuetify/lib'
 export default {
   name: 'PageUser',
   components: {
@@ -98,7 +99,22 @@ export default {
       ],
     }
   },
-  computed: {},
+  computed: {
+    filterItems() {
+      return [
+        {
+          cols: 6,
+          element: VSelect,
+          props: {
+            name: 'gender',
+            items: ['male', 'female', 'other'],
+            required: true,
+            outlined: true,
+          },
+        },
+      ]
+    },
+  },
   watch: {},
   methods: {
     //action
@@ -118,7 +134,6 @@ export default {
         },
       })
     },
-
     handleDeleteItem({ id }) {
       if (window.confirm('Are you sure to delete this item ?')) {
         this.$store.dispatch('deleteUser', id).then(() => {
