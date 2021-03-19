@@ -21,9 +21,9 @@
 <script>
 import FormAbbr from '@/components/form/cms/FormAbbr'
 import ListGrid from '@/components/list/ListGrid'
-import { VSwitch } from 'vuetify/lib'
+import ImageViewer from '@/components/image/ImageViewer'
 export default {
-  name: 'PagePost',
+  name: 'PageAbbr',
   components: {
     ListGrid,
   },
@@ -43,6 +43,13 @@ export default {
           text: 'Media',
           value: 'media',
           sortable: false,
+          render: (item) => {
+            return this.$createElement(ImageViewer, {
+              props: {
+                items: item,
+              },
+            })
+          },
         },
         {
           text: 'Short for',
