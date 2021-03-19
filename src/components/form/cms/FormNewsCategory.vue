@@ -1,153 +1,112 @@
 <template>
-  <v-card :loading="loading">
-    <v-card-text>
-      <v-form>
-        <v-container fluid>
-          <v-row>
-            <v-col :cols="6">
-              <v-text-field
-                v-model="formModel.name"
-                outlined
-                label="Name"
-                name="Name"
-                placeholder="name"
-                append-icon="mdi-translate"
-                @click:append="handleShowTranslation('name')"
-              />
-            </v-col>
-            <v-col :cols="6">
-              <v-text-field
-                v-model="formModel.slug"
-                readonly
-                label="Slug"
-                outlined
-                placeholder="Slug"
-              />
-            </v-col>
-            <v-col :cols="12">
-              <v-textarea
-                v-model="formModel.description"
-                outlined
-                placeholder="Description"
-                label="Description"
-                append-icon="mdi-translate"
-                @click:append="handleShowTranslation('description')"
-              />
-            </v-col>
-          </v-row>
-        </v-container>
-      </v-form>
-    </v-card-text>
-    <v-card-actions class="py-3">
-      <v-spacer></v-spacer>
-      <v-btn @click="handleSubmit()" :loading="loading" tile color="primary">
-        save
-      </v-btn>
-    </v-card-actions>
-    <v-dialog v-model="showTranslation">
-      <form-translation
-        :field="translationField"
-        :text="translationText"
-        :entity="entity"
-        @form:cancel="showTranslation = false"
-        @form:success="showTranslation = false"
-      />
-    </v-dialog>
-  </v-card>
+  <v-form-builder
+    ref="builder"
+    v-model="formModel"
+    :title="formTitle"
+    :items="formItems"
+    :loading="loading"
+    color="primary"
+    show-header
+    @form:submit="handleSubmit"
+    @form:cancel="$emit('form:cancel')"
+  />
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import FormTranslation from '@/components/form/FormTranslation'
+import VFormBuilder from '@/components/builder/VFormBuilder'
+import { VTextField, VTextarea } from 'vuetify/lib'
 export default {
   name: 'FormNewsCategory',
   components: {
-    FormTranslation
+    VFormBuilder,
   },
   props: {
-    item: Object
+    item: Object,
   },
   data() {
     return {
-      showTranslation: false,
-      translationField: 'name',
-      translationText: null,
-      isLoading: false,
       loading: false,
-      formModel: {
-        name: null,
-        description: null,
-        slug: null
-      }
+      formModel: {},
     }
   },
   computed: {
-    ...mapGetters(['getCmsCategories']),
     formTitle() {
-      return this.item ? 'Edit News' : 'Create News'
+      return this.item
+        ? 'Edit CMS Category - ' + this.item.username
+        : 'Create CMs Category'
     },
-    entity() {
-      return {
-        model: 'App\\Models\\CMS\\Category',
-        id: this.item ? this.item.id : 0
-      }
-    }
+    formItems() {
+      return [
+        {
+          cols: 6,
+          element: VTextField,
+          props: {
+            name: 'name',
+            required: true,
+            outlined: true,
+            rules: [(v) => !!v || 'Name is required'],
+          },
+        },
+        {
+          cols: 6,
+          element: VTextField,
+          props: {
+            name: 'slug',
+            outlined: true,
+          },
+        },
+        {
+          cols: 12,
+          element: VTextarea,
+          props: {
+            name: 'description',
+            outlined: true,
+          },
+        },
+      ]
+    },
   },
   watch: {
     item: {
       handler(item) {
-        this.assignModel(item)
+        this.formModel = item || {}
       },
-      immediate: true
-    }
+      immediate: true,
+    },
   },
   methods: {
-    assignModel(data) {
-      if (data) {
-        for (let key in this.formModel) {
-          this.formModel[key] = data[key]
-        }
-      } else {
-        this.formModel = {
-          name: null,
-          description: null,
-          slug: null
-        }
-      }
-    },
     handleSubmit() {
-      this.loading = true
-
-      if (this.item.id) {
-        this.$store
-          .dispatch('updateNewsCategory', {
-            id: this.item.id,
-            data: this.formModel
-          })
-          .then(() => {
-            this.loading = false
-          })
-      } else {
-        this.$store
-          .dispatch('createNewsCategory', this.formModel)
-          .then(({ data }) => {
-            this.loading = false
-            this.$router.push({
-              path: `/cms/categories/item/${data.id}`
+      const form = this.$refs.builder.$refs.form
+      if (form.validate()) {
+        this.loading = true
+        const data = this.transformData(this.formModel)
+        if (this.item && this.item.id) {
+          return this.$store
+            .dispatch('updateNewsCategory', {
+              id: this.item.id,
+              data: data,
             })
-          })
-          .catch(() => {
-            this.loading = false
-          })
+            .then(() => {
+              this.loading = false
+            })
+            .catch(() => {
+              this.loading = false
+            })
+        } else {
+          return this.$store
+            .dispatch('createNewsCategory', data)
+            .then(() => {
+              this.loading = false
+            })
+            .catch(() => {
+              this.loading = false
+            })
+        }
       }
     },
-    handleShowTranslation(field) {
-      this.translationField = field
-      this.translationText = this.formModel[field]
-      this.showTranslation = true
-    }
-  }
+    transformData(data) {
+      return data
+    },
+  },
 }
 </script>
-
-<style></style>

@@ -19,8 +19,6 @@
 </template>
 
 <script>
-import ResizeMixin from '@/mixins/Resize'
-import TooltipMixin from '@/mixins/Tooltip'
 import FormUser from '@/components/form/acl/FormUser'
 import ListGrid from '@/components/list/ListGrid'
 import { VAvatar, VImg, VSelect } from 'vuetify/lib'
@@ -29,7 +27,6 @@ export default {
   components: {
     ListGrid,
   },
-  mixins: [ResizeMixin, TooltipMixin],
   data() {
     return {
       headers: [

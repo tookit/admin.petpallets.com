@@ -5,51 +5,58 @@ const state = {
   tagTypes: [
     {
       text: 'Fiber',
-      value: 'fiber'
+      value: 'fiber',
     },
     {
       text: 'Abbr',
-      value: 'abbr'
+      value: 'abbr',
     },
     {
       text: 'News',
-      value: 'news'
+      value: 'news',
     },
     {
       text: 'FAQ',
-      value: 'faq'
-    }
-  ]
+      value: 'faq',
+    },
+  ],
 }
 const getters = {
   getCmsCategories: (state) => {
     return state.categories.map((item) => {
       return {
         text: item.name,
-        value: item.id
+        value: item.id,
       }
     })
   },
   getTagsByType: (state) => (type) => {
-    return state.tags.filter((item) => item.type === type)
+    return state.tags
+      .filter((item) => item.type === type)
+      .map((item) => {
+        return {
+          text: item.name,
+          value: item.name,
+        }
+      })
   },
   getTagTypes: (state) => {
     return state.tagTypes
-  }
+  },
 }
 const actions = {
   fetchNews({ commit }, query) {
     return request({
       url: `/cms/post`,
       method: 'get',
-      params: query
+      params: query,
     })
   },
   fetchTags({ commit }, query) {
     return request({
       url: `/cms/tag`,
       method: 'get',
-      params: query
+      params: query,
     }).then((resp) => {
       if (query && query.pageSize == -1) {
         commit('SET_CMS_TAGS', resp.data)
@@ -61,46 +68,46 @@ const actions = {
     return request({
       url: `/cms/post`,
       method: 'post',
-      data: data
+      data: data,
     })
   },
   createTag({ commit }, data) {
     return request({
       url: `/cms/tag`,
       method: 'post',
-      data: data
+      data: data,
     })
   },
   updateNews({ commit }, { id, data }) {
     return request({
       url: `/cms/post/${id}`,
       method: 'put',
-      data: data
+      data: data,
     })
   },
   updateTag({ commit }, { id, data }) {
     return request({
       url: `/cms/tag/${id}`,
       method: 'put',
-      data: data
+      data: data,
     })
   },
   getNewsById({ commit }, id) {
     return request({
       url: `/cms/post/${id}`,
-      method: 'get'
+      method: 'get',
     })
   },
   getTagById({ commit }, id) {
     return request({
       url: `/cms/tag/${id}`,
-      method: 'get'
+      method: 'get',
     })
   },
   deleteTag({ commit }, id) {
     return request({
       url: `/cms/tag/${id}`,
-      method: 'delete'
+      method: 'delete',
     })
   },
 
@@ -108,7 +115,7 @@ const actions = {
     return request({
       url: `/cms/category`,
       method: 'get',
-      params: query
+      params: query,
     }).then((resp) => {
       if (query && query.pageSize == -1) {
         commit('SET_NEWS_CATEGORIES', resp.data)
@@ -120,27 +127,27 @@ const actions = {
     return request({
       url: `/cms/category`,
       method: 'post',
-      data: data
+      data: data,
     })
   },
   updateNewsCategory({ commit }, { id, data }) {
     return request({
       url: `/cms/category/${id}`,
       method: 'put',
-      data: data
+      data: data,
     })
   },
   deleteNewsCategory({ commit }, id) {
     return request({
       url: `/cms/category/${id}`,
-      method: 'delete'
+      method: 'delete',
     })
   },
 
   getNewsCategoryById({ commit }, id) {
     return request({
       url: `/cms/category/${id}`,
-      method: 'get'
+      method: 'get',
     })
   },
 
@@ -148,36 +155,36 @@ const actions = {
     return request({
       url: `/cms/slider`,
       method: 'get',
-      data: data
+      data: data,
     })
   },
   updateSlider({ commit }, { id, data }) {
     return request({
       url: `/cms/slider/${id}`,
       method: 'put',
-      data: data
+      data: data,
     })
   },
 
   getSliderById({ commit }, id) {
     return request({
       url: `/cms/slider/${id}`,
-      method: 'get'
+      method: 'get',
     })
   },
   deleteSliderById({ commit }, id) {
     return request({
       url: `/cms/slider/${id}`,
-      method: 'delete'
+      method: 'delete',
     })
   },
   fetchSlider({ commit }, query) {
     return request({
       url: `/cms/slider`,
       method: 'get',
-      query
+      query,
     })
-  }
+  },
 }
 const mutations = {
   SET_NEWS_CATEGORIES(state, data) {
@@ -188,10 +195,10 @@ const mutations = {
       return {
         id,
         name,
-        type
+        type,
       }
     })
-  }
+  },
 }
 
 export default {
@@ -199,5 +206,5 @@ export default {
   state,
   getters,
   actions,
-  mutations
+  mutations,
 }

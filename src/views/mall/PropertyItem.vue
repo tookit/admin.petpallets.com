@@ -3,14 +3,14 @@
     <v-container fluid>
       <v-row>
         <v-col cols="12">
-          <v-tabs class="route-tab border-bottom" v-model="defaultTab">
+          <v-tabs v-model="defaultTab" class="route-tab border-bottom">
             <v-tab
-              v-for="(item, key) in tabs"
+              v-for="(tab, key) in tabs"
+              v-show="showTab(tab)"
               :key="key"
-              v-show="showTab(item)"
-              :href="'#' + item.value"
+              :href="'#' + tab.value"
             >
-              {{ item.text }}
+              {{ tab.text }}
             </v-tab>
           </v-tabs>
           <v-tabs-items v-model="defaultTab">
@@ -31,12 +31,12 @@
 import FormProperty from '@/components/form/product/FormProperty'
 import PropertyValueTable from '@/components/table/PropertyValueTable'
 export default {
-  props: {
-    id: [Number, String]
-  },
   components: {
     FormProperty,
-    PropertyValueTable
+    PropertyValueTable,
+  },
+  props: {
+    id: [Number, String],
   },
   data() {
     return {
@@ -46,19 +46,19 @@ export default {
       tabs: [
         {
           text: 'General',
-          value: 'general'
+          value: 'general',
         },
         {
           text: 'Value',
-          value: 'value'
-        }
-      ]
+          value: 'value',
+        },
+      ],
     }
   },
   computed: {
     formTitle() {
       return this.item ? `Edit Category - ${this.item.name}` : 'Create Category'
-    }
+    },
   },
   watch: {
     id: {
@@ -67,8 +67,8 @@ export default {
           this.fetchRecord(id)
         }
       },
-      immediate: true
-    }
+      immediate: true,
+    },
   },
   methods: {
     fetchRecord(id) {
@@ -87,8 +87,8 @@ export default {
       } else {
         return value === 'general'
       }
-    }
-  }
+    },
+  },
 }
 </script>
 

@@ -151,18 +151,7 @@ export const protectedRoute = [
                   hiddenInMenu: false,
                   icon: 'mdi-quora',
                 },
-              },
-              {
-                path: '/mall/quote/item/:id',
-                name: 'mall.quote.update',
-                props: true,
-                component: () => import('@/views/mall/QuoteItem.vue'),
-                meta: {
-                  title: 'Update quote',
-                  hiddenInMenu: true,
-                  icon: 'mdi-view',
-                },
-              },
+              }
             ],
           },
           //vendor

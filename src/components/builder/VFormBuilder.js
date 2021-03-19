@@ -89,20 +89,24 @@ export default {
       })
     },
     genFormWrapper() {
-      return this.$createElement(VForm, { ref: 'form' }, [
-        this.$createElement(
-          VContainer,
-          {
-            props: {
-              fluid: true,
+      return this.$createElement(
+        VForm,
+        { ref: 'form', class: 'v-card__text' },
+        [
+          this.$createElement(
+            VContainer,
+            {
+              props: {
+                fluid: true,
+              },
+              on: {
+                submit: this.$emit('submit'),
+              },
             },
-            on: {
-              submit: this.$emit('submit'),
-            },
-          },
-          [this.$createElement(VRow, [this.genFormItems()])]
-        ),
-      ])
+            [this.$createElement(VRow, [this.genFormItems()])]
+          ),
+        ]
+      )
     },
     genFormTitle() {
       return this.$createElement(

@@ -9,15 +9,11 @@
       <div class="image-holder">
         <v-hover v-slot="{ hover }">
           <v-img height="128" width="128" :src="value.cloud_url">
-            <div
-              v-if="hover"
-              class="image-remove primary"
-              style="height: 100%;"
-            >
-              <v-icon @click="showLightbox = true" color="white" class="mr-1"
+            <div v-if="hover" class="image-remove primary" style="height: 100%">
+              <v-icon color="white" class="mr-1" @click="showLightbox = true"
                 >mdi-eye</v-icon
               >
-              <v-icon @click="handleDetachMedia(value)" color="white"
+              <v-icon color="white" @click="handleDetachMedia(value)"
                 >mdi-close</v-icon
               >
             </div>
@@ -29,19 +25,19 @@
       <v-card>
         <v-toolbar color="primary">
           <v-spacer />
-          <v-btn @click="handleAttachMedia" icon>
+          <v-btn icon @click="handleAttachMedia">
             <v-icon color="white">mdi-check</v-icon>
           </v-btn>
-          <v-btn @click="showDialog = false" icon>
+          <v-btn icon @click="showDialog = false">
             <v-icon color="white">mdi-close</v-icon>
           </v-btn>
         </v-toolbar>
         <v-card-text class="pa-0">
           <media-table
             ref="table"
+            v-model="selectedItems"
             show-select
             single-select
-            v-model="selectedItems"
           />
         </v-card-text>
       </v-card>
@@ -58,28 +54,27 @@
 import MediaTable from '@/components/table/MediaTable'
 export default {
   components: {
-    MediaTable
+    MediaTable,
   },
   props: {
     value: [Object, String],
-    entityId: [Number, String],
-    entity: String,
+    entity: Object,
     tag: {
       type: String,
-      default: 'upload'
-    }
+      default: 'upload',
+    },
   },
   data() {
     return {
       selectedItems: null,
       showDialog: false,
-      showLightbox: false
+      showLightbox: false,
     }
   },
   computed: {
     images() {
       return this.value ? this.value.cloud_url : ''
-    }
+    },
   },
   methods: {
     handleViewMedia() {},
@@ -93,9 +88,9 @@ export default {
         this.$store
           .dispatch('attachEntityForMedia', {
             id: media.id,
-            entityId: this.entityId,
-            entity: this.entity,
-            tag: this.tag
+            entityId: this.entity.id,
+            entity: this.entity.model,
+            tag: this.tag,
           })
           .then(() => {
             this.$emit('attached', media)
@@ -108,13 +103,13 @@ export default {
           id: media.id,
           entityId: this.entityId,
           entity: this.entity,
-          tag: this.tag
+          tag: this.tag,
         })
         .then(() => {
           this.$emit('detached', media)
         })
-    }
-  }
+    },
+  },
 }
 </script>
 
