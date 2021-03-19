@@ -619,7 +619,7 @@ export const protectedRoute = [
           hiddenInMenu: false,
           icon: 'mdi-image',
         },
-        component: () => import('@/views/Media.vue'),
+        component: () => import('@/views/MediaList.vue'),
       },
       {
         path: '/setting',

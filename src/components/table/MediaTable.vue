@@ -229,10 +229,6 @@ export default {
           text: 'Image',
           value: 'cloud_url',
         },
-        // {
-        //   text: 'Filename',
-        //   value: 'filename'
-        // },
         {
           text: 'Fingerprint',
           value: 'fingerprint',
@@ -280,7 +276,9 @@ export default {
   computed: {
     ...mapGetters(['getLocales', 'getMediaDir']),
     uploadAction() {
-      const directory = this.directory ? this.directory : this.filter['filter[directory]']
+      const directory = this.directory
+        ? this.directory
+        : this.filter['filter[directory]']
       return `${process.env.VUE_APP_BASE_API_HOST}/api/media?dir=${directory}`
     },
     imgs() {

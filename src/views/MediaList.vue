@@ -1,5 +1,5 @@
 <template>
-  <v-container class="page-media" fluid>
+  <v-container class="media-list" fluid>
     <v-row>
       <v-col cols="12">
         <media-table />
@@ -13,8 +13,8 @@ import MediaTable from '../components/table/MediaTable.vue'
 export default {
   name: 'PageMedia',
   components: {
-    MediaTable
-  }
+    MediaTable,
+  },
 }
 </script>
 

@@ -57,7 +57,7 @@ export default {
   methods: {
     initFormData(val) {
       if (this.items.length > 0 && val) {
-        this.items.forEach(item => {
+        this.items.forEach((item) => {
           const key = item.props.name
           this.formData[key] = val[key]
         })
@@ -68,6 +68,20 @@ export default {
     genFormItem(item) {
       const { name } = item.props
       const value = getObjectValueByPath(this.formData, item.props.name) ?? null
+      const VNode = this.$createElement(item.element, {
+        props: {
+          ...item.props,
+          label: item.props.label ?? name.toUpperCase(),
+          placeholder: item.props.placeholder ?? name.toUpperCase(),
+          value: value,
+        },
+        on: {
+          input: (e) => {
+            this.formData[name] = e
+            this.$emit('input', this.formData)
+          },
+        },
+      })
       return this.$createElement(
         VCol,
         {
@@ -75,22 +89,7 @@ export default {
             cols: item.cols ?? 12,
           },
         },
-        [
-          this.$createElement(item.element, {
-            props: {
-              ...item.props,
-              label: item.props.label ?? name.toUpperCase(),
-              placeholder: item.props.placeholder ?? name.toUpperCase(),
-              value: value,
-            },
-            on: {
-              input: (e) => {
-                this.formData[name] = e
-                this.$emit('input', this.formData)
-              },
-            },
-          }),
-        ]
+        [VNode]
       )
     },
     genFormItems() {

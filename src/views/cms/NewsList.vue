@@ -35,6 +35,11 @@ export default {
           value: 'id',
         },
         {
+          text: 'Image',
+          value: 'image',
+          sortable: true,
+        },
+        {
           text: 'Name',
           value: 'name',
           sortable: true,
@@ -73,9 +78,9 @@ export default {
           click: this.handleEditItem,
         },
         {
-          text: 'Edit Value',
+          text: 'Edit Content',
           icon: 'mdi-pencil',
-          click: this.handleEditValue,
+          click: this.handleEditContent,
         },
         {
           text: 'Delete Item',
@@ -104,6 +109,10 @@ export default {
   watch: {},
   methods: {
     //action
+    handleViewItem(item) {
+      window.open(item.href, '_blank')
+    },
+    handleEditConent(item) {},
     handleCreateItem() {
       const dialog = this.$root.$dialog
       dialog.loadComponent({

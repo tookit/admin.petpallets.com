@@ -15,7 +15,7 @@
 
 <script>
 import VFormBuilder from '@/components/builder/VFormBuilder'
-import { VTextarea, VTextField, VCombobox } from 'vuetify/lib'
+import { VTextField } from 'vuetify/lib'
 
 export default {
   name: 'FormProperty',

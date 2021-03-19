@@ -15,7 +15,7 @@
 <script>
 import VFormBuilder from '@/components/builder/VFormBuilder'
 import { VTextField, VTextarea, VAutocomplete, VSwitch } from 'vuetify/lib'
-import ImageHolder from '@/components/image/ImageHolder'
+import ImagePicker from '@/components/image/ImagePicker'
 import { mapGetters } from 'vuex'
 export default {
   name: 'FormNews',
@@ -81,9 +81,9 @@ export default {
         },
         {
           cols: 6,
-          element: ImageHolder,
+          element: ImagePicker,
           props: {
-            name: 'featured_img',
+            name: 'image',
             entity: this.entity,
             tag: 'post',
             outlined: true,
@@ -115,12 +115,25 @@ export default {
   watch: {
     item: {
       handler(item) {
-        this.formModel = item || {}
+        this.initFormModel(item)
       },
       immediate: true,
     },
   },
   methods: {
+    initFormModel(val) {
+      if (this.formItems.length > 0 && val) {
+        this.formItems.forEach((item) => {
+          const key = item.props.name
+          this.formModel[key] = val[key]
+        })
+        if (val.media.length > 0) {
+          this.formModel['image'] = val.media[0].cloud_url
+        }
+      } else {
+        this.formModel = {}
+      }
+    },
     handleSubmit() {
       const form = this.$refs.builder.$refs.form
       if (form.validate()) {

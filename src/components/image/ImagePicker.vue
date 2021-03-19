@@ -1,6 +1,6 @@
 <template>
   <div>
-    <template v-if="!value">
+    <template v-if="!image">
       <div class="image-holder" @click="showDialog = true">
         <v-icon size="24">mdi-plus</v-icon>
       </div>
@@ -8,12 +8,12 @@
     <template v-else>
       <div class="image-holder">
         <v-hover v-slot="{ hover }">
-          <v-img height="128" width="128" :src="value.cloud_url">
+          <v-img height="128" width="128" :src="image">
             <div v-if="hover" class="image-remove primary" style="height: 100%">
               <v-icon color="white" class="mr-1" @click="showLightbox = true"
                 >mdi-eye</v-icon
               >
-              <v-icon color="white" @click="handleDetachMedia(value)"
+              <v-icon color="white" @click="handleDetachMedia"
                 >mdi-close</v-icon
               >
             </div>
@@ -57,7 +57,7 @@ export default {
     MediaTable,
   },
   props: {
-    value: [Object, String],
+    value: String,
     entity: Object,
     tag: {
       type: String,
@@ -67,47 +67,32 @@ export default {
   data() {
     return {
       selectedItems: null,
+      image: null,
       showDialog: false,
       showLightbox: false,
     }
   },
   computed: {
     images() {
-      return this.value ? this.value.cloud_url : ''
+      return this.value ? this.value : ''
     },
   },
-  methods: {
-    handleViewMedia() {},
-    handleSelectedMedia(media) {
-      this.media = media
-      this.$emit('input', media)
+  watch: {
+    value: {
+      handler(val) {
+        this.image = val
+      },
+      immediate: true,
     },
+  },
+
+  methods: {
     handleAttachMedia() {
       const media = this.selectedItems[0]
-      if (media) {
-        this.$store
-          .dispatch('attachEntityForMedia', {
-            id: media.id,
-            entityId: this.entity.id,
-            entity: this.entity.model,
-            tag: this.tag,
-          })
-          .then(() => {
-            this.$emit('attached', media)
-          })
-      }
+      this.$emit('input', media.cloud_url)
     },
-    handleDetachMedia(media) {
-      this.$store
-        .dispatch('detachEntityForMedia', {
-          id: media.id,
-          entityId: this.entityId,
-          entity: this.entity,
-          tag: this.tag,
-        })
-        .then(() => {
-          this.$emit('detached', media)
-        })
+    handleDetachMedia() {
+      ;(this.image = null), this.$emit('input', '')
     },
   },
 }
