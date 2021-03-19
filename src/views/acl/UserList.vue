@@ -4,6 +4,7 @@
       <v-row>
         <v-col cols="12">
           <list-grid
+            ref="grid"
             :headers="headers"
             :filter-items="filterItems"
             :actions="actions"
@@ -91,6 +92,7 @@ export default {
         {
           text: 'Delete Item',
           icon: 'mdi-close',
+          _act: 'delete',
           click: this.handleDeleteItem,
         },
       ],
@@ -149,7 +151,7 @@ export default {
     handleDeleteItem({ id }) {
       if (window.confirm('Are you sure to delete this item ?')) {
         this.$store.dispatch('deleteUser', id).then(() => {
-          this.items = this.items.filter((item) => item.id !== id)
+          this.$refs.grid.fetchRecords()
         })
       }
     },

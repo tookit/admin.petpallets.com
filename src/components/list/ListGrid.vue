@@ -69,7 +69,7 @@
             <v-list-item
               v-for="act in actions"
               :key="act.text"
-              @click="act.click(item)"
+              @click="handleAction(act, item)"
             >
               <v-list-item-icon class="mr-2">
                 <v-icon small>{{ act.icon }}</v-icon>
@@ -206,7 +206,6 @@ export default {
     },
     handleApplyFilter() {
       const query = this.buildRouteQuery()
-      console.log(query)
       query.t = Date.now()
       this.$router.replace({
         path: this.$route.path,
@@ -218,6 +217,9 @@ export default {
         path: this.$route.path,
         query: {},
       })
+    },
+    handleAction(act, item) {
+      act.click.apply(this, [item])
     },
   },
 }

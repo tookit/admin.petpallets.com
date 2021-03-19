@@ -7,19 +7,22 @@ export default {
     {
       text: 'Name',
       value: 'name',
-      searchable: true,
+      sortable: true,
     },
     {
       text: 'City',
       value: 'city',
+      sortable: true,
     },
     {
       text: 'Website',
       value: 'website',
+      sortable: true,
     },
     {
       text: 'Task',
       value: 'tasks_count',
+      sortable: false,
     },
     {
       text: 'Products',
@@ -44,10 +47,35 @@ export default {
     {
       text: 'Created',
       value: 'created_at',
+      sortable: true,
     },
     {
       text: 'Action',
       value: 'action',
+      sortable: false,
+    },
+  ],
+  items: [],
+  actions: [
+    {
+      text: 'Edit Item',
+      icon: 'mdi-pencil',
+      click: this.handleEditItem,
+    },
+    {
+      text: 'Edit Link Rule',
+      icon: 'mdi-hammer',
+      click: this.handleEditLink,
+    },
+    {
+      text: 'Edit Item Rule',
+      icon: 'mdi-hammer',
+      click: this.handleEditItemMap,
+    },
+    {
+      text: 'Delete Item',
+      icon: 'mdi-close',
+      click: this.handleDeleteItem,
     },
   ],
 }
