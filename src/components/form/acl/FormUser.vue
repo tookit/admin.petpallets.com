@@ -101,7 +101,7 @@ export default {
         const data = this.transformData(this.formModel)
         if (this.item && this.item.id) {
           return this.$store
-            .dispatch('createUser', {
+            .dispatch('updateUser', {
               id: this.item.id,
               data: data,
             })
@@ -113,7 +113,7 @@ export default {
             })
         } else {
           return this.$store
-            .dispatch('updateUser', data)
+            .dispatch('createUser', data)
             .then(() => {
               this.loading = false
             })
