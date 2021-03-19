@@ -34,7 +34,7 @@ export default Vue.extend({
       } else if (regularSlot) {
         children.push(regularSlot)
       } else if (render && typeof render === 'function') {
-        children.push(render.call(this, value))
+        children.push(render.call(this, props.item))
       } else {
         children.push(value == null ? value : String(value))
       }

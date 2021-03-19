@@ -275,41 +275,8 @@ export const protectedRoute = [
                   icon: 'mdi-filter-variant',
                 },
               },
-
-              {
-                path: '/mall/property/create',
-                name: 'mall.property.create',
-                props: true,
-                component: () => import('@/views/mall/PropertyItem.vue'),
-                meta: {
-                  title: 'Create Property',
-                  hiddenInMenu: true,
-                  icon: 'mdi-view',
-                },
-              },
-              {
-                path: '/mall/property/item/:id',
-                name: 'mall.property.item',
-                props: true,
-                component: () => import('@/views/mall/PropertyItem.vue'),
-                meta: {
-                  title: 'Edit Property',
-                  hiddenInMenu: true,
-                  icon: 'mdi-view',
-                },
-              },
             ],
           },
-          // {
-          //   path: '/mall/property-value/list',
-          //   name: 'mall.property-value.list',
-          //   component: () => import('@/views/mall/PropertyValueList.vue'),
-          //   meta: {
-          //     title: 'Property Value List',
-          //     hiddenInMenu: false,
-          //     icon: 'mdi-view-list'
-          //   }
-          // },
         ],
       },
       {
@@ -706,37 +673,6 @@ export const protectedRoute = [
             props: true,
             meta: {
               title: 'Edit User',
-              hiddenInMenu: true,
-              icon: 'mdi-view',
-            },
-          },
-          {
-            path: '/acl/role',
-            name: 'acl.role',
-            component: () => import('@/views/acl/RoleList.vue'),
-            meta: {
-              title: 'Roles',
-              hiddenInMenu: false,
-              icon: 'mdi-account-group',
-            },
-          },
-          {
-            path: '/acl/role/create',
-            name: 'acl.role.create',
-            component: () => import('@/views/acl/RoleItem.vue'),
-            meta: {
-              title: 'Create Role',
-              hiddenInMenu: true,
-              icon: 'mdi-view',
-            },
-          },
-          {
-            path: '/acl/role/item/:id',
-            name: 'cms.role.edit',
-            component: () => import('@/views/acl/RoleItem.vue'),
-            props: true,
-            meta: {
-              title: 'Edit Role',
               hiddenInMenu: true,
               icon: 'mdi-view',
             },

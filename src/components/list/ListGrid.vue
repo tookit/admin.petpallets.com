@@ -79,6 +79,13 @@
           </v-list>
         </v-menu>
       </template>
+      <template
+        v-for="(_, name) in $scopedSlots"
+        :slot="name"
+        slot-scope="slotData"
+      >
+        <slot :name="name" v-bind="slotData" />
+      </template>
     </v-grid>
   </div>
 </template>

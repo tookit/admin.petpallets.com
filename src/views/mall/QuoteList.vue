@@ -1,5 +1,5 @@
 <template>
-  <div class="cms-slider__list">
+  <div class="mall-quote__list">
     <v-container>
       <v-row>
         <v-col cols="12">
