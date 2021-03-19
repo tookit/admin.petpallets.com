@@ -1,209 +1,131 @@
 <template>
-  <v-card>
-    <v-card-text>
-      <v-form>
-        <v-container fluid>
-          <v-row>
-            <v-col :cols="6">
-              <v-text-field
-                v-model="formModel.username"
-                outlined
-                name="username"
-                placeholder="Username"
-                label="Username"
-              />
-            </v-col>
-            <v-col :cols="6">
-              <v-select
-                v-model="formModel.gender"
-                outlined
-                placeholder="Gender"
-                label="Gender"
-                :items="['male', 'female']"
-              />
-            </v-col>
-            <v-col :cols="6">
-              <v-text-field
-                v-model="formModel.email"
-                outlined
-                placeholder="Email"
-                label="Email"
-              />
-            </v-col>
-            <v-col :cols="6">
-              <v-text-field
-                v-model="formModel.mobile"
-                outlined
-                placeholder="Mobile"
-                label="Mobile"
-              />
-            </v-col>
-            <v-col :cols="6">
-              <v-text-field
-                v-model="formModel.password"
-                outlined
-                placeholder="Password"
-                label="Password"
-              />
-            </v-col>
-            <v-col :cols="6">
-              <v-text-field
-                v-model="formModel.password_confirmation"
-                outlined
-                placeholder="Password Confirmation"
-                label="Password Confirmation"
-              />
-            </v-col>
-            <v-col :cols="6">
-              <v-text-field
-                v-model="formModel.avatar"
-                outlined
-                placeholder="Avatar"
-                label="Avatar"
-                append-icon="mdi-image"
-                @click:append="handlePickImage"
-              />
-            </v-col>
-            <v-col :cols="6">
-              <v-switch
-                v-model="formModel.active"
-                outlined
-                placeholder="Active"
-                label="Active"
-              />
-            </v-col>
-          </v-row>
-        </v-container>
-      </v-form>
-    </v-card-text>
-    <v-card-actions class="py-3">
-      <v-spacer></v-spacer>
-      <v-btn :loading="loading" tile color="primary" @click="handleSubmit"
-        >save</v-btn
-      >
-    </v-card-actions>
-    <v-dialog
-      v-model="showDialog"
-      fullscreen
-      hide-overlay
-      transition="dialog-bottom-transition"
-    >
-      <v-card>
-        <v-toolbar color="primary">
-          <v-spacer />
-          <v-btn @click="handleCloseDialog" icon>
-            <v-icon color="white">mdi-check</v-icon>
-          </v-btn>
-          <v-btn @click="showDialog = false" icon>
-            <v-icon color="white">mdi-close</v-icon>
-          </v-btn>
-        </v-toolbar>
-        <v-card-text class="pa-0">
-          <media-table v-model="selectedItems" directory="avatar" />
-        </v-card-text>
-      </v-card>
-    </v-dialog>
-  </v-card>
+  <v-form-builder
+    ref="builder"
+    v-model="formModel"
+    :items="formItems"
+    :loading="loading"
+    color="primary"
+    @form:submit="handleSubmit"
+  />
 </template>
 
 <script>
-import MediaTable from '@/components/table/MediaTable'
+import VFormBuilder from '@/components/builder/VFormBuilder'
+import { VTextField, VSelect, VSwitch } from 'vuetify/lib'
 export default {
   name: 'FormUser',
+  components: {
+    VFormBuilder,
+  },
   props: {
     item: Object,
-    action: Function
-  },
-  components: {
-    MediaTable
   },
   data() {
     return {
-      showDialog: false,
       loading: false,
-      selectedItems: [],
-      formModel: {
-        username: null,
-        email: null,
-        avatar: null,
-        gender: 'male',
-        mobile: null,
-        active: false,
-        password: null,
-        password_confirmation: null
-      }
+      formModel: {},
     }
   },
-  computed: {},
+  computed: {
+    formItems() {
+      return [
+        {
+          cols: 6,
+          element: VTextField,
+          props: {
+            name: 'username',
+            required: true,
+            outlined: true,
+            rules: [(v) => !!v || 'Username is required'],
+          },
+        },
+        {
+          cols: 6,
+          element: VSelect,
+          props: {
+            name: 'gender',
+            items: ['female', 'male'],
+            required: true,
+            outlined: true,
+          },
+        },
+        {
+          cols: 6,
+          element: VTextField,
+          props: {
+            name: 'email',
+            outlined: true,
+          },
+        },
+        {
+          cols: 6,
+          element: VTextField,
+          props: {
+            name: 'password',
+            outlined: true,
+          },
+        },
+        {
+          cols: 6,
+          element: VTextField,
+          props: {
+            name: 'password_confirmation',
+            items: this.countires,
+            outlined: true,
+          },
+        },
+        {
+          cols: 6,
+          element: VSwitch,
+          props: {
+            name: 'Active',
+            outlined: true,
+          },
+        },
+      ]
+    },
+  },
   watch: {
     item: {
       handler(item) {
-        if (item) {
-          this.assignModel(item)
-        } else {
-          this.initFormModel()
-        }
+        this.formModel = item || {}
       },
-      immediate: true
-    }
+      immediate: true,
+    },
   },
   methods: {
-    initFormModel() {
-      this.formModel = {
-        username: null,
-        email: null,
-        avatar: null,
-        gender: 'male',
-        mobile: null,
-        active: false,
-        password: null,
-        password_confirmation: null
-      }
-    },
-    assignModel(data) {
-      for (let key in this.formModel) {
-        this.formModel[key] = data[key] || null
-      }
-    },
     handleSubmit() {
-      this.loading = true
-      if (this.item) {
-        this.$store
-          .dispatch('updateUser', {
-            id: this.item.id,
-            data: this.formModel
-          })
-          .then(() => {
-            this.loading = false
-          })
-          .catch(() => {
-            this.loading = false
-          })
-      } else {
-        this.$store
-          .dispatch('createUser', this.formModel)
-          .then(({ data }) => {
-            this.loading = false
-            this.$router.push({
-              path: `/acl/user/item/${data.id}`
+      const form = this.$refs.builder.$refs.form
+      if (form.validate()) {
+        this.loading = true
+        const data = this.transformData(this.formModel)
+        if (this.item && this.item.id) {
+          return this.$store
+            .dispatch('createUser', {
+              id: this.item.id,
+              data: data,
             })
-          })
-          .catch(() => {
-            this.loading = false
-          })
+            .then(() => {
+              this.loading = false
+            })
+            .catch(() => {
+              this.loading = false
+            })
+        } else {
+          return this.$store
+            .dispatch('updateUser', data)
+            .then(() => {
+              this.loading = false
+            })
+            .catch(() => {
+              this.loading = false
+            })
+        }
       }
     },
-    handlePickImage() {
-      this.showDialog = true
+    transformData(data) {
+      return data
     },
-    handleAttachMedia() {
-      this.showDialog = false
-      if (this.selectedItems.length > 0) {
-        this.formModel.img = this.selectedItems[0].cloud_url
-      }
-    }
-  }
+  },
 }
 </script>
-
-<style></style>

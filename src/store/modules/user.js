@@ -5,27 +5,27 @@ const state = {
 }
 const getters = {}
 const actions = {
-  fetchUsers(query) {
+  fetchUsers(context, query) {
     return request({
       url: `/acl/user`,
       method: 'get',
       params: query,
     })
   },
-  getUserById(id) {
+  getUserById(context, id) {
     return request({
       url: `/acl/user/${id}`,
       method: 'get',
     })
   },
-  createUser(data) {
+  createUser(context, data) {
     return request({
       url: `/acl/user`,
       method: 'post',
       data: data,
     })
   },
-  updateUser({ id, data }) {
+  updateUser(context, { id, data }) {
     return request({
       url: `/acl/user/${id}`,
       method: 'put',
@@ -33,7 +33,7 @@ const actions = {
     })
   },
 
-  deleteUser(id) {
+  deleteUser(context, id) {
     return request({
       url: `/acl/user/${id}`,
       method: 'delete',
