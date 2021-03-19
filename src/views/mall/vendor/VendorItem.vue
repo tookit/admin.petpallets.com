@@ -17,6 +17,12 @@
             <v-tab-item key="general" value="general">
               <form-vendor :item="item" />
             </v-tab-item>
+            <v-tab-item key="link" value="link">
+              <form-link-map :item="item" />
+            </v-tab-item>
+            <v-tab-item key="item" value="item">
+              <form-item-map :item="item" />
+            </v-tab-item>
           </v-tabs-items>
         </v-col>
       </v-row>
@@ -26,9 +32,13 @@
 
 <script>
 import FormVendor from '@/components/form/vendor/FormVendor'
+import FormLinkMap from '@/components/form/vendor/FormLinkMap'
+import FormItemMap from '@/components/form/vendor/FormItemMap'
 export default {
   components: {
     FormVendor,
+    FormLinkMap,
+    FormItemMap,
   },
   props: {
     id: [Number, String],
@@ -41,10 +51,17 @@ export default {
           text: 'General',
           value: 'general',
         },
+        {
+          text: 'Link',
+          value: 'link',
+        },
+        {
+          text: 'Item',
+          value: 'item',
+        },
       ],
       loading: false,
       item: null,
-      images: [],
     }
   },
   computed: {},

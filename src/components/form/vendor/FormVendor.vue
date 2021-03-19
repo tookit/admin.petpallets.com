@@ -25,8 +25,6 @@ export default {
   data() {
     return {
       loading: false,
-      valid: true,
-      search: null,
       formModel: {},
     }
   },
@@ -40,6 +38,7 @@ export default {
           props: {
             name: 'name',
             required: true,
+            outlined: true,
             rules: [(v) => !!v || 'Name is required'],
           },
         },
@@ -49,6 +48,7 @@ export default {
           props: {
             name: 'website',
             required: true,
+            outlined: true,
             rules: [(v) => URL.test(v) || 'Website is not a valid URL'],
           },
         },
@@ -57,6 +57,7 @@ export default {
           element: VTextarea,
           props: {
             name: 'description',
+            outlined: true,
           },
         },
         {
@@ -64,6 +65,7 @@ export default {
           element: VTextarea,
           props: {
             name: 'address',
+            outlined: true,
           },
         },
         {
@@ -72,6 +74,7 @@ export default {
           props: {
             name: 'country',
             items: this.countires,
+            outlined: true,
           },
         },
         {
@@ -79,6 +82,7 @@ export default {
           element: VTextField,
           props: {
             name: 'city',
+            outlined: true,
           },
         },
         {
@@ -86,6 +90,7 @@ export default {
           element: VTextField,
           props: {
             name: 'mobile',
+            outlined: true,
           },
         },
         {
@@ -93,6 +98,7 @@ export default {
           element: VTextField,
           props: {
             name: 'email',
+            outlined: true,
           },
         },
       ]

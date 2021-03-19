@@ -143,18 +143,22 @@ export default {
         {
           text: 'Name',
           value: 'name',
+          sortable: true,
         },
         {
           text: 'City',
           value: 'city',
+          sortable: true,
         },
         {
           text: 'Website',
           value: 'website',
+          sortable: true,
         },
         {
           text: 'Task',
           value: 'tasks_count',
+          sortable: false,
         },
         {
           text: 'Products',
@@ -179,10 +183,12 @@ export default {
         {
           text: 'Created',
           value: 'created_at',
+          sortable: true,
         },
         {
           text: 'Action',
           value: 'action',
+          sortable: false,
         },
       ],
       items: [],

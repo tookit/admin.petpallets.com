@@ -14,6 +14,7 @@ import { getObjectValueByPath } from 'vuetify/lib/util/helpers'
 export default {
   name: 'v-form-builder',
   props: {
+    showHeader: Boolean,
     title: {
       type: String,
       default: 'Form',
@@ -156,10 +157,12 @@ export default {
     },
   },
   render(h) {
-    return h(VCard, { props: { loading: this.loading } }, [
+    const nodes = [
       this.genFormTitle(),
       this.genFormWrapper(),
       this.genFormFooter(),
-    ])
+    ]
+    if (!this.showHeader) nodes.shift()
+    return h(VCard, { props: { loading: this.loading } }, nodes)
   },
 }
