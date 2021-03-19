@@ -157,7 +157,7 @@ export default {
     },
     handleDeleteItem({ id }) {
       if (window.confirm('Are you sure to delete this item ?')) {
-        this.$store.dispatch('deleteUser', id).then(() => {
+        this.$store.dispatch('deleteNews', id).then(() => {
           this.$refs.grid.fetchRecords()
         })
       }

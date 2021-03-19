@@ -43,7 +43,7 @@ export default {
               props: {
                 items: [
                   {
-                    cloud_url: item,
+                    cloud_url: item.img,
                   },
                 ],
               },

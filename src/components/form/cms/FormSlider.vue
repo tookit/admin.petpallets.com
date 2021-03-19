@@ -15,7 +15,7 @@
 <script>
 import VFormBuilder from '@/components/builder/VFormBuilder'
 import { VTextField, VSwitch } from 'vuetify/lib'
-import ImageHolder from '@/components/image/ImageHolder'
+import ImagePicker from '@/components/image/ImagePicker'
 export default {
   name: 'FormSlider',
   components: {
@@ -78,7 +78,7 @@ export default {
         },
         {
           cols: 6,
-          element: ImageHolder,
+          element: ImagePicker,
           props: {
             name: 'img',
             entity: this.entity,

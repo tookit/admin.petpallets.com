@@ -7,7 +7,7 @@ const getters = {
     state.vendors.map((item) => {
       return {
         text: item.name,
-        value: String(item.id),
+        value: item.id,
         url: item.website,
         products_count: item.products_count
       }

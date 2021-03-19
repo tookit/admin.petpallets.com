@@ -1,6 +1,7 @@
 <template>
   <div>
     <v-img
+      v-if="items.length > 0"
       class="ma-3"
       :src="items[0].cloud_url"
       width="50"
