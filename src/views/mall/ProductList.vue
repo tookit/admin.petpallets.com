@@ -151,10 +151,7 @@
                     @click="handleEditSpec(item)"
                     >mdi-filter-variant</v-icon
                   >
-                  <v-icon
-                    v-show="item.property_values.length === 0"
-                    small
-                    @click="handleEditProp(item)"
+                  <v-icon small @click="handleEditProduct(item)"
                     >mdi-pencil</v-icon
                   >
                 </template>
@@ -239,6 +236,17 @@
         @close:dialog="showFormProperty = false"
       />
     </v-dialog>
+    <v-dialog
+      v-if="selectedItem"
+      v-model="showFormProduct"
+      width="1024"
+      scrollable
+    >
+      <form-product
+        :item="selectedItem"
+        @close:dialog="showFormProduct = false"
+      />
+    </v-dialog>
   </div>
 </template>
 
@@ -248,13 +256,15 @@ import VCascader from '@/components/cascader/'
 import { mapGetters } from 'vuex'
 import FormSpecImport from '@/components/form/product/FormSpecImport.vue'
 import FormProductProperty from '@/components/form/product/FormProductProperty.vue'
+import FormProduct from '@/components/form/product/FormProduct.vue'
 export default {
   name: 'ProductList',
   showFormProperty: false,
-  components: { VCascader, FormSpecImport, FormProductProperty },
+  components: { VCascader, FormSpecImport, FormProductProperty, FormProduct },
   mixins: [TooltipMixin],
   data() {
     return {
+      showFormProduct: false,
       showSpec: false,
       showFormProperty: false,
       showImageDialog: false,
@@ -454,6 +464,10 @@ export default {
     handleEditSpec(item) {
       this.selectedItem = item
       this.showSpec = true
+    },
+    handleEditProduct(item) {
+      this.selectedItem = item
+      this.showFormProduct = true
     },
     handleCreateItem() {
       this.$router.push({

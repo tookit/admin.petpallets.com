@@ -84,7 +84,7 @@ export default {
     return {
       loading: false,
       searchName: null,
-      seperators: ['/', '-', ''],
+      seperators: ['/', '-', ',', ''],
       headers: [
         {
           text: 'Raw Name',

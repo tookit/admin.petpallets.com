@@ -211,9 +211,13 @@ export default {
       }
       this.formModel.body = data.content || ''
       this.formModel.tags =
-        data.tags.length > 0 ? data.tags.map((item) => item.name) : []
+        data.tags && data.tags.length > 0
+          ? data.tags.map((item) => item.name)
+          : []
       this.formModel.categories =
-        data.categories.length > 0 ? data.categories.map(item => item.id) : null
+        data.categories.length > 0
+          ? data.categories.map((item) => item.id)
+          : null
     },
     initModel() {
       this.formModel = {
