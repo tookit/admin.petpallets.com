@@ -42,7 +42,7 @@ export default {
             return this.$createElement(
               VAvatar,
               {
-                class: 'ma-2',
+                class: 'ma-2 rounded',
                 props: {
                   size: 48,
                 },

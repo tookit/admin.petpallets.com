@@ -45,7 +45,7 @@ export default {
       },
     },
     value: {
-      type: [String],
+      type: [String, Object],
       required: true,
       default: 'placeholder',
     },
@@ -60,9 +60,7 @@ export default {
   watch: {
     value: {
       handler(val) {
-        if (this.editor && val) {
-          this.editor.value = val
-        }
+        this.editor.value = val
       },
     },
   },
@@ -86,7 +84,7 @@ export default {
       'fullsize',
       'preview',
     ]
-    const base = process.env.VUE_APP_BASE_API_HOST;
+    const base = process.env.VUE_APP_BASE_API_HOST
     const defaultOptions = {
       useSearch: false,
       height: '600',

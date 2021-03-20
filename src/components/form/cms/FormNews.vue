@@ -16,6 +16,7 @@
 import VFormBuilder from '@/components/builder/VFormBuilder'
 import { VTextField, VTextarea, VAutocomplete, VSwitch } from 'vuetify/lib'
 import ImagePicker from '@/components/image/ImagePicker'
+import VEditor from '@/components/editor/VEditor'
 import { mapGetters } from 'vuex'
 export default {
   name: 'FormNews',
@@ -90,7 +91,7 @@ export default {
           },
         },
         {
-          cols: 12,
+          cols: 6,
           element: VAutocomplete,
           props: {
             name: 'tags',
@@ -106,6 +107,14 @@ export default {
           element: VTextarea,
           props: {
             name: 'description',
+            outlined: true,
+          },
+        },
+        {
+          cols: 12,
+          element: VEditor,
+          props: {
+            name: 'content',
             outlined: true,
           },
         },
@@ -133,7 +142,9 @@ export default {
           this.formModel['image'] = val.media[0].cloud_url
         }
       } else {
-        this.formModel = {}
+        this.formModel = {
+          content: '',
+        }
       }
     },
     handleSubmit() {

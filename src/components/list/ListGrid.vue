@@ -30,6 +30,7 @@
       <v-sheet v-show="showFilter">
         <v-form-builder
           v-model="filters"
+          tile
           class="grey lighten-4"
           :items="filterItems"
           color="primary"

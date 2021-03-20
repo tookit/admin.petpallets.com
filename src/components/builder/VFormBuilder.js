@@ -177,6 +177,10 @@ export default {
       this.genFormFooter(),
     ]
     if (!this.showHeader) nodes.shift()
-    return h(VCard, { props: { loading: this.loading } }, nodes)
+    return h(
+      VCard,
+      { props: { loading: this.loading, tile: true, flat: true } },
+      nodes
+    )
   },
 }
