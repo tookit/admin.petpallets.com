@@ -244,6 +244,7 @@
     >
       <form-product
         :item="selectedItem"
+        in-dialog
         @close:dialog="showFormProduct = false"
       />
     </v-dialog>

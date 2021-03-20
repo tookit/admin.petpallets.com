@@ -71,6 +71,32 @@
         </v-card-text>
       </v-card>
     </v-dialog>
+    <v-dialog v-model="showMergeDialog" scrollable width="450">
+      <v-card v-if="selectedItem">
+        <v-toolbar flat dark color="primary">
+          <v-toolbar-title>
+            Merge value {{ selectedItem.value }}
+          </v-toolbar-title>
+          <v-spacer />
+          <v-icon @click="showMergeDialog = false">mdi-close</v-icon>
+        </v-toolbar>
+        <v-card-text class="pt-4">
+          <v-autocomplete
+            v-model="targetId"
+            :items="items"
+            item-text="value"
+            item-value="id"
+            label="Target"
+            outlined
+          />
+        </v-card-text>
+        <v-card-actions class="justify-end">
+          <v-btn :loading="merging" color="primary" @click="handleMergeValue"
+            >Save</v-btn
+          >
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -88,6 +114,9 @@ export default {
   data() {
     return {
       // table
+      merging: false,
+      targetId: null,
+      showMergeDialog: false,
       showFormDialog: false,
       selectedItem: null,
       loadingItems: false,
@@ -125,6 +154,11 @@ export default {
           text: 'Edit Item',
           icon: 'mdi-pencil',
           click: this.handleEditItem,
+        },
+        {
+          text: 'Merge Value',
+          icon: 'mdi-pencil',
+          click: this.handleShowMerge,
         },
         {
           text: 'Delete Item',
@@ -166,12 +200,30 @@ export default {
       this.selectedItem = item
       this.showFormDialog = true
     },
+    handleShowMerge(item) {
+      this.selectedItem = item
+      this.showMergeDialog = true
+    },
     handleDeleteItem({ id }) {
       if (window.confirm('Are you sure to delete this item ?')) {
         this.$store.dispatch('deletePropertyValue', id).then(() => {
           this.items = this.items.filter((item) => item.id !== id)
         })
       }
+    },
+    handleMergeValue() {
+      this.merging = true
+      this.$store
+        .dispatch('mergePropertyValue', {
+          sourceId: this.selectedItem.id,
+          targetId: this.targetId,
+        })
+        .then(() => {
+          this.merging = false
+        })
+        .catch(() => {
+          this.merging = false
+        })
     },
   },
 }

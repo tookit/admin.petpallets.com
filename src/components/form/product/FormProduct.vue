@@ -1,5 +1,10 @@
 <template>
   <v-card :loading="loading">
+    <v-toolbar v-show="inDialog" dark tile color="primary">
+      <v-toolbar-title> {{ title }}</v-toolbar-title>
+      <v-spacer />
+      <v-icon @click="$emit('close:dialog')">mdi-close</v-icon>
+    </v-toolbar>
     <v-card-text>
       <v-form>
         <v-container fluid>
@@ -150,6 +155,7 @@ export default {
   mixins: [HtmlFilter],
   props: {
     item: Object,
+    inDialog: Boolean,
   },
   data() {
     return {
@@ -178,6 +184,9 @@ export default {
   },
   computed: {
     ...mapGetters(['getProductCategories', 'getProductFlags', 'getTagsByType']),
+    title() {
+      return this.item ? this.item.name : ''
+    },
     entity() {
       return {
         model: 'App\\Models\\Mall\\Product',

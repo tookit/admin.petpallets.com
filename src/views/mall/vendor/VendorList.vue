@@ -47,9 +47,25 @@ export default {
           sortable: true,
         },
         {
+          text: 'Email',
+          value: 'email',
+        },
+        {
           text: 'Website',
           value: 'website',
           sortable: true,
+          render: (item) => {
+            return this.$createElement(
+              'a',
+              {
+                domProps: {
+                  href: item.website,
+                  target: '_blank',
+                },
+              },
+              item.website
+            )
+          },
         },
         {
           text: 'Task',
@@ -72,7 +88,7 @@ export default {
                   small: true,
                 },
               },
-              item
+              item.products_count
             )
           },
         },
