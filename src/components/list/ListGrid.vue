@@ -69,6 +69,7 @@
           <v-list class="pa-0" dense>
             <v-list-item
               v-for="act in actions"
+              v-show="handleShowAct(act, item)"
               :key="act.text"
               @click="handleAction(act, item)"
             >
@@ -228,6 +229,13 @@ export default {
     },
     handleAction(act, item) {
       act.click.apply(this, [item])
+    },
+    handleShowAct(act, item) {
+      if (act.enable) {
+        return act.enable.apply(this, [item])
+      } else {
+        return true
+      }
     },
   },
 }

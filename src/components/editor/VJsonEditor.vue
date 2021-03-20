@@ -43,14 +43,16 @@ export default {
   computed: {
     rawData: {
       get() {
-        return this.value ? JSON.stringify(this.value, undefined, 2) : {}
+        return this.value ? JSON.stringify(this.value, undefined, 2) : null
       },
       set(val) {
-        try {
-          const obj = val ? JSON.parse(val) : []
-          this.$emit('input', obj)
-        } catch (e) {
-          console.log(e)
+        if (val) {
+          try {
+            const obj = JSON.parse(val)
+            this.$emit('input', obj)
+          } catch (e) {
+            console.log(e)
+          }
         }
       },
     },

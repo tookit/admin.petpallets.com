@@ -94,11 +94,17 @@ export default {
           text: 'Run Task',
           icon: 'mdi-hammer',
           click: this.handleRunTask,
+          enable: (item) => {
+            return item.rule
+          },
         },
         {
           text: 'Import',
           icon: 'mdi-database-import',
           click: this.handleLinkProduct,
+          enable: (item) => {
+            return item.raw_data
+          },
         },
         {
           text: 'Delete Item',
