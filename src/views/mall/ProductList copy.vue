@@ -148,12 +148,6 @@
                   <v-icon
                     v-show="item.property_values.length === 0"
                     small
-                    @click="handleEditSpec(item)"
-                    >mdi-filter-variant</v-icon
-                  >
-                  <v-icon
-                    v-show="item.property_values.length === 0"
-                    small
                     @click="handleEditProp(item)"
                     >mdi-pencil</v-icon
                   >
@@ -219,23 +213,17 @@
       :imgs="images"
       @hide="showLightbox = false"
     />
-    <v-dialog v-if="selectedItem" v-model="showSpec" width="1024" scrollable>
-      <form-spec-import
-        in-dialog
-        height="500px"
-        :title="selectedItem.name"
-        :product-id="selectedItem.id"
-        @close:dialog="showSpec = false"
-      />
-    </v-dialog>
     <v-dialog
       v-if="selectedItem"
       v-model="showFormProperty"
       width="1024"
       scrollable
     >
-      <form-product-property
-        :product="selectedItem"
+      <form-spec-import
+        in-dialog
+        height="500px"
+        :title="selectedItem.name"
+        :product-id="selectedItem.id"
         @close:dialog="showFormProperty = false"
       />
     </v-dialog>
@@ -247,15 +235,13 @@ import TooltipMixin from '@/mixins/Tooltip'
 import VCascader from '@/components/cascader/'
 import { mapGetters } from 'vuex'
 import FormSpecImport from '@/components/form/product/FormSpecImport.vue'
-import FormProductProperty from '@/components/form/product/FormProductProperty.vue'
 export default {
   name: 'ProductList',
   showFormProperty: false,
-  components: { VCascader, FormSpecImport, FormProductProperty },
+  components: { VCascader, FormSpecImport },
   mixins: [TooltipMixin],
   data() {
     return {
-      showSpec: false,
       showFormProperty: false,
       showImageDialog: false,
       selectedMedias: [],
@@ -450,10 +436,6 @@ export default {
     handleEditProp(item) {
       this.selectedItem = item
       this.showFormProperty = true
-    },
-    handleEditSpec(item) {
-      this.selectedItem = item
-      this.showSpec = true
     },
     handleCreateItem() {
       this.$router.push({
