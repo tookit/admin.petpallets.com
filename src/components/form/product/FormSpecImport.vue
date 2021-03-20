@@ -3,6 +3,7 @@
     <v-toolbar v-show="inDialog" dark tile color="primary">
       <v-toolbar-title> {{ title }}</v-toolbar-title>
       <v-spacer />
+      <v-icon @click="fetchRecords(productId)">mdi-refresh</v-icon>
       <v-icon @click="$emit('close:dialog')">mdi-close</v-icon>
     </v-toolbar>
     <v-card-text :style="{ height: height }">

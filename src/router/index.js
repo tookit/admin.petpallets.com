@@ -14,6 +14,7 @@ const router = new Router({
 // router gards
 router.beforeEach((to, from, next) => {
   store.dispatch('updateBreadcrumbs', to)
+  document.title = 'Kame Tech - ' + to.name
   NProgress.start()
   const token = store.getters.getAccessToken
   if (to.name !== 'login') {

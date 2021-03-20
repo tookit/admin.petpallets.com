@@ -1,5 +1,5 @@
 <template>
-  <div class="mall-item-list">
+  <div class="mall-item__list">
     <v-container fluid>
       <v-row>
         <v-col cols="12">
