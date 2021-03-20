@@ -34,7 +34,7 @@ export default {
   computed: {
     ...mapGetters(['getVendors']),
     formTitle() {
-      return this.item ? 'Edit Task - ' + this.item.name : 'Create Task'
+      return this.item ? 'Edit Task - ' + this.item.link : 'Create Task'
     },
     formItems() {
       return [
@@ -72,6 +72,14 @@ export default {
           element: VJsonEditor,
           props: {
             name: 'rule',
+            outlined: true,
+          },
+        },
+        {
+          cols: 12,
+          element: VJsonEditor,
+          props: {
+            name: 'raw_data',
             outlined: true,
           },
         },

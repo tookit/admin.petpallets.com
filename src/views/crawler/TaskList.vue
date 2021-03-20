@@ -21,7 +21,7 @@
 <script>
 import FormTask from '@/components/form/crawler/FormTask'
 import ListGrid from '@/components/list/ListGrid'
-import { VAutocomplete } from 'vuetify/lib'
+import { VAutocomplete, VIcon } from 'vuetify/lib'
 import { mapGetters } from 'vuex'
 export default {
   name: 'PageCrawlerTask',
@@ -48,12 +48,22 @@ export default {
           value: 'type',
         },
         {
-          text: 'Data',
-          value: 'raw_data',
-        },
-        {
           text: 'Rule',
           value: 'rule',
+          render: (item) => {
+            return this.$createElement(
+              VIcon,
+              {
+                props: { size: 24 },
+                on: {
+                  click: () => {
+                    this.handleEditItem(item)
+                  },
+                },
+              },
+              'mdi-pipe'
+            )
+          },
         },
         {
           text: 'Http Status',
@@ -66,10 +76,12 @@ export default {
         {
           text: 'Created',
           value: 'created_at',
+          sortable: true,
         },
         {
           text: 'Action',
           value: 'action',
+          sortable: false,
         },
       ],
       actions: [

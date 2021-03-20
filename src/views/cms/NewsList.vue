@@ -90,11 +90,6 @@ export default {
           click: this.handleEditItem,
         },
         {
-          text: 'Edit Content',
-          icon: 'mdi-pencil',
-          click: this.handleEditContent,
-        },
-        {
           text: 'Delete Item',
           icon: 'mdi-close',
           click: this.handleDeleteItem,
@@ -124,7 +119,6 @@ export default {
     handleViewItem(item) {
       window.open(item.href, '_blank')
     },
-    handleEditConent(item) {},
     handleCreateItem() {
       const dialog = this.$root.$dialog
       dialog.loadComponent({
