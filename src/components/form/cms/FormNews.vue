@@ -124,10 +124,10 @@ export default {
   watch: {
     item: {
       handler(item) {
-        this.initFormModel(item)
         // this.formModel = item || {}
+        this.initFormModel(item)
       },
-      // immediate: true,
+      immediate: true,
     },
   },
   methods: {

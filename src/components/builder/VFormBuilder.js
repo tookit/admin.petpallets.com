@@ -63,7 +63,7 @@ export default {
           ...item.props,
           label: item.props.label ?? name.toUpperCase(),
           placeholder: item.props.placeholder ?? name.toUpperCase(),
-          value: value,
+          value: this.formData[name],
         },
         on: {
           input: (e) => {
