@@ -66,7 +66,7 @@ export default {
   watch: {
     item: {
       handler(item) {
-        this.initFormData(item)
+        this.formModel = item || {}
       },
       immediate: true,
     },
