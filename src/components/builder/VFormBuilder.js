@@ -83,6 +83,10 @@ export default {
             this.formData[name] = e
             this.$emit('input', this.formData)
           },
+          change: (e) => {
+            this.formData[name] = e
+            this.$emit('input', this.formData)
+          }
         },
       })
       return this.$createElement(

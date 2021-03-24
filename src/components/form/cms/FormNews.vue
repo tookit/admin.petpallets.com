@@ -77,6 +77,9 @@ export default {
           element: VSwitch,
           props: {
             name: 'is_active',
+            inputValue: 0,
+            trueValue: 1,
+            falseValue: 0,
             outlined: true,
           },
         },
@@ -113,6 +116,7 @@ export default {
         {
           cols: 12,
           element: VEditor,
+          default: 'type',
           props: {
             name: 'content',
             outlined: true,
@@ -141,7 +145,7 @@ export default {
     formData() {
       const model = {}
       this.formItems.forEach((item) => {
-        model[item.props.name] = null
+        model[item.props.name] = item.default || null
       })
       return model
     },
