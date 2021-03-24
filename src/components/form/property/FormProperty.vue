@@ -16,7 +16,6 @@
 <script>
 import VFormBuilder from '@/components/builder/VFormBuilder'
 import { VTextField } from 'vuetify/lib'
-
 export default {
   name: 'FormProperty',
   components: {
@@ -66,21 +65,26 @@ export default {
   watch: {
     item: {
       handler(item) {
-        this.formModel = item || {}
+        this.formModel = item
+          ? this.mergeData(this.formData(), item)
+          : this.formData()
       },
       immediate: true,
     },
   },
   methods: {
-    initFormData(val) {
-      if (this.formItems.length > 0 && val) {
-        this.formItems.forEach((item) => {
-          const key = item.props.name
-          this.formModel[key] = val[key]
-        })
-      } else {
-        this.formModel = {}
+    mergeData(source, target) {
+      for (let key in source) {
+        source[key] = target[key]
       }
+      return source
+    },
+    formData() {
+      const model = {}
+      this.formItems.forEach((item) => {
+        model[item.props.name] = null
+      })
+      return model
     },
     handleSubmit() {
       const form = this.$refs.builder.$refs.form

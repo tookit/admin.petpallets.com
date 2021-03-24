@@ -3,8 +3,15 @@
     <v-toolbar v-show="inDialog" dark tile color="primary">
       <v-toolbar-title> {{ title }}</v-toolbar-title>
       <v-spacer />
-      <v-icon @click="fetchRecords(productId)">mdi-refresh</v-icon>
-      <v-icon @click="$emit('close:dialog')">mdi-close</v-icon>
+      <v-btn icon>
+        <v-icon @click="fetchRecords(productId)">mdi-refresh</v-icon>
+      </v-btn>
+      <v-btn icon>
+        <v-icon @click="handleAddProperty()">mdi-plus</v-icon>
+      </v-btn>
+      <v-btn icon>
+        <v-icon @click="$emit('close:dialog')">mdi-close</v-icon>
+      </v-btn>
     </v-toolbar>
     <v-card-text :style="{ height: height }">
       <v-data-table
@@ -132,6 +139,7 @@ export default {
     this.$store.dispatch('fetchProductCategoryTree')
   },
   methods: {
+    handleAddProperty() {},
     fetchRecords(id) {
       this.loading = true
       this.items = []
@@ -144,7 +152,7 @@ export default {
               unit: null,
               seperator: null,
               property_value: item.value,
-              property_name: this.getPropertyName(item.name),
+              property_name: this.getPropertyName(item.name) || item.name,
             }
           })
           this.loading = false
@@ -157,7 +165,6 @@ export default {
       this.loading = true
       const selected = this.selectedItems.map((item) => item.name)
       const options = this.items.filter((item) => selected.includes(item.name))
-      console.log(options)
       const data = {
         id: this.productId,
         data: {

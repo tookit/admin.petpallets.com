@@ -124,28 +124,26 @@ export default {
   watch: {
     item: {
       handler(item) {
-        // this.formModel = item || {}
-        this.initFormModel(item)
+        this.formModel = item
+          ? this.mergeData(this.formData(), item)
+          : this.formData()
       },
       immediate: true,
     },
   },
   methods: {
-    initFormModel(val) {
-      console.log(val)
-      if (this.formItems.length > 0 && val) {
-        this.formItems.forEach((item) => {
-          const key = item.props.name
-          this.formModel[key] = val[key]
-        })
-        if (val.media.length > 0) {
-          this.formModel['image'] = val.media[0].cloud_url
-        }
-      } else {
-        this.formModel = {
-          content: '',
-        }
+    mergeData(source, target) {
+      for (let key in source) {
+        source[key] = target[key]
       }
+      return source
+    },
+    formData() {
+      const model = {}
+      this.formItems.forEach((item) => {
+        model[item.props.name] = null
+      })
+      return model
     },
     handleSubmit() {
       const form = this.$refs.builder.$refs.form

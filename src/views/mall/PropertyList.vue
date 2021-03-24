@@ -41,6 +41,20 @@ export default {
           text: 'Name',
           value: 'name',
           sortable: true,
+          render: (row) => {
+            console.log(row)
+            return this.$createElement(
+              'a',
+              {
+                on: {
+                  click: () => {
+                    this.handleEditItem(row)
+                  },
+                },
+              },
+              row.name
+            )
+          },
         },
         {
           text: 'Slug',

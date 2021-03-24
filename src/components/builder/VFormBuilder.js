@@ -10,7 +10,6 @@ import {
   VBtn,
 } from 'vuetify/lib'
 
-import { getObjectValueByPath } from 'vuetify/lib/util/helpers'
 export default {
   name: 'v-form-builder',
   props: {
@@ -46,18 +45,32 @@ export default {
       formData: {},
     }
   },
+
   watch: {
     value: {
       handler(val) {
-        this.formData = val || {}
+        this.formData = val
       },
       immediate: true,
     },
   },
   methods: {
+    mergeData(source, target) {
+      console.log(source, target)
+      for (let key in source) {
+        source[key] = target[key]
+      }
+      return source
+    },
+    initData() {
+      const model = {}
+      this.items.forEach((item) => {
+        model[item.props.name] = null
+      })
+      return model
+    },
     genFormItem(item) {
       const { name } = item.props
-      const value = getObjectValueByPath(this.formData, item.props.name) ?? null
       const VNode = this.$createElement(item.element, {
         props: {
           ...item.props,
