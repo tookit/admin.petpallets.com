@@ -70,6 +70,25 @@ export default {
           text: 'Active',
           value: 'is_active',
           sortable: false,
+          render: (item) => {
+            return this.$createElement(
+              VSwitch,
+              {
+                props: {
+                  value: item.is_active,
+                  inputValue: item.is_active,
+                  trueValue: true,
+                  falseValue: false,
+                },
+                on: {
+                  change: (e) => {
+                    this.handleStatusChange(item.id, 'is_active', e)
+                  },
+                },
+              },
+              [this.$createElement(VImg, { props: { src: item.image } })]
+            )
+          },
         },
         {
           text: 'Action',
@@ -148,6 +167,16 @@ export default {
         },
       })
       dialog.show()
+    },
+    handleStatusChange(id, field, value) {
+      const data = {}
+      data[field] = value
+      this.$store
+        .dispatch('updateNews', {
+          id: id,
+          data: data,
+        })
+        .then(() => {})
     },
     handleDeleteItem({ id }) {
       if (window.confirm('Are you sure to delete this item ?')) {
