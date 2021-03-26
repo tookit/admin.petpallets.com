@@ -22,6 +22,7 @@
 import FormSlider from '@/components/form/cms/FormSlider'
 import ListGrid from '@/components/list/ListGrid'
 import ImageViewer from '@/components/image/ImageViewer'
+import { VSwitch } from 'vuetify/lib'
 export default {
   name: 'PageSlider',
   components: {
@@ -59,6 +60,21 @@ export default {
           text: 'Active',
           value: 'is_active',
           sortable: false,
+          render: (item) => {
+            return this.$createElement(VSwitch, {
+              props: {
+                value: item.is_active,
+                inputValue: item.is_active,
+                trueValue: true,
+                falseValue: false,
+              },
+              on: {
+                change: (e) => {
+                  this.handleStatusChange(item.id, 'is_active', e)
+                },
+              },
+            })
+          },
         },
         {
           text: 'Action',
@@ -89,6 +105,16 @@ export default {
   watch: {},
   methods: {
     //action
+    handleStatusChange(id, field, value) {
+      const data = {}
+      data[field] = value
+      this.$store
+        .dispatch('updateSlider', {
+          id: id,
+          data: data,
+        })
+        .then(() => {})
+    },
     handleCreateItem() {
       const dialog = this.$root.$dialog
       dialog.loadComponent({

@@ -71,23 +71,19 @@ export default {
           value: 'is_active',
           sortable: false,
           render: (item) => {
-            return this.$createElement(
-              VSwitch,
-              {
-                props: {
-                  value: item.is_active,
-                  inputValue: item.is_active,
-                  trueValue: true,
-                  falseValue: false,
-                },
-                on: {
-                  change: (e) => {
-                    this.handleStatusChange(item.id, 'is_active', e)
-                  },
+            return this.$createElement(VSwitch, {
+              props: {
+                value: item.is_active,
+                inputValue: item.is_active,
+                trueValue: true,
+                falseValue: false,
+              },
+              on: {
+                change: (e) => {
+                  this.handleStatusChange(item.id, 'is_active', e)
                 },
               },
-              [this.$createElement(VImg, { props: { src: item.image } })]
-            )
+            })
           },
         },
         {

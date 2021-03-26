@@ -47,7 +47,21 @@ export default {
         {
           text: 'Active',
           value: 'is_active',
-          sortable: false,
+          render: (item) => {
+            return this.$createElement(VSwitch, {
+              props: {
+                value: item.is_active,
+                inputValue: item.is_active,
+                trueValue: true,
+                falseValue: false,
+              },
+              on: {
+                change: (e) => {
+                  this.handleStatusChange(item.id, 'is_active', e)
+                },
+              },
+            })
+          },
         },
         {
           text: 'Action',
@@ -66,11 +80,6 @@ export default {
           text: 'Edit Item',
           icon: 'mdi-pencil',
           click: this.handleEditItem,
-        },
-        {
-          text: 'Edit Value',
-          icon: 'mdi-pencil',
-          click: this.handleEditValue,
         },
         {
           text: 'Delete Item',
@@ -114,6 +123,16 @@ export default {
       })
       dialog.show()
     },
+    handleStatusChange(id, field, value) {
+      const data = {}
+      data[field] = value
+      this.$store
+        .dispatch('updateNewsCategory', {
+          id: id,
+          data: data,
+        })
+        .then(() => {})
+    },
     handleEditItem(item) {
       const dialog = this.$root.$dialog
       dialog.loadComponent({
@@ -131,7 +150,7 @@ export default {
     },
     handleDeleteItem({ id }) {
       if (window.confirm('Are you sure to delete this item ?')) {
-        this.$store.dispatch('deleteCmsCategory', id).then(() => {
+        this.$store.dispatch('deleteNewsCategory', id).then(() => {
           this.$refs.grid.fetchRecords()
         })
       }

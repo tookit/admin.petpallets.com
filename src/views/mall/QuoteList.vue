@@ -50,6 +50,18 @@ export default {
         {
           text: 'Product',
           value: 'product',
+          render: (item) => {
+            return this.$createElement(
+              'a',
+              {
+                domProps: {
+                  href: item.product.href,
+                  target: '_blank',
+                },
+              },
+              item.product.id
+            )
+          },
         },
         {
           text: 'Remark',
