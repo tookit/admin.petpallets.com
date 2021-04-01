@@ -256,6 +256,7 @@ export const protectedRoute = [
           },
         ],
       },
+      //crawler
       {
         path: '/crawler',
         name: 'crawler.index',
@@ -293,6 +294,7 @@ export const protectedRoute = [
         },
         component: () => import('@/views/MediaList.vue'),
       },
+      //setting
       {
         path: '/setting',
         name: 'setting.index',
@@ -304,6 +306,7 @@ export const protectedRoute = [
         },
         component: () => import('@/views/Setting.vue'),
       },
+      //acl
       {
         path: '/acl',
         name: 'acl.index',
@@ -321,32 +324,11 @@ export const protectedRoute = [
           {
             path: '/acl/user',
             name: 'acl.user',
-            component: () => import('@/views/acl/UserList.vue'),
+            component: () => import('@/views/acl/user/UserList.vue'),
             meta: {
               title: 'Users',
               hiddenInMenu: false,
               icon: 'mdi-account',
-            },
-          },
-          {
-            path: '/acl/user/create',
-            name: 'acl.user.create',
-            component: () => import('@/views/acl/UserItem.vue'),
-            meta: {
-              title: 'Create User',
-              hiddenInMenu: true,
-              icon: 'mdi-view',
-            },
-          },
-          {
-            path: '/acl/user/item/:id',
-            name: 'cms.user.edit',
-            component: () => import('@/views/acl/UserItem.vue'),
-            props: true,
-            meta: {
-              title: 'Edit User',
-              hiddenInMenu: true,
-              icon: 'mdi-view',
             },
           },
         ],

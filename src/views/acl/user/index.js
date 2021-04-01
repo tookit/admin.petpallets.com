@@ -1,32 +1,6 @@
-<template>
-  <div class="acl-user__list">
-    <v-container>
-      <v-row>
-        <v-col cols="12">
-          <list-grid
-            ref="grid"
-            :headers="headers"
-            :filter-items="filterItems"
-            :actions="actions"
-            action="fetchUsers"
-            search-field="username"
-            @create="handleCreateItem"
-          />
-        </v-col>
-      </v-row>
-    </v-container>
-  </div>
-</template>
-
-<script>
 import FormUser from '@/components/form/acl/FormUser'
-import ListGrid from '@/components/list/ListGrid'
 import { VAvatar, VImg, VSelect } from 'vuetify/lib'
 export default {
-  name: 'PageUser',
-  components: {
-    ListGrid,
-  },
   data() {
     return {
       headers: [
@@ -154,4 +128,3 @@ export default {
     },
   },
 }
-</script>
