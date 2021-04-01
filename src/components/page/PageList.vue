@@ -164,7 +164,9 @@ export default {
       this.search = getObjectValueByPath(query, this.searchField)
       this.filterItems.forEach((item) => {
         const key = item.props.name
-        this.filters[key] = getObjectValueByPath(query, key) || null
+        const val = getObjectValueByPath(query, key)
+        const value = item.transform ? item.transform.call(this, val) : val
+        this.filters[key] = value || null
       })
     },
     buildApiQuery() {

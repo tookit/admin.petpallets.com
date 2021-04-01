@@ -66,7 +66,7 @@ export const protectedRoute = [
           icon: 'mdi-monitor-dashboard',
         },
       },
-
+      //mall
       {
         path: '/mall',
         name: 'mall.index',
@@ -78,13 +78,13 @@ export const protectedRoute = [
         },
         component: RouterWrapper,
         redirect: {
-          path: '/mall/product',
+          path: '/mall/item',
         },
         children: [
           // product
           {
-            path: '/mall/product',
-            name: 'mall.product',
+            path: '/mall/item',
+            name: 'mall.item',
             meta: {
               title: 'Product',
               hiddenInMenu: false,
@@ -92,13 +92,13 @@ export const protectedRoute = [
             },
             component: RouterWrapper,
             redirect: {
-              path: '/mall/product/list',
+              path: '/mall/item/list',
             },
             children: [
               {
-                path: '/mall/product/list',
-                name: 'mall.product.list',
-                component: () => import('@/views/mall/ProductList.vue'),
+                path: '/mall/item/list',
+                name: 'mall.item.list',
+                component: () => import('@/views/mall/item/ItemList.vue'),
                 meta: {
                   title: 'Product List',
                   hiddenInMenu: false,
@@ -130,80 +130,25 @@ export const protectedRoute = [
             ],
           },
           {
-            path: '/mall/quote',
-            name: 'mall.quote',
-            component: RouterWrapper,
-            redirect: {
-              path: '/mall/quote/list',
-            },
+            path: '/mall/quote/list',
+            name: 'mall.quote.list',
+            component: () => import('@/views/mall/quote/QuoteList.vue'),
             meta: {
               title: 'Quote',
               hiddenInMenu: false,
               icon: 'mdi-quora',
             },
-            children: [
-              {
-                path: '/mall/quote/list',
-                name: 'mall.quote.list',
-                component: () => import('@/views/mall/quote/QuoteList.vue'),
-                meta: {
-                  title: 'Quote List',
-                  hiddenInMenu: false,
-                  icon: 'mdi-quora',
-                },
-              },
-            ],
           },
-          //vendor
           {
-            path: '/mall/vendor',
-            name: 'mall.vendor',
+            path: '/mall/vendor/list',
+            name: 'mall.vendor.list',
+            component: () => import('@/views/mall/vendor/VendorList.vue'),
             meta: {
               title: 'Vendor',
               hiddenInMenu: false,
-              icon: 'mdi-alpha-v-circle',
+              icon: 'mdi-basket',
             },
-            component: RouterWrapper,
-            redirect: {
-              path: '/mall/vendor/list',
-            },
-            children: [
-              {
-                path: '/mall/vendor/list',
-                name: 'mall.vendor.list',
-                component: () => import('@/views/mall/vendor/VendorList.vue'),
-                meta: {
-                  title: 'Vendor List',
-                  hiddenInMenu: false,
-                  icon: 'mdi-basket',
-                },
-              },
-              {
-                path: '/mall/vendor/create',
-                name: 'mall.vendor.create',
-                props: true,
-                component: () => import('@/views/mall/vendor/VendorItem.vue'),
-                meta: {
-                  title: 'Create vendor',
-                  hiddenInMenu: true,
-                  icon: 'mdi-view',
-                },
-              },
-              {
-                path: '/mall/vendor/item/:id',
-                name: 'mall.vendor.update',
-                props: true,
-                component: () => import('@/views/mall/vendor/VendorItem.vue'),
-                meta: {
-                  title: 'Update vendor',
-                  hiddenInMenu: true,
-                  icon: 'mdi-view',
-                },
-              },
-            ],
           },
-
-          //category
           {
             path: '/mall/category',
             name: 'mall.category',
@@ -253,32 +198,18 @@ export const protectedRoute = [
           },
           // property
           {
-            path: '/mall/property',
-            name: 'mall.property',
+            path: '/mall/property/list',
+            name: 'mall.property.list',
+            component: () => import('@/views/mall/property/PropertyList.vue'),
             meta: {
               title: 'Property',
               hiddenInMenu: false,
               icon: 'mdi-filter-variant',
             },
-            component: RouterWrapper,
-            redirect: {
-              path: '/mall/property/list',
-            },
-            children: [
-              {
-                path: '/mall/property/list',
-                name: 'mall.property.list',
-                component: () => import('@/views/mall/PropertyList.vue'),
-                meta: {
-                  title: 'Property List',
-                  hiddenInMenu: false,
-                  icon: 'mdi-filter-variant',
-                },
-              },
-            ],
           },
         ],
       },
+      //cms
       {
         path: '/cms',
         name: 'cms.index',

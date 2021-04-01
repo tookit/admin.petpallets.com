@@ -9,7 +9,7 @@
           :actions="actions"
           :data-source="
             (q) => {
-              return $store.dispatch('fetchVendors', q)
+              return $store.dispatch('fetchProperty', q)
             }
           "
           search-field="name"

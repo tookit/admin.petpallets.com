@@ -158,8 +158,6 @@ import TooltipMixin from '@/mixins/Tooltip'
 import VGrid from '@/components/grid'
 import { mapGetters } from 'vuex'
 import FormTranslation from '@/components/form/FormTranslation'
-import Sortable, { Swap } from 'sortablejs'
-Sortable.mount(new Swap())
 
 export default {
   components: { VGrid, FormTranslation },
@@ -169,10 +167,6 @@ export default {
       confirming: false,
       moveTarget: null,
       //translation
-      showTranslation: false,
-      translationText: '',
-      translationField: 'name',
-      //
       showDialog: false,
       selectedItem: null,
       search: '',
@@ -274,32 +268,7 @@ export default {
       immediate: true,
     },
   },
-  created() {
-    this.$nextTick(() => {
-      new Sortable(
-        document.querySelector('.v-data-table__wrapper > table > tbody'),
-        {
-          draggable: 'tr',
-          swap: true, // Enable swap plugin
-          swapClass: 'highlight', // The class applied to the hovered swap item
-          animation: 150,
-          onSort: (e) => {
-            const { item, swapItem } = e
-            const source = item.dataset.id
-            const target = swapItem.dataset.id
-            this.$store
-              .dispatch('mallCategorySwapOrder', {
-                source,
-                target,
-              })
-              .then(() => {
-                // this.fetchRecords(this.filter)
-              })
-          },
-        }
-      )
-    })
-  },
+  created() {},
   methods: {
     //
     updateFilterQuery(query) {

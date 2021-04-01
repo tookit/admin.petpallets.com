@@ -1,40 +1,12 @@
-<template>
-  <div class="mall-property__list">
-    <v-container>
-      <v-row>
-        <v-col cols="12">
-          <list-grid
-            :headers="headers"
-            :filter-items="filterItems"
-            :actions="actions"
-            action="fetchProperty"
-            search-field="name"
-            @create="handleCreateItem"
-          />
-        </v-col>
-      </v-row>
-    </v-container>
-  </div>
-</template>
-
-<script>
-import ResizeMixin from '@/mixins/Resize'
-import TooltipMixin from '@/mixins/Tooltip'
 import FormProperty from '@/components/form/property/FormProperty'
 import PropertyValueTable from '@/components/table/PropertyValueTable'
-import ListGrid from '@/components/list/ListGrid'
 import { VChip, VIcon } from 'vuetify/lib'
 export default {
-  name: 'PageProperty',
-  components: {
-    ListGrid,
-  },
-  mixins: [ResizeMixin, TooltipMixin],
   data() {
     return {
       headers: [
         {
-          text: this.__('id'),
+          text: 'ID',
           value: 'id',
         },
         {
@@ -42,7 +14,6 @@ export default {
           value: 'name',
           sortable: true,
           render: (row) => {
-            console.log(row)
             return this.$createElement(
               'a',
               {
@@ -180,4 +151,3 @@ export default {
     },
   },
 }
-</script>
