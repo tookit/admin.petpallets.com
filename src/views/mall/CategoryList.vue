@@ -167,6 +167,10 @@ export default {
       confirming: false,
       moveTarget: null,
       //translation
+      showTranslation: false,
+      translationText: '',
+      translationField: 'name',
+      //
       showDialog: false,
       selectedItem: null,
       search: '',

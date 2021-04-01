@@ -1,7 +1,9 @@
 import FormQuickItem from '@/components/form/mall/item/FormQuickItem'
-// import FormItem from '@/components/form/mall/item/FormItem'
+import FormItemProperty from '@/components/form/mall/item/FormItemProperty'
+import FormSpecImport from '@/components/form/mall/item/FormSpecImport'
+
 import ImageViewer from '@/components/image/ImageViewer'
-import { VAutocomplete, VSwitch } from 'vuetify/lib'
+import { VAutocomplete, VIcon, VSwitch } from 'vuetify/lib'
 import { mapGetters } from 'vuex'
 export default {
   data() {
@@ -27,16 +29,63 @@ export default {
           text: this.__('name'),
           value: 'name',
           render: (item) => {
-            return this.$createElement(
-              'a',
-              {
-                domProps: {
-                  target: '_blank',
-                  href: item.href,
+            const nodes = [
+              this.$createElement(
+                'a',
+                {
+                  domProps: {
+                    target: '_blank',
+                    href: item.href,
+                  },
                 },
-              },
-              item.name
-            )
+                item.name
+              ),
+              this.$createElement('div', [
+                this.$createElement(
+                  VIcon,
+                  {
+                    props: {
+                      size: 16,
+                    },
+                    on: {
+                      click: () => {
+                        this.handleEditItem(item)
+                      },
+                    },
+                  },
+                  'mdi-pencil'
+                ),
+                this.$createElement(
+                  VIcon,
+                  {
+                    props: {
+                      size: 16,
+                    },
+                    on: {
+                      click: () => {
+                        this.handleEditProperty(item)
+                      },
+                    },
+                  },
+                  'mdi-filter'
+                ),
+                this.$createElement(
+                  VIcon,
+                  {
+                    props: {
+                      size: 16,
+                    },
+                    on: {
+                      click: () => {
+                        this.handleEditSpec(item)
+                      },
+                    },
+                  },
+                  'mdi-cloud'
+                ),
+              ]),
+            ]
+            return nodes
           },
         },
         {
@@ -60,8 +109,38 @@ export default {
           value: 'categories',
           width: 250,
           render: (item) => {
-            const label = item.category ? item.category.name : ''
-            return this.$createElement('span', {}, label)
+            const label = item.category ? item.category.name : 'None'
+            const nodes = [
+              this.$createElement(
+                'a',
+                {
+                  domProps: {
+                    href: item.category ? item.category.href : '#',
+                  },
+                },
+                label
+              ),
+              this.$createElement('div', [
+                this.$createElement(
+                  VIcon,
+                  {
+                    props: {
+                      size: 16,
+                    },
+                    on: {
+                      click: () => {
+                        let routeData = this.$router.resolve({
+                          path: `/mall/category/item/${item.category_id}`,
+                        })
+                        window.open(routeData.href, '_blank')
+                      },
+                    },
+                  },
+                  'mdi-pencil'
+                ),
+              ]),
+            ]
+            return this.$createElement('div', nodes)
           },
         },
         {
@@ -202,6 +281,38 @@ export default {
       })
       dialog.show()
     },
+    handleEditProperty(item) {
+      const dialog = this.$root.$dialog
+      dialog.loadComponent({
+        component: FormItemProperty,
+        data: {
+          product: item,
+        },
+        on: {
+          'form:cancel': () => {
+            dialog.hide()
+          },
+        },
+      })
+      dialog.show()
+    },
+    handleEditSpec(item) {
+      const dialog = this.$root.$dialog
+      dialog.loadComponent({
+        component: FormSpecImport,
+        data: {
+          productId: item.id,
+          inDialog: true,
+        },
+        on: {
+          'form:cancel': () => {
+            dialog.hide()
+          },
+        },
+      })
+      dialog.show()
+    },
+
     handleDeleteItem({ id }) {
       if (window.confirm('Are you sure to delete this item ?')) {
         this.$store.dispatch('deleteProduct', id).then(() => {
