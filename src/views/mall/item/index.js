@@ -312,6 +312,7 @@ export default {
           entityId: item.id,
           entity: 'App\\Models\\Mall\\Product',
           directory: `fiber/${item.id}`,
+          showSelect: true,
         },
         on: {
           'form:cancel': () => {

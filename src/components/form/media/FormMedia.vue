@@ -5,16 +5,16 @@
     <v-card-text class="pa-3">
       <v-form>
         <v-text-field
-          name="title"
           v-model="formModel.custom_properties.title"
+          name="title"
           outlined
           dense
           label="Title"
           placeholder="Title"
         />
         <v-text-field
-          name="fingerprint"
           v-model="formModel.fingerprint"
+          name="fingerprint"
           outlined
           dense
           label="Fingerprint"
@@ -44,19 +44,18 @@ export default {
   name: 'FormMedia',
   components: {},
   props: {
-    item: Object
+    item: Object,
   },
   data() {
     return {
       loading: false,
       formModel: {
-        filename: '',
         fingerprint: null,
         custom_properties: {
           title: '',
-          featured: false
-        }
-      }
+          featured: false,
+        },
+      },
     }
   },
   computed: {},
@@ -64,14 +63,9 @@ export default {
     item: {
       handler(item) {
         if (item) {
-          this.formModel.filename = item.name
           this.formModel.fingerprint = item.fingerprint
           if (item.custom_properties !== null) {
             this.formModel.custom_properties = item.custom_properties
-          } else {
-            if (item.product.length > 0) {
-              this.formModel.custom_properties.title = item.product[0].name
-            }
           }
         } else {
           this.formModel = {
@@ -79,20 +73,20 @@ export default {
             fingerprint: null,
             custom_properties: {
               title: '',
-              featured: false
-            }
+              featured: false,
+            },
           }
         }
       },
-      immediate: true
-    }
+      immediate: true,
+    },
   },
   methods: {
     handleSubmit() {
       this.loading = true
       const payload = {
         id: this.item.id,
-        data: this.formModel
+        data: this.formModel,
       }
       this.$store
         .dispatch('updateMedia', payload)
@@ -103,8 +97,8 @@ export default {
         .catch(() => {
           this.loading = false
         })
-    }
-  }
+    },
+  },
 }
 </script>
 

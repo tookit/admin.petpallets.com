@@ -1,9 +1,9 @@
 <template>
   <div>
     <v-img
-      v-if="items.length > 0"
+      v-if="item"
       class="ma-3"
-      :src="items[0].cloud_url"
+      :src="item.cloud_url"
       width="50"
       height="50"
       @click="showLightbox = true"
@@ -23,6 +23,7 @@ export default {
       type: Array,
       default: () => [],
     },
+    item: Object,
   },
   data() {
     return {

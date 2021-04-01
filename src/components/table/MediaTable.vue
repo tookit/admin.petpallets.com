@@ -73,20 +73,13 @@
         :page.sync="filter['page']"
         item-key="id"
         :show-select="showSelect"
-        :single-select="singleSelect"
+        single-select
         @update:page="handlePageChanged"
         @update:items-per-page="handlePageSizeChanged"
         @item-selected="handleItemSelected"
       >
         <template #[`item.cloud_url`]="{ item }">
-          <div
-            :href="item.cloud_url"
-            class="glightbox"
-            target="blank"
-            @click.stop="handleViewImage"
-          >
-            <img class="ma-2" :src="item.tiny_image" height="50" width="50" />
-          </div>
+          <image-viewer :items="items" :item="item" />
         </template>
         <template #[`item.size`]="{ item }">
           <span>{{ item.size | bytes }}</span>
@@ -132,11 +125,13 @@
 import { mapGetters } from 'vuex'
 import ResizeMixin from '@/mixins/Resize'
 import TooltipMixin from '@/mixins/Tooltip'
+import ImageViewer from '@/components/image/ImageViewer'
 import FormUpload from '@/components/form/media/FormUpload.vue'
 import FormMedia from '@/components/form/media/FormMedia.vue'
 import bytes from 'bytes'
 export default {
   components: {
+    ImageViewer,
     FormUpload,
     FormMedia,
   },
@@ -305,6 +300,7 @@ export default {
     },
     handleEditItem(item) {
       this.selectedItem = item
+      this.selectedItems = [item]
       this.showEditDialog = true
     },
     handleDeleteItem({ id }) {
@@ -356,11 +352,6 @@ export default {
         path: this.$route.path,
         query: this.filter,
       })
-    },
-    //option
-    handleViewImage(e) {
-      e.preventDefault()
-      this.showLightbox = true
     },
     // upload
     handleFormCancel() {
