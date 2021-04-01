@@ -1,29 +1,4 @@
-<template>
-  <div class="mall-quote__list">
-    <v-container>
-      <v-row>
-        <v-col cols="12">
-          <list-grid
-            ref="grid"
-            :headers="headers"
-            :filter-items="filterItems"
-            :actions="actions"
-            action="fetchQuotes"
-            search-field="name"
-          />
-        </v-col>
-      </v-row>
-    </v-container>
-  </div>
-</template>
-
-<script>
-import ListGrid from '@/components/list/ListGrid'
 export default {
-  name: 'PageQuote',
-  components: {
-    ListGrid,
-  },
   data() {
     return {
       headers: [
@@ -107,4 +82,3 @@ export default {
     },
   },
 }
-</script>

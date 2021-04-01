@@ -145,7 +145,7 @@ export const protectedRoute = [
               {
                 path: '/mall/quote/list',
                 name: 'mall.quote.list',
-                component: () => import('@/views/mall/QuoteList.vue'),
+                component: () => import('@/views/mall/quote/QuoteList.vue'),
                 meta: {
                   title: 'Quote List',
                   hiddenInMenu: false,
@@ -290,139 +290,60 @@ export const protectedRoute = [
         },
         component: RouterWrapper,
         redirect: {
-          path: '/cms/news',
+          path: '/cms/news/list',
         },
         children: [
           {
-            path: '/cms/news',
-            name: 'cms.news',
-            component: RouterWrapper,
-            redirect: {
-              path: '/cms/news/list',
-            },
+            path: '/cms/news/list',
+            name: 'cms.news.list',
+            component: () => import('@/views/cms/news/NewsList.vue'),
             meta: {
               title: 'News',
               hiddenInMenu: false,
               icon: 'mdi-post',
             },
-            children: [
-              {
-                path: '/cms/news/list',
-                name: 'cms.news.list',
-                component: () => import('@/views/cms/news/NewsList.vue'),
-                meta: {
-                  title: 'News',
-                  hiddenInMenu: false,
-                  icon: 'mdi-post',
-                },
-              },
-            ],
           },
           {
-            path: '/cms/abbrs',
-            name: 'cms.abbrs',
-            component: RouterWrapper,
-            redirect: {
-              path: '/cms/abbrs/list',
-            },
+            path: '/cms/abbrs/list',
+            name: 'cms.abbrs.list',
+            component: () => import('@/views/cms/abbr/AbbrList.vue'),
             meta: {
               title: 'Abbr',
               hiddenInMenu: false,
-              icon: 'mdi-alpha-a',
+              icon: 'mdi-tag',
             },
-            children: [
-              {
-                path: '/cms/abbrs/list',
-                name: 'cms.abbrs.list',
-                component: () => import('@/views/cms/abbr/AbbrList.vue'),
-                meta: {
-                  title: 'Abbr List',
-                  hiddenInMenu: false,
-                  icon: 'mdi-tag',
-                },
-              },
-            ],
           },
-          // tags
           {
-            path: '/cms/tags',
-            name: 'cms.tags',
-            component: RouterWrapper,
-            redirect: {
-              path: '/cms/tags/list',
-            },
+            path: '/cms/tags/list',
+            name: 'cms.tags.list',
+            component: () => import('@/views/cms/tag/TagList.vue'),
             meta: {
-              title: 'Tags',
+              title: 'Tag',
               hiddenInMenu: false,
               icon: 'mdi-tag',
             },
-            children: [
-              {
-                path: '/cms/tags/list',
-                name: 'cms.tags.list',
-                component: () => import('@/views/cms/tag/TagList.vue'),
-                meta: {
-                  title: 'Tag List',
-                  hiddenInMenu: false,
-                  icon: 'mdi-tag',
-                },
-              },
-            ],
           },
-          //categories
-
           {
-            path: '/cms/categories',
-            name: 'cms.categories',
-            component: RouterWrapper,
-            redirect: {
-              path: '/cms/categories/list',
-            },
+            path: '/cms/categories/list',
+            name: 'cms.categories.list',
+            component: () => import('@/views/cms/category/CategoryList.vue'),
             meta: {
               title: 'Category',
               hiddenInMenu: false,
-              icon: 'mdi-buffer',
+              icon: 'mdi-tag',
             },
-            children: [
-              {
-                path: '/cms/categories/list',
-                name: 'cms.categories.list',
-                component: () =>
-                  import('@/views/cms/category/CategoryList.vue'),
-                meta: {
-                  title: 'Category List',
-                  hiddenInMenu: false,
-                  icon: 'mdi-tag',
-                },
-              },
-            ],
           },
 
           //slider
           {
-            path: '/cms/slider',
-            name: 'cms.slider',
-            component: RouterWrapper,
-            redirect: {
-              path: '/cms/slider/list',
-            },
+            path: '/cms/slider/list',
+            name: 'cms.slider.list',
+            component: () => import('@/views/cms/slider/SliderList.vue'),
             meta: {
-              title: 'Slider',
+              title: 'Slider List',
               hiddenInMenu: false,
               icon: 'mdi-image-multiple',
             },
-            children: [
-              {
-                path: '/cms/slider/list',
-                name: 'cms.slider.list',
-                component: () => import('@/views/cms/slider/SliderList.vue'),
-                meta: {
-                  title: 'Slider List',
-                  hiddenInMenu: false,
-                  icon: 'mdi-image-multiple',
-                },
-              },
-            ],
           },
         ],
       },
