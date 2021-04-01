@@ -313,6 +313,12 @@ export default {
       },
       immediate: true,
     },
+    directory: {
+      handler(val) {
+        this.filter['filter[directory]'] = val
+      },
+      immediate: true,
+    },
   },
   created() {},
   methods: {

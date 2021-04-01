@@ -292,7 +292,7 @@ export const protectedRoute = [
           hiddenInMenu: false,
           icon: 'mdi-image',
         },
-        component: () => import('@/views/MediaList.vue'),
+        component: () => import('@/views/media/MediaList.vue'),
       },
       //setting
       {

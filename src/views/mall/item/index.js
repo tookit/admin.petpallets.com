@@ -2,6 +2,7 @@ import FormQuickItem from '@/components/form/mall/item/FormQuickItem'
 import FormItemProperty from '@/components/form/mall/item/FormItemProperty'
 import FormSpecImport from '@/components/form/mall/item/FormSpecImport'
 
+import MediaTable from '@/components/table/MediaTable'
 import ImageViewer from '@/components/image/ImageViewer'
 import { VAutocomplete, VIcon, VSwitch } from 'vuetify/lib'
 import { mapGetters } from 'vuex'
@@ -29,6 +30,24 @@ export default {
           text: this.__('name'),
           value: 'name',
           render: (item) => {
+            const actions = [
+              {
+                icon: 'mdi-pencil',
+                click: this.handleEditItem,
+              },
+              {
+                icon: 'mdi-filter',
+                click: this.handleEditProperty,
+              },
+              {
+                icon: 'mdi-cloud',
+                click: this.handleEditSpec,
+              },
+              {
+                icon: 'mdi-image',
+                click: this.handleEditImage,
+              },
+            ]
             const nodes = [
               this.$createElement(
                 'a',
@@ -40,50 +59,23 @@ export default {
                 },
                 item.name
               ),
-              this.$createElement('div', [
-                this.$createElement(
-                  VIcon,
-                  {
-                    props: {
-                      size: 16,
-                    },
-                    on: {
-                      click: () => {
-                        this.handleEditItem(item)
+              this.$createElement(
+                'div',
+                actions.map((act) => {
+                  return this.$createElement(
+                    VIcon,
+                    {
+                      props: { size: 18 },
+                      on: {
+                        click: () => {
+                          act.click(item)
+                        },
                       },
                     },
-                  },
-                  'mdi-pencil'
-                ),
-                this.$createElement(
-                  VIcon,
-                  {
-                    props: {
-                      size: 16,
-                    },
-                    on: {
-                      click: () => {
-                        this.handleEditProperty(item)
-                      },
-                    },
-                  },
-                  'mdi-filter'
-                ),
-                this.$createElement(
-                  VIcon,
-                  {
-                    props: {
-                      size: 16,
-                    },
-                    on: {
-                      click: () => {
-                        this.handleEditSpec(item)
-                      },
-                    },
-                  },
-                  'mdi-cloud'
-                ),
-              ]),
+                    act.icon
+                  )
+                })
+              ),
             ]
             return nodes
           },
@@ -312,7 +304,23 @@ export default {
       })
       dialog.show()
     },
-
+    handleEditImage(item) {
+      const dialog = this.$root.$dialog
+      dialog.loadComponent({
+        component: MediaTable,
+        data: {
+          entityId: item.id,
+          entity: 'App\\Models\\Mall\\Product',
+          directory: `fiber/${item.id}`,
+        },
+        on: {
+          'form:cancel': () => {
+            dialog.hide()
+          },
+        },
+      })
+      dialog.show()
+    },
     handleDeleteItem({ id }) {
       if (window.confirm('Are you sure to delete this item ?')) {
         this.$store.dispatch('deleteProduct', id).then(() => {
@@ -320,7 +328,6 @@ export default {
         })
       }
     },
-
     handleUpdateField(key, val, id) {
       let data = {}
       data[key] = val

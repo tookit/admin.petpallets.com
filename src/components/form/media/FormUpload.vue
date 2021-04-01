@@ -5,7 +5,7 @@
         {{ item.text }}
       </v-tab>
     </v-tabs>
-    <v-card-text>
+    <v-card-text class="pa-3">
       <v-tabs-items v-model="defaultTab">
         <v-tab-item value="upload">
           <v-dropzone
@@ -37,32 +37,32 @@ import VDropzone from '@/components/dropzone'
 export default {
   name: 'FormUpload',
   components: {
-    VDropzone
+    VDropzone,
   },
   props: {
     entityId: [Number, String],
     entity: String,
-    action: String
+    action: String,
   },
   data() {
     return {
       submiting: false,
       fileUrl: null,
       attrs: {
-        accept: 'image/*'
+        accept: 'image/*',
       },
       //tabs
       defaultTab: 'upload',
       tabs: [
         {
           text: 'Upload',
-          value: 'upload'
+          value: 'upload',
         },
         {
           text: 'Network',
-          value: 'network'
-        }
-      ]
+          value: 'network',
+        },
+      ],
     }
   },
   computed: {
@@ -73,11 +73,11 @@ export default {
         headers: {
           Authorization: 'Bearer ' + this.getAccessToken,
           entityId: this.entityId,
-          entity: this.entity
+          entity: this.entity,
         },
-        testChunks: false
+        testChunks: false,
       }
-    }
+    },
   },
   watch: {},
   methods: {
@@ -86,7 +86,7 @@ export default {
       const data = {
         file: this.fileUrl,
         entityId: this.entityId,
-        entity: this.entity
+        entity: this.entity,
       }
       this.$store
         .dispatch('uploadMedia', data)
@@ -100,8 +100,8 @@ export default {
     },
     handleSuccess(e) {
       this.$emit('form:success', JSON.parse(e.xhr.response))
-    }
-  }
+    },
+  },
 }
 </script>
 
