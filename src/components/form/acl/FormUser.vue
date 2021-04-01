@@ -13,13 +13,9 @@
 </template>
 
 <script>
-import VFormBuilder from '@/components/builder/VFormBuilder'
 import { VTextField, VSelect, VSwitch } from 'vuetify/lib'
 export default {
   name: 'FormUser',
-  components: {
-    VFormBuilder,
-  },
   props: {
     item: Object,
   },

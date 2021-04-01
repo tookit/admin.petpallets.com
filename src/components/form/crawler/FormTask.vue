@@ -13,15 +13,11 @@
 </template>
 
 <script>
-import VFormBuilder from '@/components/builder/VFormBuilder'
 import { VTextField, VAutocomplete, VSelect } from 'vuetify/lib'
 import { mapGetters } from 'vuex'
 import VJsonEditor from '@/components/editor/VJsonEditor'
 export default {
   name: 'FormTask',
-  components: {
-    VFormBuilder,
-  },
   props: {
     item: Object,
   },

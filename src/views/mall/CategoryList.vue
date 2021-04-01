@@ -158,12 +158,11 @@ import TooltipMixin from '@/mixins/Tooltip'
 import VGrid from '@/components/grid'
 import { mapGetters } from 'vuex'
 import FormTranslation from '@/components/form/FormTranslation'
-import VCascader from '@/components/cascader/'
 import Sortable, { Swap } from 'sortablejs'
 Sortable.mount(new Swap())
 
 export default {
-  components: { VGrid, VCascader, FormTranslation },
+  components: { VGrid, FormTranslation },
   mixins: [TooltipMixin],
   data() {
     return {
@@ -277,7 +276,7 @@ export default {
   },
   created() {
     this.$nextTick(() => {
-      const sortable = new Sortable(
+      new Sortable(
         document.querySelector('.v-data-table__wrapper > table > tbody'),
         {
           draggable: 'tr',

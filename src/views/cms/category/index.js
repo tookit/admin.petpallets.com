@@ -1,32 +1,6 @@
-<template>
-  <div class="cms-post__list">
-    <v-container>
-      <v-row>
-        <v-col cols="12">
-          <list-grid
-            ref="grid"
-            :headers="headers"
-            :filter-items="filterItems"
-            :actions="actions"
-            action="fetchNews"
-            search-field="name"
-            @create="handleCreateItem"
-          />
-        </v-col>
-      </v-row>
-    </v-container>
-  </div>
-</template>
-
-<script>
-import FormNews from '@/components/form/cms/FormNews'
-import ListGrid from '@/components/list/ListGrid'
-import { VSwitch, VAvatar, VImg } from 'vuetify/lib'
+import FormNewsCategory from '@/components/form/cms/FormNewsCategory'
+import { VSwitch } from 'vuetify/lib'
 export default {
-  name: 'PagePost',
-  components: {
-    ListGrid,
-  },
   data() {
     return {
       headers: [
@@ -35,31 +9,9 @@ export default {
           value: 'id',
         },
         {
-          text: 'Image',
-          value: 'image',
-          sortable: true,
-          render: (item) => {
-            return this.$createElement(
-              VAvatar,
-              {
-                class: 'ma-2 rounded',
-                props: {
-                  size: 48,
-                },
-              },
-              [this.$createElement(VImg, { props: { src: item.image } })]
-            )
-          },
-        },
-        {
           text: 'Name',
           value: 'name',
           sortable: true,
-        },
-        {
-          text: 'Category',
-          value: 'category.name',
-          sortable: false,
         },
         {
           text: 'Posts',
@@ -69,7 +21,6 @@ export default {
         {
           text: 'Active',
           value: 'is_active',
-          sortable: false,
           render: (item) => {
             return this.$createElement(VSwitch, {
               props: {
@@ -95,11 +46,6 @@ export default {
       items: [],
       actions: [
         {
-          text: 'View Item',
-          icon: 'mdi-eye',
-          click: this.handleViewItem,
-        },
-        {
           text: 'Edit Item',
           icon: 'mdi-pencil',
           click: this.handleEditItem,
@@ -120,6 +66,7 @@ export default {
           element: VSwitch,
           props: {
             name: 'is_active',
+            label: 'Active',
             dense: true,
             hideDetails: true,
             outlined: true,
@@ -131,30 +78,12 @@ export default {
   watch: {},
   methods: {
     //action
-    handleViewItem(item) {
-      window.open(item.href, '_blank')
-    },
     handleCreateItem() {
       const dialog = this.$root.$dialog
       dialog.loadComponent({
-        component: FormNews,
+        component: FormNewsCategory,
         data: {
           item: null,
-        },
-        on: {
-          'form:cancel': () => {
-            dialog.hide()
-          },
-        },
-      })
-      dialog.show()
-    },
-    handleEditItem(item) {
-      const dialog = this.$root.$dialog
-      dialog.loadComponent({
-        component: FormNews,
-        data: {
-          item: item,
         },
         on: {
           'form:cancel': () => {
@@ -168,19 +97,33 @@ export default {
       const data = {}
       data[field] = value
       this.$store
-        .dispatch('updateNews', {
+        .dispatch('updateNewsCategory', {
           id: id,
           data: data,
         })
         .then(() => {})
     },
+    handleEditItem(item) {
+      const dialog = this.$root.$dialog
+      dialog.loadComponent({
+        component: FormNewsCategory,
+        data: {
+          item: item,
+        },
+        on: {
+          'form:cancel': () => {
+            dialog.hide()
+          },
+        },
+      })
+      dialog.show()
+    },
     handleDeleteItem({ id }) {
       if (window.confirm('Are you sure to delete this item ?')) {
-        this.$store.dispatch('deleteNews', id).then(() => {
+        this.$store.dispatch('deleteNewsCategory', id).then(() => {
           this.$refs.grid.fetchRecords()
         })
       }
     },
   },
 }
-</script>

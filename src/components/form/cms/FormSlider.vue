@@ -13,14 +13,10 @@
 </template>
 
 <script>
-import VFormBuilder from '@/components/builder/VFormBuilder'
 import { VTextField, VSwitch } from 'vuetify/lib'
 import ImagePicker from '@/components/image/ImagePicker'
 export default {
   name: 'FormSlider',
-  components: {
-    VFormBuilder,
-  },
   props: {
     item: Object,
   },

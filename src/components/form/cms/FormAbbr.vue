@@ -13,13 +13,9 @@
 </template>
 
 <script>
-import VFormBuilder from '@/components/builder/VFormBuilder'
 import { VTextField, VTextarea } from 'vuetify/lib'
 export default {
   name: 'FormAbbr',
-  components: {
-    VFormBuilder,
-  },
   props: {
     item: Object,
   },

@@ -151,7 +151,7 @@ export const protectedRoute = [
                   hiddenInMenu: false,
                   icon: 'mdi-quora',
                 },
-              }
+              },
             ],
           },
           //vendor
@@ -309,86 +309,15 @@ export const protectedRoute = [
               {
                 path: '/cms/news/list',
                 name: 'cms.news.list',
-                component: () => import('@/views/cms/NewsList.vue'),
+                component: () => import('@/views/cms/news/NewsList.vue'),
                 meta: {
                   title: 'News',
                   hiddenInMenu: false,
                   icon: 'mdi-post',
                 },
               },
-              {
-                path: '/cms/news/item/:id',
-                name: 'cms.news.edit',
-                props: true,
-                component: () => import('@/views/cms/NewsItem.vue'),
-                meta: {
-                  title: 'Edit News',
-                  hiddenInMenu: true,
-                  icon: 'mdi-view',
-                },
-              },
-              {
-                path: '/cms/news/create',
-                name: 'cms.news.create',
-                props: true,
-                component: () => import('@/views/cms/NewsItem.vue'),
-                meta: {
-                  title: 'Create News',
-                  hiddenInMenu: true,
-                  icon: 'mdi-view',
-                },
-              },
             ],
           },
-          // menu
-          // {
-          //   path: '/cms/menus',
-          //   name: 'cms.menus',
-          //   component: RouterWrapper,
-          //   redirect: {
-          //     path: '/cms/menus/list'
-          //   },
-          //   meta: {
-          //     title: 'Menu',
-          //     hiddenInMenu: false,
-          //     icon: 'mdi-grid-view'
-          //   },
-          //   children: [
-          //     {
-          //       path: '/cms/menus/list',
-          //       name: 'cms.menus.list',
-          //       component: () => import('@/views/menu/MenuList.vue'),
-          //       meta: {
-          //         title: 'Menu List',
-          //         hiddenInMenu: false,
-          //         icon: 'mdi-tag'
-          //       }
-          //     },
-          //     {
-          //       path: '/cms/menus/create',
-          //       name: 'cms.menus.create',
-          //       props: true,
-          //       component: () => import('@/views/menu/MenuItem.vue'),
-          //       meta: {
-          //         title: 'Create menu',
-          //         hiddenInMenu: true,
-          //         icon: 'mdi-view'
-          //       }
-          //     },
-          //     {
-          //       path: '/cms/menus/item/:id',
-          //       name: 'cms.menus.edit',
-          //       props: true,
-          //       component: () => import('@/views/menu/MenuItem.vue'),
-          //       meta: {
-          //         title: 'Edit Menu',
-          //         hiddenInMenu: true,
-          //         icon: 'mdi-view'
-          //       }
-          //     }
-          //   ]
-          // },
-          // abbrs
           {
             path: '/cms/abbrs',
             name: 'cms.abbrs',
@@ -405,33 +334,11 @@ export const protectedRoute = [
               {
                 path: '/cms/abbrs/list',
                 name: 'cms.abbrs.list',
-                component: () => import('@/views/cms/AbbrList.vue'),
+                component: () => import('@/views/cms/abbr/AbbrList.vue'),
                 meta: {
                   title: 'Abbr List',
                   hiddenInMenu: false,
                   icon: 'mdi-tag',
-                },
-              },
-              {
-                path: '/cms/abbrs/create',
-                name: 'cms.abbrs.create',
-                props: true,
-                component: () => import('@/views/cms/AbbrItem.vue'),
-                meta: {
-                  title: 'Create Abbr',
-                  hiddenInMenu: true,
-                  icon: 'mdi-view',
-                },
-              },
-              {
-                path: '/cms/abbrs/item/:id',
-                name: 'cms.abbrs.edit',
-                props: true,
-                component: () => import('@/views/cms/AbbrItem.vue'),
-                meta: {
-                  title: 'Edit Abbr',
-                  hiddenInMenu: true,
-                  icon: 'mdi-view',
                 },
               },
             ],
@@ -453,33 +360,11 @@ export const protectedRoute = [
               {
                 path: '/cms/tags/list',
                 name: 'cms.tags.list',
-                component: () => import('@/views/cms/TagList.vue'),
+                component: () => import('@/views/cms/tag/TagList.vue'),
                 meta: {
                   title: 'Tag List',
                   hiddenInMenu: false,
                   icon: 'mdi-tag',
-                },
-              },
-              {
-                path: '/cms/tags/create',
-                name: 'cms.tags.create',
-                props: true,
-                component: () => import('@/views/cms/TagItem.vue'),
-                meta: {
-                  title: 'Create Tag',
-                  hiddenInMenu: true,
-                  icon: 'mdi-view',
-                },
-              },
-              {
-                path: '/cms/tags/item/:id',
-                name: 'cms.tags.edit',
-                props: true,
-                component: () => import('@/views/cms/TagItem.vue'),
-                meta: {
-                  title: 'Edit Tag',
-                  hiddenInMenu: true,
-                  icon: 'mdi-view',
                 },
               },
             ],
@@ -502,33 +387,12 @@ export const protectedRoute = [
               {
                 path: '/cms/categories/list',
                 name: 'cms.categories.list',
-                component: () => import('@/views/cms/CategoryList.vue'),
+                component: () =>
+                  import('@/views/cms/category/CategoryList.vue'),
                 meta: {
                   title: 'Category List',
                   hiddenInMenu: false,
                   icon: 'mdi-tag',
-                },
-              },
-              {
-                path: '/cms/categories/create',
-                name: 'cms.categories.create',
-                props: true,
-                component: () => import('@/views/cms/CategoryItem.vue'),
-                meta: {
-                  title: 'Create Category',
-                  hiddenInMenu: true,
-                  icon: 'mdi-view',
-                },
-              },
-              {
-                path: '/cms/categories/item/:id',
-                name: 'cms.categories.edit',
-                props: true,
-                component: () => import('@/views/cms/CategoryItem.vue'),
-                meta: {
-                  title: 'Edit Category',
-                  hiddenInMenu: true,
-                  icon: 'mdi-view',
                 },
               },
             ],
@@ -551,33 +415,11 @@ export const protectedRoute = [
               {
                 path: '/cms/slider/list',
                 name: 'cms.slider.list',
-                component: () => import('@/views/cms/SliderList.vue'),
+                component: () => import('@/views/cms/slider/SliderList.vue'),
                 meta: {
                   title: 'Slider List',
                   hiddenInMenu: false,
                   icon: 'mdi-image-multiple',
-                },
-              },
-              {
-                path: '/cms/slider/create',
-                name: 'cms.slider.create',
-                props: true,
-                component: () => import('@/views/cms/SliderItem.vue'),
-                meta: {
-                  title: 'Create Tag',
-                  hiddenInMenu: true,
-                  icon: 'mdi-view',
-                },
-              },
-              {
-                path: '/cms/slider/item/:id',
-                name: 'cms.slider.edit',
-                props: true,
-                component: () => import('@/views/cms/SliderItem.vue'),
-                meta: {
-                  title: 'Edit Tag',
-                  hiddenInMenu: true,
-                  icon: 'mdi-view',
                 },
               },
             ],

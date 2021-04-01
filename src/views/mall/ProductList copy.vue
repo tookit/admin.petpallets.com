@@ -232,13 +232,12 @@
 
 <script>
 import TooltipMixin from '@/mixins/Tooltip'
-import VCascader from '@/components/cascader/'
 import { mapGetters } from 'vuex'
 import FormSpecImport from '@/components/form/product/FormSpecImport.vue'
 export default {
   name: 'ProductList',
   showFormProperty: false,
-  components: { VCascader, FormSpecImport },
+  components: { FormSpecImport },
   mixins: [TooltipMixin],
   data() {
     return {

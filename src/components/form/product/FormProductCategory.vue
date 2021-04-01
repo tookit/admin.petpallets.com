@@ -138,12 +138,11 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import VCascader from '@/components/cascader/'
 import MediaTable from '@/components/table/MediaTable'
 import FormTranslation from '@/components/form/FormTranslation'
 export default {
   name: 'FormProductCategory',
-  components: { VCascader, MediaTable, FormTranslation },
+  components: { MediaTable, FormTranslation },
   props: {
     item: Object,
   },

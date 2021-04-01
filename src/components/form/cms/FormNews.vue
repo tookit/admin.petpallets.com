@@ -13,16 +13,12 @@
 </template>
 
 <script>
-import VFormBuilder from '@/components/builder/VFormBuilder'
 import { VTextField, VTextarea, VAutocomplete, VSwitch } from 'vuetify/lib'
 import ImagePicker from '@/components/image/ImagePicker'
 import VEditor from '@/components/editor/VEditor'
 import { mapGetters } from 'vuex'
 export default {
   name: 'FormNews',
-  components: {
-    VFormBuilder,
-  },
   props: {
     item: Object,
   },

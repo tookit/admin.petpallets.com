@@ -14,13 +14,9 @@
 <script>
 import { URL } from '@/utils/regex'
 import { mapGetters } from 'vuex'
-import VFormBuilder from '@/components/builder/VFormBuilder'
 import { VTextarea, VTextField, VAutocomplete } from 'vuetify/lib'
 export default {
   name: 'FormVendor',
-  components: {
-    VFormBuilder,
-  },
   props: {
     item: Object,
   },

@@ -1,43 +1,39 @@
-<template>
-  <div class="cms-category__list">
-    <v-container>
-      <v-row>
-        <v-col cols="12">
-          <list-grid
-            ref="grid"
-            :headers="headers"
-            :filter-items="filterItems"
-            :actions="actions"
-            action="fetchNewsCategory"
-            search-field="name"
-            @create="handleCreateItem"
-          />
-        </v-col>
-      </v-row>
-    </v-container>
-  </div>
-</template>
-
-<script>
-import FormNewsCategory from '@/components/form/cms/FormNewsCategory'
-import ListGrid from '@/components/list/ListGrid'
-import { VSwitch } from 'vuetify/lib'
+import FormNews from '@/components/form/cms/FormNews'
+import { VSwitch, VAvatar, VImg } from 'vuetify/lib'
 export default {
-  name: 'PageCmsCategory',
-  components: {
-    ListGrid,
-  },
   data() {
     return {
       headers: [
         {
-          text: this.__('id'),
+          text: 'id',
           value: 'id',
+        },
+        {
+          text: 'Image',
+          value: 'image',
+          sortable: true,
+          render: (item) => {
+            return this.$createElement(
+              VAvatar,
+              {
+                class: 'ma-2 rounded',
+                props: {
+                  size: 48,
+                },
+              },
+              [this.$createElement(VImg, { props: { src: item.image } })]
+            )
+          },
         },
         {
           text: 'Name',
           value: 'name',
           sortable: true,
+        },
+        {
+          text: 'Category',
+          value: 'category.name',
+          sortable: false,
         },
         {
           text: 'Posts',
@@ -47,6 +43,7 @@ export default {
         {
           text: 'Active',
           value: 'is_active',
+          sortable: false,
           render: (item) => {
             return this.$createElement(VSwitch, {
               props: {
@@ -107,13 +104,30 @@ export default {
   },
   watch: {},
   methods: {
-    //action
+    handleViewItem(item) {
+      window.open(item.href, '_blank')
+    },
     handleCreateItem() {
       const dialog = this.$root.$dialog
       dialog.loadComponent({
-        component: FormNewsCategory,
+        component: FormNews,
         data: {
           item: null,
+        },
+        on: {
+          'form:cancel': () => {
+            dialog.hide()
+          },
+        },
+      })
+      dialog.show()
+    },
+    handleEditItem(item) {
+      const dialog = this.$root.$dialog
+      dialog.loadComponent({
+        component: FormNews,
+        data: {
+          item: item,
         },
         on: {
           'form:cancel': () => {
@@ -127,34 +141,19 @@ export default {
       const data = {}
       data[field] = value
       this.$store
-        .dispatch('updateNewsCategory', {
+        .dispatch('updateNews', {
           id: id,
           data: data,
         })
         .then(() => {})
     },
-    handleEditItem(item) {
-      const dialog = this.$root.$dialog
-      dialog.loadComponent({
-        component: FormNewsCategory,
-        data: {
-          item: item,
-        },
-        on: {
-          'form:cancel': () => {
-            dialog.hide()
-          },
-        },
-      })
-      dialog.show()
-    },
     handleDeleteItem({ id }) {
+      console.log
       if (window.confirm('Are you sure to delete this item ?')) {
-        this.$store.dispatch('deleteNewsCategory', id).then(() => {
+        this.$store.dispatch('deleteNews', id).then(() => {
           this.$refs.grid.fetchRecords()
         })
       }
     },
   },
 }
-</script>

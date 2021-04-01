@@ -142,7 +142,6 @@
 <script>
 import { mapGetters } from 'vuex'
 import VEditor from '@/components/editor/VEditor'
-import VCascader from '@/components/cascader/'
 import HtmlFilter from '@/mixins/HtmlFilter'
 import FormTranslation from '@/components/form/FormTranslation'
 export default {
@@ -150,7 +149,6 @@ export default {
   components: {
     VEditor,
     FormTranslation,
-    VCascader,
   },
   mixins: [HtmlFilter],
   props: {

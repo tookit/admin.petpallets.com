@@ -1,6 +1,6 @@
 <template>
-  <div class="list-grid">
-    <v-sheet class="list-grid__filter">
+  <div class="page-list">
+    <v-sheet class="page-list__filter">
       <v-toolbar flat>
         <v-text-field
           v-model="search"
@@ -11,7 +11,7 @@
             showFilter ? 'mdi-filter-variant-plus' : 'mdi-filter-variant'
           "
           append-icon="mdi-magnify"
-          :placeholder="__('search')"
+          placeholder="search"
           hide-details
           clearable
           @keyup.enter="handleApplyFilter"
@@ -31,6 +31,7 @@
         <v-form-builder
           v-model="filters"
           tile
+          flat
           class="grey lighten-4"
           :items="filterItems"
           color="primary"
@@ -41,7 +42,8 @@
         />
       </v-sheet>
     </v-sheet>
-    <v-grid
+    <c-grid
+      v-model="selectedItems"
       :loading="loadingItems"
       :headers="headers"
       :items="items"
@@ -63,7 +65,7 @@
                   <v-icon>mdi-dots-vertical</v-icon>
                 </v-btn>
               </template>
-              <span>{{ __('action') }}</span>
+              <span>Action</span>
             </v-tooltip>
           </template>
           <v-list class="pa-0" dense>
@@ -88,20 +90,21 @@
       >
         <slot :name="name" v-bind="slotData" />
       </template>
-    </v-grid>
+    </c-grid>
   </div>
 </template>
 
 <script>
-import ResizeMixin from '@/mixins/Resize'
 import TooltipMixin from '@/mixins/Tooltip'
-import VGrid from '@/components/grid'
+import CGrid from '@/components/grid'
+import { VFormBuilder } from '@tookit/vma'
 import { getObjectValueByPath } from 'vuetify/lib/util/helpers'
 export default {
   components: {
-    VGrid,
+    CGrid,
+    VFormBuilder,
   },
-  mixins: [ResizeMixin, TooltipMixin],
+  mixins: [TooltipMixin],
   props: {
     headers: {
       type: Array,
@@ -119,8 +122,8 @@ export default {
       type: String,
       default: 'name',
     },
-    action: {
-      type: String,
+    dataSource: {
+      type: [Function, Array],
     },
   },
   data() {
@@ -131,6 +134,7 @@ export default {
       showFilter: true,
       //grid
       selectedItem: null,
+      selectedItems: [],
       loadingItems: false,
       serverItemsLength: 0,
       gridOptions: {
@@ -190,8 +194,8 @@ export default {
       const params = this.buildApiQuery()
       this.loadingItems = true
       this.items = []
-      this.$store
-        .dispatch(this.action, params)
+      this.dataSource
+        .call(this, params)
         .then(({ data, meta }) => {
           this.items = data
           this.serverItemsLength = meta.total
@@ -228,6 +232,8 @@ export default {
     handleAction(act, item) {
       act.click.apply(this, [item])
     },
+
+    // default action
     handleShowAct(act, item) {
       if (act.enable) {
         return act.enable.apply(this, [item])

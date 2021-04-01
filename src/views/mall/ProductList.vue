@@ -253,7 +253,6 @@
 
 <script>
 import TooltipMixin from '@/mixins/Tooltip'
-import VCascader from '@/components/cascader/'
 import { mapGetters } from 'vuex'
 import FormSpecImport from '@/components/form/product/FormSpecImport.vue'
 import FormProductProperty from '@/components/form/product/FormProductProperty.vue'
@@ -261,7 +260,7 @@ import FormProduct from '@/components/form/product/FormProduct.vue'
 export default {
   name: 'ProductList',
   showFormProperty: false,
-  components: { VCascader, FormSpecImport, FormProductProperty, FormProduct },
+  components: { FormSpecImport, FormProductProperty, FormProduct },
   mixins: [TooltipMixin],
   data() {
     return {

@@ -14,13 +14,9 @@
 </template>
 
 <script>
-import VFormBuilder from '@/components/builder/VFormBuilder'
 import { VTextField } from 'vuetify/lib'
 export default {
   name: 'FormProperty',
-  components: {
-    VFormBuilder,
-  },
   props: {
     item: Object,
   },

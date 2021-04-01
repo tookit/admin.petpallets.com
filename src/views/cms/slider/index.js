@@ -1,32 +1,7 @@
-<template>
-  <div class="cms-abbr__list">
-    <v-container>
-      <v-row>
-        <v-col cols="12">
-          <list-grid
-            ref="grid"
-            :headers="headers"
-            :filter-items="filterItems"
-            :actions="actions"
-            action="fetchAbbr"
-            search-field="name"
-            @create="handleCreateItem"
-          />
-        </v-col>
-      </v-row>
-    </v-container>
-  </div>
-</template>
-
-<script>
-import FormAbbr from '@/components/form/cms/FormAbbr'
-import ListGrid from '@/components/list/ListGrid'
+import FormSlider from '@/components/form/cms/FormSlider'
 import ImageViewer from '@/components/image/ImageViewer'
+import { VSwitch } from 'vuetify/lib'
 export default {
-  name: 'PageAbbr',
-  components: {
-    ListGrid,
-  },
   data() {
     return {
       headers: [
@@ -35,26 +10,45 @@ export default {
           value: 'id',
         },
         {
-          text: 'Name',
-          value: 'name',
+          text: 'Image',
+          value: 'img',
           sortable: true,
-        },
-        {
-          text: 'Media',
-          value: 'media',
-          sortable: false,
           render: (item) => {
             return this.$createElement(ImageViewer, {
               props: {
-                items: item.media,
+                items: [
+                  {
+                    cloud_url: item.img,
+                  },
+                ],
               },
             })
           },
         },
         {
-          text: 'Short for',
-          value: 'short_for',
+          text: 'Name',
+          value: 'name',
+          sortable: true,
+        },
+        {
+          text: 'Active',
+          value: 'is_active',
           sortable: false,
+          render: (item) => {
+            return this.$createElement(VSwitch, {
+              props: {
+                value: item.is_active,
+                inputValue: item.is_active,
+                trueValue: true,
+                falseValue: false,
+              },
+              on: {
+                change: (e) => {
+                  this.handleStatusChange(item.id, 'is_active', e)
+                },
+              },
+            })
+          },
         },
         {
           text: 'Action',
@@ -65,19 +59,9 @@ export default {
       items: [],
       actions: [
         {
-          text: 'View Item',
-          icon: 'mdi-eye',
-          click: this.handleViewItem,
-        },
-        {
           text: 'Edit Item',
           icon: 'mdi-pencil',
           click: this.handleEditItem,
-        },
-        {
-          text: 'Edit Value',
-          icon: 'mdi-pencil',
-          click: this.handleEditValue,
         },
         {
           text: 'Delete Item',
@@ -95,10 +79,20 @@ export default {
   watch: {},
   methods: {
     //action
+    handleStatusChange(id, field, value) {
+      const data = {}
+      data[field] = value
+      this.$store
+        .dispatch('updateSlider', {
+          id: id,
+          data: data,
+        })
+        .then(() => {})
+    },
     handleCreateItem() {
       const dialog = this.$root.$dialog
       dialog.loadComponent({
-        component: FormAbbr,
+        component: FormSlider,
         data: {
           item: null,
         },
@@ -113,7 +107,7 @@ export default {
     handleEditItem(item) {
       const dialog = this.$root.$dialog
       dialog.loadComponent({
-        component: FormAbbr,
+        component: FormSlider,
         data: {
           item: item,
         },
@@ -127,11 +121,10 @@ export default {
     },
     handleDeleteItem({ id }) {
       if (window.confirm('Are you sure to delete this item ?')) {
-        this.$store.dispatch('deleteAbbr', id).then(() => {
+        this.$store.dispatch('deleteSlider', id).then(() => {
           this.$refs.grid.fetchRecords()
         })
       }
     },
   },
 }
-</script>

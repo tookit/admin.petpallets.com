@@ -13,13 +13,9 @@
 </template>
 
 <script>
-import VFormBuilder from '@/components/builder/VFormBuilder'
-import { VTextField, VTextarea } from 'vuetify/lib'
+import { VTextField } from 'vuetify/lib'
 export default {
   name: 'FormTag',
-  components: {
-    VFormBuilder,
-  },
   props: {
     item: Object,
   },

@@ -10,11 +10,11 @@
     </v-btn>-->
     <!-- setting drawer -->
     <v-navigation-drawer
+      v-model="rightDrawer"
       width="450"
       class="setting-drawer"
       temporary
       right
-      v-model="rightDrawer"
       hide-overlay
       fixed
     >
@@ -22,15 +22,15 @@
     </v-navigation-drawer>
     <!-- global snackbar -->
     <v-snackbar
+      v-model="snackbar.show"
       :timeout="3000"
       app
       top
       centered
       :color="snackbar.color"
-      v-model="snackbar.show"
     >
       {{ snackbar.text }}
-      <template v-slot:action="{ attrs }">
+      <template #action="{ attrs }">
         <v-btn icon v-bind="attrs" @click="snackbar.show = false">
           <v-icon>mdi-close</v-icon>
         </v-btn>
@@ -46,7 +46,7 @@ import DialogLoader from '@/components/dialog/DialogLoader'
 export default {
   components: {
     ThemeSettings,
-    DialogLoader
+    DialogLoader,
   },
   data() {
     return {
@@ -54,8 +54,8 @@ export default {
       snackbar: {
         show: false,
         text: '',
-        color: ''
-      }
+        color: '',
+      },
     }
   },
   mounted() {
@@ -69,24 +69,24 @@ export default {
     this.$on('AUTH_FAILED', (e) => {
       this.snackbar = {
         show: true,
-        text: e.message
+        text: e.message,
       }
       this.$router.push({
         path: '/auth/login',
-        query: { redirect: this.$route.path }
+        query: { redirect: this.$route.path },
       })
     })
     this.$on('API_FAILED', (e) => {
       this.snackbar = {
         show: true,
-        text: e.reason
+        text: e.reason,
       }
     })
     this.$on('SHOW_SNACKBAR', (e) => {
       this.snackbar = {
         show: true,
         text: e.text,
-        color: e.color
+        color: e.color,
       }
     })
 
@@ -96,8 +96,8 @@ export default {
     openThemeSettings() {
       this.$vuetify.goTo(0)
       this.rightDrawer = !this.rightDrawer
-    }
-  }
+    },
+  },
 }
 </script>
 

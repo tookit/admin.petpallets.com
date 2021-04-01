@@ -1,33 +1,6 @@
-<template>
-  <div class="cms-tag__list">
-    <v-container>
-      <v-row>
-        <v-col cols="12">
-          <list-grid
-            ref="grid"
-            :headers="headers"
-            :filter-items="filterItems"
-            :actions="actions"
-            action="fetchTags"
-            search-field="name"
-            @create="handleCreateItem"
-          />
-        </v-col>
-      </v-row>
-    </v-container>
-  </div>
-</template>
-
-<script>
-import FormTag from '@/components/form/cms/FormTag'
-import ListGrid from '@/components/list/ListGrid'
-import { VTextField, VAutocomplete } from 'vuetify/lib'
-import { mapGetters } from 'vuex'
+import FormAbbr from '@/components/form/cms/FormAbbr'
+import ImageViewer from '@/components/image/ImageViewer'
 export default {
-  name: 'PageTag',
-  components: {
-    ListGrid,
-  },
   data() {
     return {
       headers: [
@@ -41,8 +14,20 @@ export default {
           sortable: true,
         },
         {
-          text: 'Type',
-          value: 'type',
+          text: 'Media',
+          value: 'media',
+          sortable: false,
+          render: (item) => {
+            return this.$createElement(ImageViewer, {
+              props: {
+                items: item.media,
+              },
+            })
+          },
+        },
+        {
+          text: 'Short for',
+          value: 'short_for',
           sortable: false,
         },
         {
@@ -64,6 +49,11 @@ export default {
           click: this.handleEditItem,
         },
         {
+          text: 'Edit Value',
+          icon: 'mdi-pencil',
+          click: this.handleEditValue,
+        },
+        {
           text: 'Delete Item',
           icon: 'mdi-close',
           click: this.handleDeleteItem,
@@ -72,20 +62,8 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getTagTypes']),
     filterItems() {
-      return [
-        {
-          cols: 6,
-          element: VAutocomplete,
-          props: {
-            name: 'type',
-            items: this.getTagTypes,
-            outlined: true,
-            hideDetails: true,
-          },
-        },
-      ]
+      return []
     },
   },
   watch: {},
@@ -94,7 +72,7 @@ export default {
     handleCreateItem() {
       const dialog = this.$root.$dialog
       dialog.loadComponent({
-        component: FormTag,
+        component: FormAbbr,
         data: {
           item: null,
         },
@@ -109,7 +87,7 @@ export default {
     handleEditItem(item) {
       const dialog = this.$root.$dialog
       dialog.loadComponent({
-        component: FormTag,
+        component: FormAbbr,
         data: {
           item: item,
         },
@@ -123,11 +101,10 @@ export default {
     },
     handleDeleteItem({ id }) {
       if (window.confirm('Are you sure to delete this item ?')) {
-        this.$store.dispatch('deleteTag', id).then(() => {
+        this.$store.dispatch('deleteAbbr', id).then(() => {
           this.$refs.grid.fetchRecords()
         })
       }
     },
   },
 }
-</script>

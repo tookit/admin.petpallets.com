@@ -10,13 +10,9 @@
 </template>
 
 <script>
-import VFormBuilder from '@/components/builder/VFormBuilder'
 import VJsonEditor from '@/components/editor/VJsonEditor'
 export default {
   name: 'FormItemMap',
-  components: {
-    VFormBuilder,
-  },
   props: {
     item: Object,
   },

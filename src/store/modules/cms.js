@@ -85,6 +85,12 @@ const actions = {
       data: data,
     })
   },
+  deleteNews({ commit }, id) {
+    return request({
+      url: `/cms/post/${id}`,
+      method: 'delete',
+    })
+  },
   updateTag({ commit }, { id, data }) {
     return request({
       url: `/cms/tag/${id}`,
