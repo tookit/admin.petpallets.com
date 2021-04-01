@@ -39,19 +39,9 @@ export default {
       items: [],
       actions: [
         {
-          text: 'View Item',
-          icon: 'mdi-eye',
-          click: this.handleViewItem,
-        },
-        {
           text: 'Edit Item',
           icon: 'mdi-pencil',
           click: this.handleEditItem,
-        },
-        {
-          text: 'Edit Value',
-          icon: 'mdi-pencil',
-          click: this.handleEditValue,
         },
         {
           text: 'Delete Item',
