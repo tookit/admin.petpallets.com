@@ -89,6 +89,7 @@ export default {
           props: {
             name: 'directory',
             items: this.getMediaDir,
+            clearable: true,
             outlined: true,
             hideDetails: true,
             itemText: 'directory',

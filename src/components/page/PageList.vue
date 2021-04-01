@@ -234,7 +234,6 @@ export default {
     handleAction(act, item) {
       act.click.apply(this, [item])
     },
-
     // default action
     handleShowAct(act, item) {
       if (act.enable) {

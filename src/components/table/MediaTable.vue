@@ -1,179 +1,145 @@
 <template>
-  <div class="table-media">
-    <v-card>
-      <v-toolbar flat>
-        <v-text-field
-          v-model="filter['filter[property.fingerprint]']"
-          text
-          solo
-          flat
-          :prepend-icon="
-            showFilter ? 'mdi-filter-variant-plus' : 'mdi-filter-variant'
-          "
-          append-icon="mdi-magnify"
-          :placeholder="__('search')"
-          hide-details
-          clearable
-          @keyup.enter="handleApplyFilter"
-          @click:append="handleApplyFilter"
-          @click:prepend="showFilter = !showFilter"
-          @click:clear="handleClear"
-        />
-        <v-btn icon @click="handleRefreshItem">
-          <v-icon>mdi-refresh</v-icon>
-        </v-btn>
-        <v-btn icon @click="handleCreateItem">
-          <v-icon>mdi-plus</v-icon>
-        </v-btn>
-      </v-toolbar>
-      <v-divider />
-      <v-card v-show="showFilter" flat class="grey lighten-4">
-        <v-card-text>
-          <v-row>
-            <v-col cols="4">
-              <v-combobox
-                v-model="filter['filter[directory]']"
-                outlined
-                clearable
-                name="directory"
-                placeholder="Directory"
-                :items="getMediaDir"
-                item-text="directory"
-                item-value="directory"
-              />
-            </v-col>
-            <v-col cols="4">
-              <v-autocomplete
-                v-model="filter['filter[disk]']"
-                outlined
-                clearable
-                name="disk"
-                placeholder="Disk"
-                :items="['local', 'oss']"
-              />
-            </v-col>
-          </v-row>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn text @click="handleResetFilter">{{ __('reset') }}</v-btn>
-          <v-btn tile color="primary" @click="handleApplyFilter">{{
-            __('apply')
-          }}</v-btn>
-        </v-card-actions>
-      </v-card>
-      <v-card-text class="pa-0">
-        <v-data-table
-          v-model="selectedItems"
-          :loading="loadingItems"
-          :headers="headers"
-          :items="items"
-          :footer-props="{ itemsPerPageOptions: [15, 30, 50] }"
-          :server-items-length="serverItemsLength"
-          :items-per-page.sync="filter['pageSize']"
-          :page.sync="filter['page']"
-          item-key="id"
-          :show-select="showSelect"
-          :single-select="singleSelect"
-          @update:page="handlePageChanged"
-          @update:items-per-page="handlePageSizeChanged"
-          @item-selected="handleItemSelected"
-        >
-          <template #[`item.cloud_url`]="{ item }">
-            <div
-              :href="item.cloud_url"
-              class="glightbox"
-              target="blank"
-              @click.stop="handleViewImage"
-            >
-              <img class="ma-2" :src="item.tiny_image" height="50" width="50" />
-            </div>
-          </template>
-          <template #[`item.size`]="{ item }">
-            <span>{{ item.size | bytes }}</span>
-          </template>
-          <template #[`item.action`]="{ item }">
-            <v-menu>
-              <template #activator="{ on: menu }">
-                <v-tooltip bottom>
-                  <template #activator="{ on: tooltip }">
-                    <v-btn icon v-on="onTooltip({ ...tooltip, ...menu })">
-                      <v-icon>mdi-dots-vertical</v-icon>
-                    </v-btn>
-                  </template>
-                  <span>{{ __('$vuetify.action') }}</span>
-                </v-tooltip>
-              </template>
-              <v-list class="pa-0" dense>
-                <v-list-item
-                  v-for="action in actions"
-                  :key="action.text"
-                  @click="action.click(item)"
-                >
-                  <v-list-item-icon class="mr-2">
-                    <v-icon small>{{ action.icon }}</v-icon>
-                  </v-list-item-icon>
-                  <v-list-item-title>{{ action.text }}</v-list-item-title>
-                </v-list-item>
-              </v-list>
-            </v-menu>
-          </template>
-        </v-data-table>
+  <v-card>
+    <v-toolbar flat>
+      <v-text-field
+        v-model="filter['filter[property.fingerprint]']"
+        text
+        solo
+        flat
+        :prepend-icon="
+          showFilter ? 'mdi-filter-variant-plus' : 'mdi-filter-variant'
+        "
+        append-icon="mdi-magnify"
+        :placeholder="__('search')"
+        hide-details
+        clearable
+        @keyup.enter="handleApplyFilter"
+        @click:append="handleApplyFilter"
+        @click:prepend="showFilter = !showFilter"
+        @click:clear="handleClear"
+      />
+      <v-btn icon @click="handleRefreshItem">
+        <v-icon>mdi-refresh</v-icon>
+      </v-btn>
+      <v-btn icon @click="handleCreateItem">
+        <v-icon>mdi-plus</v-icon>
+      </v-btn>
+    </v-toolbar>
+    <v-divider />
+    <v-card v-show="showFilter" flat class="grey lighten-4">
+      <v-card-text>
+        <v-row>
+          <v-col cols="4">
+            <v-combobox
+              v-model="filter['filter[directory]']"
+              outlined
+              clearable
+              name="directory"
+              placeholder="Directory"
+              :items="getMediaDir"
+              item-text="directory"
+              item-value="directory"
+            />
+          </v-col>
+          <v-col cols="4">
+            <v-autocomplete
+              v-model="filter['filter[disk]']"
+              outlined
+              clearable
+              name="disk"
+              placeholder="Disk"
+              :items="['local', 'oss']"
+            />
+          </v-col>
+        </v-row>
       </v-card-text>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn text @click="handleResetFilter">{{ __('reset') }}</v-btn>
+        <v-btn tile color="primary" @click="handleApplyFilter">{{
+          __('apply')
+        }}</v-btn>
+      </v-card-actions>
     </v-card>
-    <v-dialog v-model="showEditDialog" width="800px" scrollable>
-      <v-card>
-        <v-toolbar dark tile color="primary">
-          <v-toolbar-title> Edit Image </v-toolbar-title>
-          <v-spacer />
-          <v-icon @click="showEditDialog = false">mdi-close</v-icon>
-        </v-toolbar>
-        <v-card-text v-if="selectedItem" class="pa-0">
-          <form-media
-            :item="selectedItem"
-            @form:cancel="handleFormCancel"
-            @form:success="handleUploadSuccess"
-          />
-        </v-card-text>
-      </v-card>
+    <v-card-text class="pa-0">
+      <v-data-table
+        v-model="selectedItems"
+        :loading="loadingItems"
+        :headers="headers"
+        :items="items"
+        :footer-props="{ itemsPerPageOptions: [15, 30, 50] }"
+        :server-items-length="serverItemsLength"
+        :items-per-page.sync="filter['pageSize']"
+        :page.sync="filter['page']"
+        item-key="id"
+        :show-select="showSelect"
+        :single-select="singleSelect"
+        @update:page="handlePageChanged"
+        @update:items-per-page="handlePageSizeChanged"
+        @item-selected="handleItemSelected"
+      >
+        <template #[`item.cloud_url`]="{ item }">
+          <div
+            :href="item.cloud_url"
+            class="glightbox"
+            target="blank"
+            @click.stop="handleViewImage"
+          >
+            <img class="ma-2" :src="item.tiny_image" height="50" width="50" />
+          </div>
+        </template>
+        <template #[`item.size`]="{ item }">
+          <span>{{ item.size | bytes }}</span>
+        </template>
+        <template #[`item.action`]="{ item }">
+          <v-menu>
+            <template #activator="{ on: menu }">
+              <v-tooltip bottom>
+                <template #activator="{ on: tooltip }">
+                  <v-btn icon v-on="onTooltip({ ...tooltip, ...menu })">
+                    <v-icon>mdi-dots-vertical</v-icon>
+                  </v-btn>
+                </template>
+                <span>{{ __('$vuetify.action') }}</span>
+              </v-tooltip>
+            </template>
+            <v-list class="pa-0" dense>
+              <v-list-item
+                v-for="action in actions"
+                :key="action.text"
+                @click="action.click(item)"
+              >
+                <v-list-item-icon class="mr-2">
+                  <v-icon small>{{ action.icon }}</v-icon>
+                </v-list-item-icon>
+                <v-list-item-title>{{ action.text }}</v-list-item-title>
+              </v-list-item>
+            </v-list>
+          </v-menu>
+        </template>
+      </v-data-table>
+    </v-card-text>
+    <v-dialog v-model="showUploadDialog" width="640">
+      <form-upload :action="uploadAction" />
     </v-dialog>
-    <v-dialog v-model="showUploadDialog" width="800px" scrollable>
-      <v-card>
-        <v-toolbar dark tile color="primary">
-          <v-toolbar-title> Upload </v-toolbar-title>
-          <v-spacer />
-          <v-icon @click="showUploadDialog = false">mdi-close</v-icon>
-        </v-toolbar>
-        <v-card-text class="pa-0">
-          <form-upload
-            :action="uploadAction"
-            :entity-id="entityId"
-            :entity="entity"
-            :item="selectedItem"
-            @form:cancel="handleFormCancel"
-            @form:success="handleUploadSuccess"
-          />
-        </v-card-text>
-      </v-card>
+    <v-dialog v-model="showEditDialog" width="640">
+      <form-media :item="selectedItem" />
     </v-dialog>
-    <vue-easy-lightbox
-      :visible="showLightbox"
-      :imgs="imgs"
-      :index="index"
-      @hide="showLightbox = false"
-    />
-  </div>
+  </v-card>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
 import ResizeMixin from '@/mixins/Resize'
 import TooltipMixin from '@/mixins/Tooltip'
+import FormUpload from '@/components/form/media/FormUpload.vue'
+import FormMedia from '@/components/form/media/FormMedia.vue'
 import bytes from 'bytes'
-import FormUpload from '../form/media/FormUpload.vue'
-import FormMedia from '../form/media/FormMedia.vue'
 export default {
-  components: { FormUpload, FormMedia },
+  components: {
+    FormUpload,
+    FormMedia,
+  },
   filters: {
     bytes: (val) => {
       return bytes(val)
@@ -199,10 +165,6 @@ export default {
   },
   data() {
     return {
-      showLightbox: false,
-      index: 0,
-      //
-      submiting: false,
       showUploadDialog: false,
       showEditDialog: false,
       //filter
@@ -291,22 +253,6 @@ export default {
     },
   },
   watch: {
-    '$route.query': {
-      handler(data) {
-        if (this.$route.name === 'media.index') {
-          if (Object.keys(data).length === 0 && data.constructor === Object) {
-            this.resetFilter()
-            this.fetchRecords()
-          } else {
-            const query = this.updateFilterQuery(data)
-            this.fetchRecords(query)
-          }
-        } else {
-          this.fetchRecords(this.filter)
-        }
-      },
-      immediate: true,
-    },
     selectedItems: {
       handler(val) {
         this.$emit('input', val)
@@ -316,6 +262,7 @@ export default {
     directory: {
       handler(val) {
         this.filter['filter[directory]'] = val
+        this.fetchRecords(this.filter)
       },
       immediate: true,
     },
