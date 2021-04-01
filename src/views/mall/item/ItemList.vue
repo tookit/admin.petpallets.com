@@ -13,6 +13,7 @@
             }
           "
           search-field="name"
+          @create="handleCreateItem"
         />
       </v-col>
     </v-row>

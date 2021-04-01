@@ -1,4 +1,5 @@
-import FormItem from '@/components/form/mall/FormItem'
+import FormQuickItem from '@/components/form/mall/item/FormQuickItem'
+// import FormItem from '@/components/form/mall/item/FormItem'
 import ImageViewer from '@/components/image/ImageViewer'
 import { VAutocomplete, VSwitch } from 'vuetify/lib'
 import { mapGetters } from 'vuex'
@@ -25,6 +26,18 @@ export default {
         {
           text: this.__('name'),
           value: 'name',
+          render: (item) => {
+            return this.$createElement(
+              'a',
+              {
+                domProps: {
+                  target: '_blank',
+                  href: item.href,
+                },
+              },
+              item.name
+            )
+          },
         },
         {
           text: this.__('vendor'),
@@ -38,7 +51,7 @@ export default {
                   href: item.reference_url,
                 },
               },
-              item.vendor.name
+              item.vendor ? item.vendor.name : ''
             )
           },
         },
@@ -47,7 +60,7 @@ export default {
           value: 'categories',
           width: 250,
           render: (item) => {
-            const label = item.categories.map((item) => item.name).join(' / ')
+            const label = item.category ? item.category.name : ''
             return this.$createElement('span', {}, label)
           },
         },
@@ -162,7 +175,7 @@ export default {
     handleCreateItem() {
       const dialog = this.$root.$dialog
       dialog.loadComponent({
-        component: FormItem,
+        component: FormQuickItem,
         data: {
           item: null,
         },
@@ -177,7 +190,7 @@ export default {
     handleEditItem(item) {
       const dialog = this.$root.$dialog
       dialog.loadComponent({
-        component: FormItem,
+        component: FormQuickItem,
         data: {
           item: item,
         },
