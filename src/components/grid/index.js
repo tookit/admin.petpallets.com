@@ -74,6 +74,7 @@ export default VDataTable.extend({
               )
       }
       if (this.nested) {
+        console.log('her')
         const slot = scopedSlots[this.nestedLabel]
         const margin = item.depth * 6
         const icon = this.isParent(item)

@@ -166,7 +166,6 @@ export default {
       this.filterItems.forEach((item) => {
         const key = item.props.name
         const val = getObjectValueByPath(query, key)
-        console.log(key, val)
         const value = item.transform ? item.transform.call(this, val) : val
         this.filters[key] = value || null
       })
@@ -201,6 +200,7 @@ export default {
       this.dataSource
         .call(this, params)
         .then(({ data, meta }) => {
+          console.log(data.map((item) => item.id))
           this.items = data
           this.serverItemsLength = meta.total
           this.loadingItems = false

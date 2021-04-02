@@ -129,6 +129,7 @@ export default {
         })
     },
     handlePropertyChange(id) {
+      console.log(id)
       this.$store
         .dispatch('fetchPropertyValue', {
           'filter[property_id]': id,
