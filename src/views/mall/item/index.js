@@ -42,6 +42,7 @@ export default {
               {
                 icon: 'mdi-cloud',
                 click: this.handleEditSpec,
+                color: item.property_values.length > 0 ? 'grey' : 'error',
               },
               {
                 icon: 'mdi-image',
@@ -65,7 +66,7 @@ export default {
                   return this.$createElement(
                     VIcon,
                     {
-                      props: { size: 20 },
+                      props: { size: 20, color: act.color },
                       on: {
                         click: () => {
                           act.click(item)
@@ -293,7 +294,7 @@ export default {
       dialog.loadComponent({
         component: FormSpecImport,
         data: {
-          productId: item.id,
+          product: item,
           inDialog: true,
         },
         on: {

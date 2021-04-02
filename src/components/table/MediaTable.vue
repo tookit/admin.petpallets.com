@@ -113,7 +113,11 @@
       </v-data-table>
     </v-card-text>
     <v-dialog v-model="showUploadDialog" width="640">
-      <form-upload :action="uploadAction" />
+      <form-upload
+        :action="uploadAction"
+        :entity-id="entityId"
+        :entity="entity"
+      />
     </v-dialog>
     <v-dialog v-model="showEditDialog" width="640">
       <form-media :item="selectedItem" />

@@ -55,6 +55,7 @@
       @update:items-per-page="handleApplyFilter"
       @update:page="handleApplyFilter"
       @update:sort-by="handleApplyFilter"
+      @click:row="handleRowClick"
     >
       <template #[`item.action`]="{ item }">
         <v-menu>
@@ -242,6 +243,9 @@ export default {
       } else {
         return true
       }
+    },
+    handleRowClick(row) {
+      this.selectedItems = [row]
     },
   },
 }

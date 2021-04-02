@@ -1,10 +1,10 @@
 <template>
   <v-card>
     <v-toolbar v-show="inDialog" dark tile color="primary">
-      <v-toolbar-title> {{ title }}</v-toolbar-title>
+      <v-toolbar-title> {{ title }} - {{ product.name }}</v-toolbar-title>
       <v-spacer />
       <v-btn icon>
-        <v-icon @click="fetchRecords(productId)">mdi-refresh</v-icon>
+        <v-icon @click="fetchRecords(product.id)">mdi-refresh</v-icon>
       </v-btn>
       <v-btn icon>
         <v-icon @click="handleAddProperty()">mdi-plus</v-icon>
@@ -76,7 +76,7 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'FormSpecImport',
   props: {
-    productId: [Number, String],
+    product: Object,
     inDialog: Boolean,
     height: {
       type: String,
@@ -128,9 +128,9 @@ export default {
     ...mapGetters(['getProperties', 'getPropertyName']),
   },
   watch: {
-    productId: {
-      handler(id) {
-        if (id) this.fetchRecords(id)
+    product: {
+      handler(product) {
+        if (product) this.fetchRecords(product.id)
       },
       immediate: true,
     },
@@ -166,7 +166,7 @@ export default {
       const selected = this.selectedItems.map((item) => item.name)
       const options = this.items.filter((item) => selected.includes(item.name))
       const data = {
-        id: this.productId,
+        id: this.product.id,
         data: {
           options: options,
         },
