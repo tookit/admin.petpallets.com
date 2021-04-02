@@ -1,30 +1,51 @@
 import request from '@/utils/request'
 
 const state = {
+  entityList: [
+    {
+      text: 'Product',
+      value: 'App\\Models\\Mall\\Product',
+    },
+    {
+      text: 'Category',
+      value: 'App\\Models\\Mall\\Category',
+    },
+    {
+      text: 'Slider',
+      value: 'App\\Models\\CMS\\Slider',
+    },
+    {
+      text: 'News',
+      value: 'App\\Models\\CMS\\Post',
+    },
+  ],
   exts: [],
-  dirs: []
+  dirs: [],
 }
 const getters = {
+  getEntityList: (state) => {
+    return state.entityList
+  },
   getMediaDir: (state) => {
     return state.dirs
   },
   getMediaExt: (state) => {
     return state.exts
-  }
+  },
 }
 const actions = {
   fetchMedia({ commit }, query) {
     return request({
       url: `/media`,
       method: 'get',
-      params: query
+      params: query,
     })
   },
   fetchMediaExt({ commit }) {
     return request({
       url: `/media/ext`,
       method: 'get',
-    }).then(({data}) => {
+    }).then(({ data }) => {
       commit('SET_MEDIA_EXT', data)
       return data
     })
@@ -33,7 +54,7 @@ const actions = {
     return request({
       url: `/media/dir`,
       method: 'get',
-    }).then(({data}) => {
+    }).then(({ data }) => {
       commit('SET_MEDIA_DIR', data)
       return data
     })
@@ -48,14 +69,14 @@ const actions = {
     return request({
       url: `/media`,
       method: 'post',
-      data: data
+      data: data,
     })
   },
   updateMedia({ commit }, { id, data }) {
     return request({
       url: `/media/${id}`,
       method: 'put',
-      data: data
+      data: data,
     })
   },
 
@@ -66,11 +87,10 @@ const actions = {
       data: {
         entity,
         entityId,
-        tag
-      }
+        tag,
+      },
     })
   },
-
 
   detachEntityForMedia({ commit }, { id, entityId, entity, tag }) {
     return request({
@@ -79,8 +99,8 @@ const actions = {
       data: {
         entity,
         entityId,
-        tag
-      }
+        tag,
+      },
     })
   },
 
@@ -96,19 +116,14 @@ const actions = {
       method: 'delete',
     })
   },
-
-
-
 }
 const mutations = {
-  SET_MEDIA_EXT(state, data)
-  {
+  SET_MEDIA_EXT(state, data) {
     state.exts = data
   },
-  SET_MEDIA_DIR(state, data)
-  {
+  SET_MEDIA_DIR(state, data) {
     state.dirs = data
-  }
+  },
 }
 
 export default {
@@ -116,5 +131,5 @@ export default {
   state,
   getters,
   actions,
-  mutations
+  mutations,
 }

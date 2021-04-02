@@ -84,6 +84,11 @@
         <template #[`item.size`]="{ item }">
           <span>{{ item.size | bytes }}</span>
         </template>
+        <template #[`item.entity`]="{ item }">
+          <span v-if="item.product.length > 0">
+            {{ item.product[0].id }}
+          </span>
+        </template>
         <template #[`item.action`]="{ item }">
           <v-menu>
             <template #activator="{ on: menu }">
@@ -122,6 +127,9 @@
     <v-dialog v-model="showEditDialog" width="640">
       <form-media :item="selectedItem" />
     </v-dialog>
+    <v-dialog v-model="showAttachDialog" width="640">
+      <form-entity :item="selectedItem" />
+    </v-dialog>
   </v-card>
 </template>
 
@@ -132,12 +140,14 @@ import TooltipMixin from '@/mixins/Tooltip'
 import ImageViewer from '@/components/image/ImageViewer'
 import FormUpload from '@/components/form/media/FormUpload.vue'
 import FormMedia from '@/components/form/media/FormMedia.vue'
+import FormEntity from '@/components/form/media/FormEntity.vue'
 import bytes from 'bytes'
 export default {
   components: {
     ImageViewer,
     FormUpload,
     FormMedia,
+    FormEntity,
   },
   filters: {
     bytes: (val) => {
@@ -164,6 +174,7 @@ export default {
   },
   data() {
     return {
+      showAttachDialog: false,
       showUploadDialog: false,
       showEditDialog: false,
       //filter
@@ -193,6 +204,10 @@ export default {
         {
           text: 'Fingerprint',
           value: 'fingerprint',
+        },
+        {
+          text: 'Entity',
+          value: 'entity',
         },
         {
           text: 'Size',
@@ -230,6 +245,11 @@ export default {
           text: 'Delete Item',
           icon: 'mdi-close',
           click: this.handleDeleteItem,
+        },
+        {
+          text: 'Attach Entity',
+          icon: 'mdi-pencil',
+          click: this.handleAttachEntity,
         },
       ],
     }
@@ -369,6 +389,10 @@ export default {
     },
     handleItemSelected(e) {
       // this.$emit('input', this.selectedItems)
+    },
+    handleAttachEntity(item) {
+      this.selectedItem = item
+      this.showAttachDialog = true
     },
   },
 }
