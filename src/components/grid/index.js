@@ -23,7 +23,7 @@ export default VDataTable.extend({
       default: 'name',
     },
   },
-
+  created() {},
   methods: {
     genDefaultSimpleRow(item, index, classes = {}) {
       const rows = []

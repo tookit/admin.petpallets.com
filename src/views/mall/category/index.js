@@ -1,5 +1,7 @@
-import FormAbbr from '@/components/form/cms/FormAbbr'
+import FormMallCategory from '@/components/form/mall/category/FormMallCategory'
+import FormMergeCategory from '@/components/form/mall/category/FormMergeCategory'
 import { mapGetters } from 'vuex'
+import { VAutocomplete } from 'vuetify/lib'
 export default {
   data() {
     return {
@@ -11,6 +13,21 @@ export default {
         {
           text: 'Name',
           value: 'name',
+          render: (item) => {
+            const nodes = [
+              this.$createElement(
+                'a',
+                {
+                  domProps: {
+                    target: '_blank',
+                    href: item.href,
+                  },
+                },
+                item.name
+              ),
+            ]
+            return nodes
+          },
         },
         {
           text: 'Sort',
@@ -19,7 +36,20 @@ export default {
         {
           text: this.__('flag'),
           value: 'flag',
-          width: 50,
+          width: 120,
+          render: (item) => {
+            return this.$createElement(VAutocomplete, {
+              props: {
+                items: this.getProductFlags,
+                value: item.flag,
+              },
+              on: {
+                change: (val) => {
+                  this.handleUpdateField('flag', val, item.id)
+                },
+              },
+            })
+          },
         },
         {
           text: this.__('status'),
@@ -40,11 +70,6 @@ export default {
       items: [],
       actions: [
         {
-          text: this.__('add_child'),
-          icon: 'mdi-plus',
-          click: this.handleAddChild,
-        },
-        {
           text: this.__('view_item'),
           icon: 'mdi-eye',
           click: this.handleViewItem,
@@ -55,19 +80,14 @@ export default {
           click: this.handleEditItem,
         },
         {
-          text: this.__('move_item'),
+          text: 'Merge Category',
           icon: 'mdi-pencil',
-          click: this.handleMoveItem,
+          click: this.handleMergeItem,
         },
         {
           text: this.__('delete_item'),
           icon: 'mdi-close',
           click: this.handleDeleteItem,
-        },
-        {
-          text: this.__('translate_item'),
-          icon: 'mdi-translate',
-          click: this.handleShowTranslation,
         },
       ],
     }
@@ -97,10 +117,13 @@ export default {
   watch: {},
   methods: {
     //action
+    handleViewItem({ href }) {
+      window.open(href, '_blank')
+    },
     handleCreateItem() {
       const dialog = this.$root.$dialog
       dialog.loadComponent({
-        component: FormAbbr,
+        component: FormMallCategory,
         data: {
           item: null,
         },
@@ -115,7 +138,22 @@ export default {
     handleEditItem(item) {
       const dialog = this.$root.$dialog
       dialog.loadComponent({
-        component: FormAbbr,
+        component: FormMallCategory,
+        data: {
+          item: item,
+        },
+        on: {
+          'form:cancel': () => {
+            dialog.hide()
+          },
+        },
+      })
+      dialog.show()
+    },
+    handleMergeItem(item) {
+      const dialog = this.$root.$dialog
+      dialog.loadComponent({
+        component: FormMergeCategory,
         data: {
           item: item,
         },
@@ -129,10 +167,20 @@ export default {
     },
     handleDeleteItem({ id }) {
       if (window.confirm('Are you sure to delete this item ?')) {
-        this.$store.dispatch('deleteAbbr', id).then(() => {
+        this.$store.dispatch('deleteProductCategory', id).then(() => {
           this.$refs.grid.fetchRecords()
         })
       }
+    },
+    handleUpdateField(key, val, id) {
+      let data = {}
+      data[key] = val
+      this.$store
+        .dispatch('updateProductCategory', {
+          id: id,
+          data: data,
+        })
+        .then(() => {})
     },
   },
 }

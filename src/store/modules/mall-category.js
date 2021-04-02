@@ -113,12 +113,14 @@ const actions = {
       return resp
     })
   },
-  moveItemsToCategory({}, { id, data }) {
-    console.log(id, data)
+  mergeMallCategory({}, { source, target }) {
     return request({
-      url: `/mall/category/${id}/move_item`,
+      url: `/mall/category/merge`,
       method: 'post',
-      data: data,
+      data: {
+        source,
+        target,
+      },
     }).then((resp) => {
       return resp
     })
