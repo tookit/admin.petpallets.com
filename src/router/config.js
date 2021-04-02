@@ -143,7 +143,8 @@ export const protectedRoute = [
               {
                 path: '/mall/category/list',
                 name: 'mall.category.list',
-                component: () => import('@/views/mall/CategoryList.vue'),
+                component: () =>
+                  import('@/views/mall/category/CategoryList.vue'),
                 meta: {
                   title: 'Category List',
                   hiddenInMenu: false,
@@ -154,7 +155,8 @@ export const protectedRoute = [
                 path: '/mall/category/create',
                 name: 'mall.category.create',
                 props: true,
-                component: () => import('@/views/mall/CategoryItem.vue'),
+                component: () =>
+                  import('@/views/mall/category/CategoryItem.vue'),
                 meta: {
                   title: 'Create  Category',
                   hiddenInMenu: true,
@@ -165,7 +167,8 @@ export const protectedRoute = [
                 path: '/mall/category/item/:id',
                 name: 'mall.category.item',
                 props: true,
-                component: () => import('@/views/mall/CategoryItem.vue'),
+                component: () =>
+                  import('@/views/mall/category/CategoryItem.vue'),
                 meta: {
                   title: 'Edit  Category',
                   hiddenInMenu: true,

@@ -21,6 +21,7 @@ export default {
             return this.$createElement(ImageViewer, {
               props: {
                 items: item.media,
+                item: item.media[0],
               },
             })
           },

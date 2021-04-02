@@ -1,69 +1,70 @@
 <template>
-  <div class="mall-property-list">
-    <v-card>
-      <v-toolbar flat>
-        <v-btn icon @click="fetchRecords(product)">
-          <v-icon>mdi-refresh</v-icon>
-        </v-btn>
-        <v-btn icon @click="handleCreateItem">
-          <v-icon>mdi-plus</v-icon>
-        </v-btn>
-        <v-btn icon @click="handleInheritedProp">
-          <v-icon>mdi-set-merge</v-icon>
-        </v-btn>
-      </v-toolbar>
+  <v-card>
+    <v-toolbar flat dark color="primary">
+      <v-toolbar-title>{{ product.name }}</v-toolbar-title>
+      <v-spacer />
+      <v-btn icon @click="fetchRecords(product)">
+        <v-icon>mdi-refresh</v-icon>
+      </v-btn>
+      <v-btn icon @click="handleCreateItem">
+        <v-icon>mdi-plus</v-icon>
+      </v-btn>
+      <v-btn icon @click="handleInheritedProp">
+        <v-icon>mdi-set-merge</v-icon>
+      </v-btn>
+    </v-toolbar>
+    <v-divider />
+    <v-card-text class="pa-0">
+      <v-subheader>Category Prop</v-subheader>
+      <v-data-table
+        :loading="loadingItems"
+        :headers="headers"
+        :items="catProps"
+        dense
+        show-select
+        hide-default-footer
+        disable-pagination
+      >
+        <template #[`item.options`]="{ item }">
+          <v-autocomplete
+            class="my-1"
+            :items="item.options"
+            item-text="value"
+            item-value="property_value_id"
+            hide-details
+            outlined
+            dense
+            multiple
+            :value="computeValue(item, productProps)"
+            @change="handleAttachProperty"
+          />
+        </template>
+        <template #[`item.action`]="{ item }">
+          <v-icon small @click="attachPropForProduct(item)"
+            >mdi-arrow-down</v-icon
+          >
+        </template>
+      </v-data-table>
       <v-divider />
-      <v-card-text class="pa-0">
-        <v-subheader>Category Prop</v-subheader>
-        <v-data-table
-          :loading="loadingItems"
-          :headers="headers"
-          :items="catProps"
-          dense
-          show-select
-          hide-default-footer
-          disable-pagination
-        >
-          <template #[`item.options`]="{ item }">
-            <v-autocomplete
-              class="my-1"
-              :items="item.options"
-              item-text="value"
-              item-value="property_value_id"
-              hide-details
-              outlined
-              dense
-              :value="computeValue(item.options, productProps)"
-              @change="handleAttachProperty"
-            />
-          </template>
-          <template #[`item.action`]="{ item }">
-            <v-icon small @click="attachPropForProduct(item)"
-              >mdi-arrow-down</v-icon
-            >
-          </template>
-        </v-data-table>
-        <v-divider />
-        <v-subheader>Product Prop</v-subheader>
-        <v-data-table
-          :loading="loadingItems"
-          :headers="headers"
-          :items="filteredProps"
-          item-key="id"
-          dense
-          show-select
-          hide-default-footer
-          disable-pagination
-        >
-          <template #[`item.options`]="{ item }">
-            <span>{{ item.value }}</span>
-          </template>
-          <template #[`item.action`]="{ item }">
-            <v-icon small @click="attachForCategory(item)">mdi-arrow-up</v-icon>
-          </template>
-        </v-data-table>
-      </v-card-text>
-    </v-card>
+      <v-subheader>Product Prop</v-subheader>
+      <v-data-table
+        :loading="loadingItems"
+        :headers="headers"
+        :items="filteredProps"
+        item-key="id"
+        dense
+        show-select
+        hide-default-footer
+        disable-pagination
+      >
+        <template #[`item.options`]="{ item }">
+          <span>{{ item.value }}</span>
+        </template>
+        <template #[`item.action`]="{ item }">
+          <v-icon small @click="attachForCategory(item)">mdi-arrow-up</v-icon>
+        </template>
+      </v-data-table>
+    </v-card-text>
     <v-dialog v-model="showAttachDialog" scrollable width="860px">
       <v-card>
         <v-toolbar dark tile color="primary">
@@ -79,7 +80,7 @@
         </v-card-text>
       </v-card>
     </v-dialog>
-  </div>
+  </v-card>
 </template>
 
 <script>
@@ -153,12 +154,11 @@ export default {
     },
   },
   methods: {
-    computeValue(options, itemProps) {
-      const values = itemProps.map((item) => item.property_value_id)
-      const find = options.find((item) => {
-        return values.includes(item.property_value_id)
-      })
-      return find ? find.property_value_id : null
+    computeValue(item, itemProps) {
+      const find = itemProps.find(
+        (prop) => item.property_id === prop.property_id
+      )
+      return find ? find.options.map((item) => item.property_value_id) : null
     },
     fetchRecords(item) {
       this.loadingItems = true
@@ -187,11 +187,11 @@ export default {
       }
     },
     handleAttachProperty(val) {
-      const payload = {
-        id: this.product.id,
-        data: [val],
-      }
-      this.$store.dispatch('attachPropsForProduct', payload)
+      // const payload = {
+      //   id: this.product.id,
+      //   data: [val],
+      // }
+      // this.$store.dispatch('attachPropsForProduct', payload)
     },
     attachForCategory(item) {
       const data = {

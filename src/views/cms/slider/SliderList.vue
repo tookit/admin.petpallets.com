@@ -9,7 +9,7 @@
           :actions="actions"
           :data-source="
             (q) => {
-              return $store.dispatch('fetchAbbr', q)
+              return $store.dispatch('fetchSlider', q)
             }
           "
           search-field="name"

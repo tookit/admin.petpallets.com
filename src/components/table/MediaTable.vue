@@ -79,7 +79,7 @@
         @item-selected="handleItemSelected"
       >
         <template #[`item.cloud_url`]="{ item }">
-          <image-viewer :items="items" :item="item" />
+          <image-viewer :items="[item]" />
         </template>
         <template #[`item.size`]="{ item }">
           <span>{{ item.size | bytes }}</span>

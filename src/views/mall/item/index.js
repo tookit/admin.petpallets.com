@@ -65,7 +65,7 @@ export default {
                   return this.$createElement(
                     VIcon,
                     {
-                      props: { size: 18 },
+                      props: { size: 20 },
                       on: {
                         click: () => {
                           act.click(item)
