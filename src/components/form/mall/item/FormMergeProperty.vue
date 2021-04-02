@@ -15,47 +15,56 @@
     </v-toolbar>
     <v-divider />
     <v-card-text class="pa-0">
+      <v-subheader>Category Prop</v-subheader>
       <v-data-table
-        v-model="selectedItems"
         :loading="loadingItems"
         :headers="headers"
-        :items="productProps"
+        :items="catProps"
         dense
         show-select
-        single-select
-        item-key="property_id"
         hide-default-footer
         disable-pagination
-        @click:row="handleRowClick"
       >
         <template #[`item.options`]="{ item }">
           <v-autocomplete
-            v-model="item.values"
             class="my-1"
-            :items="getPropertyValuesById(item.property_id)"
+            :items="item.options"
             item-text="value"
-            item-value="id"
+            item-value="property_value_id"
             hide-details
             outlined
             dense
             multiple
-            small-chips
-            deletable-chips
+            :value="computeValue(item, productProps)"
+            @change="handleAttachProperty"
           />
         </template>
         <template #[`item.action`]="{ item }">
-          <v-icon small @click="handleDeleteItem(item)">mdi-delete</v-icon>
+          <v-icon small @click="attachPropForProduct(item)"
+            >mdi-arrow-down</v-icon
+          >
         </template>
       </v-data-table>
       <v-divider />
-    </v-card-text>
-    <v-divider />
-    <v-card-actions>
-      <v-spacer />
-      <v-btn :loading="loading" color="primary" @click="handleAttachProperty"
-        >Save</v-btn
+      <v-subheader>Product Prop</v-subheader>
+      <v-data-table
+        :loading="loadingItems"
+        :headers="headers"
+        :items="productProps"
+        item-key="id"
+        dense
+        show-select
+        hide-default-footer
+        disable-pagination
       >
-    </v-card-actions>
+        <template #[`item.options`]="{ item }">
+          <span>{{ computeItemOptions(item.options) }}</span>
+        </template>
+        <template #[`item.action`]="{ item }">
+          <v-icon small @click="attachForCategory(item)">mdi-arrow-up</v-icon>
+        </template>
+      </v-data-table>
+    </v-card-text>
     <v-dialog v-model="showAttachDialog" scrollable width="860px">
       <v-card>
         <v-toolbar dark tile color="primary">
@@ -66,7 +75,7 @@
         <v-card-text class="pa-0">
           <form-direct-property
             :product-id="product.id"
-            @attach="fetchRecords(product)"
+            @attach="fetchRecords(filter)"
           />
         </v-card-text>
       </v-card>
@@ -78,7 +87,6 @@
 import FormDirectProperty from '@/components/form/product/FormDirectProperty'
 import ResizeMixin from '@/mixins/Resize'
 import TooltipMixin from '@/mixins/Tooltip'
-import { mapGetters } from 'vuex'
 export default {
   components: { FormDirectProperty },
   mixins: [ResizeMixin, TooltipMixin],
@@ -91,9 +99,8 @@ export default {
   data() {
     return {
       showAttachDialog: false,
-      loading: false,
       // table
-      selectedItems: [],
+      selectedItem: null,
       loadingItems: false,
       headers: [
         {
@@ -117,10 +124,22 @@ export default {
       catProps: [],
       itemProps: [],
       productProps: [],
+      actions: [
+        {
+          text: 'Delete Item',
+          icon: 'mdi-close',
+          click: this.handleDeleteItem,
+        },
+      ],
     }
   },
   computed: {
-    ...mapGetters(['getPropertyValuesById']),
+    filteredProps() {
+      const props = this.catProps.map((item) => item.property_id)
+      return this.productProps.filter((item) => {
+        return !props.includes(item.property_id)
+      })
+    },
   },
   watch: {
     product: {
@@ -148,10 +167,7 @@ export default {
         .dispatch('getPropertyValuesByProductId', item.id)
         .then(({ data }) => {
           this.catProps = data.category
-          this.productProps = data.item.map((item) => {
-            item.values = item.options.map((option) => option.property_value_id)
-            return item
-          })
+          this.productProps = data.item
           this.loadingItems = false
         })
         .catch(() => {
@@ -162,17 +178,17 @@ export default {
     handleCreateItem() {
       this.showAttachDialog = true
     },
-    handleDeleteItem(item) {
-      this.productProps = this.productProps.filter(
-        (prop) => prop.property_id !== item.property_id
-      )
-      this.handleAttachProperty()
+    handleDeleteItem({ id }) {
+      if (window.confirm('Are you sure to delete this item ?')) {
+        this.$store.dispatch('deleteProductProperty', id).then(() => {
+          this.items = this.items.filter((item) => item.id !== id)
+        })
+      }
     },
-    handleAttachProperty() {
-      const values = this.productProps.map((item) => item.values).flat()
+    handleAttachProperty(val) {
       const payload = {
         id: this.product.id,
-        data: values,
+        data: val,
       }
       this.$store.dispatch('attachPropsForProduct', payload)
     },
@@ -194,9 +210,6 @@ export default {
     handleInheritedProp() {
       const category_id = this.product.category_id
       this.$store.dispatch('importCategoryProp', category_id)
-    },
-    handleRowClick(row) {
-      this.selectedItems = [row]
     },
   },
 }

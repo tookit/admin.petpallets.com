@@ -165,6 +165,7 @@ export default {
       this.filterItems.forEach((item) => {
         const key = item.props.name
         const val = getObjectValueByPath(query, key)
+        console.log(key, val)
         const value = item.transform ? item.transform.call(this, val) : val
         this.filters[key] = value || null
       })

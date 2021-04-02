@@ -131,6 +131,7 @@ const actions = {
     })
   },
   attachDirectPropForProduct({}, { id, data }) {
+    data.withoutDetach = true
     return request({
       url: `/mall/item/${id}/property`,
       method: 'put',

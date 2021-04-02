@@ -19,6 +19,10 @@ const getters = {
     const find = state.properties.find((item) => item.name === name)
     return find ? find.name : ''
   },
+  getPropertyValuesById: (state) => (id) => {
+    const find = state.properties.find((item) => item.id === id)
+    return find ? find.values : []
+  },
   getSkuProperties: (state) => {
     return state.properties.filter((item) => item.type === 'sku')
   },

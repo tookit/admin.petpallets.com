@@ -57,7 +57,7 @@
           <v-text-field v-model="item.unit" dense hide-details></v-text-field>
         </template>
         <template #[`item.seperator`]="{ item }">
-          <v-select v-model="item.seperator" :items="seperators" />
+          <v-combobox v-model="item.seperator" :items="seperators" />
         </template>
       </v-data-table>
     </v-card-text>
@@ -91,7 +91,7 @@ export default {
     return {
       loading: false,
       searchName: null,
-      seperators: ['/', '-', ',', ''],
+      seperators: ['/', '-', ',', 'to'],
       headers: [
         {
           text: 'Raw Name',
