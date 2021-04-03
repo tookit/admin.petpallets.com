@@ -55,47 +55,10 @@
       </template>
     </v-data-table>
     <v-dialog v-model="showFormDialog" scrollable width="800">
-      <v-card>
-        <v-toolbar flat dark color="primary">
-          <v-toolbar-title>
-            {{ selectedItem ? 'Edit Value' : 'Create Value' }}
-          </v-toolbar-title>
-          <v-spacer />
-          <v-icon @click="showFormDialog = false">mdi-close</v-icon>
-        </v-toolbar>
-        <v-card-text class="pa-0">
-          <form-property-value
-            :item="selectedItem"
-            :property-id="property.id"
-          />
-        </v-card-text>
-      </v-card>
+      <form-property-value :item="selectedItem" :property-id="property.id" />
     </v-dialog>
-    <v-dialog v-model="showMergeDialog" scrollable width="450">
-      <v-card v-if="selectedItem">
-        <v-toolbar flat dark color="primary">
-          <v-toolbar-title>
-            Merge value {{ selectedItem.value }}
-          </v-toolbar-title>
-          <v-spacer />
-          <v-icon @click="showMergeDialog = false">mdi-close</v-icon>
-        </v-toolbar>
-        <v-card-text class="pt-4">
-          <v-autocomplete
-            v-model="targetId"
-            :items="items"
-            item-text="value"
-            item-value="id"
-            label="Target"
-            outlined
-          />
-        </v-card-text>
-        <v-card-actions class="justify-end">
-          <v-btn :loading="merging" color="primary" @click="handleMergeValue"
-            >Save</v-btn
-          >
-        </v-card-actions>
-      </v-card>
+    <v-dialog v-model="showMergeDialog" scrollable width="800">
+      <form-merge-value :source="selectedItem" />
     </v-dialog>
   </div>
 </template>
@@ -103,10 +66,11 @@
 <script>
 import ResizeMixin from '@/mixins/Resize'
 import TooltipMixin from '@/mixins/Tooltip'
-import FormPropertyValue from '@/components/form/product/FormPropertyValue'
+import FormPropertyValue from '@/components/form/mall/property/FormPropertyValue'
+import FormMergeValue from '@/components/form/mall/property/FormMergeValue'
 export default {
   name: 'PropertyValueTable',
-  components: { FormPropertyValue },
+  components: { FormPropertyValue, FormMergeValue },
   mixins: [ResizeMixin, TooltipMixin],
   props: {
     property: Object,
@@ -210,20 +174,6 @@ export default {
           this.items = this.items.filter((item) => item.id !== id)
         })
       }
-    },
-    handleMergeValue() {
-      this.merging = true
-      this.$store
-        .dispatch('mergePropertyValue', {
-          sourceId: this.selectedItem.id,
-          targetId: this.targetId,
-        })
-        .then(() => {
-          this.merging = false
-        })
-        .catch(() => {
-          this.merging = false
-        })
     },
   },
 }

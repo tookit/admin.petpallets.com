@@ -1,5 +1,8 @@
 <template>
   <v-card :loading="loading">
+    <v-toolbar dark color="primary">
+      <v-toolbar-title>{{ formTitle }}</v-toolbar-title>
+    </v-toolbar>
     <v-card-text>
       <v-form>
         <v-container fluid>
@@ -47,7 +50,9 @@ export default {
   },
   computed: {
     formTitle() {
-      return 'Property Value'
+      return this.item
+        ? 'Edit Property Value - ' + this.item.name
+        : 'Create Value'
     },
   },
   watch: {

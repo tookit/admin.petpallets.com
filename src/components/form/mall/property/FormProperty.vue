@@ -1,16 +1,14 @@
 <template>
-  <div>
-    <v-form-builder
-      ref="builder"
-      v-model="formModel"
-      :items="formItems"
-      :loading="loading"
-      color="primary"
-      show-header
-      @form:submit="handleSubmit"
-      @form:cancel="$emit('form:cancel')"
-    />
-  </div>
+  <v-form-builder
+    ref="builder"
+    v-model="formModel"
+    :items="formItems"
+    :loading="loading"
+    color="primary"
+    show-header
+    @form:submit="handleSubmit"
+    @form:cancel="$emit('form:cancel')"
+  />
 </template>
 
 <script>

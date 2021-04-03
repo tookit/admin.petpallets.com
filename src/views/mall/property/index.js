@@ -1,4 +1,4 @@
-import FormProperty from '@/components/form/property/FormProperty'
+import FormProperty from '@/components/form/mall/property/FormProperty'
 import PropertyValueTable from '@/components/table/PropertyValueTable'
 import { VChip, VIcon } from 'vuetify/lib'
 export default {
@@ -42,7 +42,13 @@ export default {
               return this.$createElement(
                 VChip,
                 {
-                  props: { xSmall: true },
+                  class: 'mr-2',
+                  props: { xSmall: true, label: true },
+                  on: {
+                    click: () => {
+                      this.handleViewValue(row)
+                    },
+                  },
                 },
                 val.value
               )
