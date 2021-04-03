@@ -9,12 +9,12 @@ Vue.use(Router)
 const router = new Router({
   mode: 'hash',
   linkActiveClass: 'active',
-  routes: routes
+  routes: routes,
 })
 // router gards
 router.beforeEach((to, from, next) => {
   store.dispatch('updateBreadcrumbs', to)
-  document.title = 'Kame Tech - ' + to.name
+  document.title = 'Kame Tech - ' + to.meta.title
   NProgress.start()
   const token = store.getters.getAccessToken
   if (to.name !== 'login') {

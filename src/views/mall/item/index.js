@@ -155,12 +155,20 @@ export default {
           },
         },
         {
-          text: this.__('active'),
+          text: this.__('status'),
           value: 'is_active',
+          width: 50,
           render: (item) => {
             return this.$createElement(VSwitch, {
               props: {
                 inputValue: item.is_active,
+                trueValue: true,
+                falseVaule: false,
+              },
+              on: {
+                change: (val) => {
+                  this.handleUpdateField('is_active', val, item.id)
+                },
               },
             })
           },

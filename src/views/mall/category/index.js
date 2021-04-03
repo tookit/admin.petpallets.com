@@ -1,7 +1,7 @@
 import FormMallCategory from '@/components/form/mall/category/FormMallCategory'
 import FormMergeCategory from '@/components/form/mall/category/FormMergeCategory'
 import { mapGetters } from 'vuex'
-import { VAutocomplete } from 'vuetify/lib'
+import { VAutocomplete, VSwitch } from 'vuetify/lib'
 export default {
   data() {
     return {
@@ -55,6 +55,20 @@ export default {
           text: this.__('status'),
           value: 'is_active',
           width: 50,
+          render: (item) => {
+            return this.$createElement(VSwitch, {
+              props: {
+                inputValue: item.is_active,
+                trueValue: true,
+                falseVaule: false,
+              },
+              on: {
+                change: (val) => {
+                  this.handleUpdateField('is_active', val, item.id)
+                },
+              },
+            })
+          },
         },
         {
           text: this.__('products'),
@@ -130,8 +144,11 @@ export default {
   watch: {},
   methods: {
     //action
-    handleViewItem({ href }) {
-      window.open(href, '_blank')
+    handleViewItem(item) {
+      let routeData = this.$router.resolve({
+        path: `/mall/category/item/${item.id}`,
+      })
+      window.open(routeData.href, '_blank')
     },
     handleCreateItem() {
       const dialog = this.$root.$dialog

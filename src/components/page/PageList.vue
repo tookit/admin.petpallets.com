@@ -43,7 +43,7 @@
         />
       </v-sheet>
     </v-sheet>
-    <c-grid
+    <v-grid
       v-model="selectedItems"
       :loading="loadingItems"
       :headers="headers"
@@ -92,17 +92,17 @@
       >
         <slot :name="name" v-bind="slotData" />
       </template>
-    </c-grid>
+    </v-grid>
   </div>
 </template>
 
 <script>
 import TooltipMixin from '@/mixins/Tooltip'
-import CGrid from '@/components/grid'
+import { VGrid } from '@tookit/vma'
 import { getObjectValueByPath } from 'vuetify/lib/util/helpers'
 export default {
   components: {
-    CGrid,
+    VGrid,
   },
   mixins: [TooltipMixin],
   props: {
