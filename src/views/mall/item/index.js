@@ -338,6 +338,7 @@ export default {
         })
       }
     },
+
     handleUpdateField(key, val, id) {
       let data = {}
       data[key] = val

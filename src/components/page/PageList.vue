@@ -57,6 +57,7 @@
       @update:page="handleApplyFilter"
       @update:sort-by="handleApplyFilter"
       @click:row="handleRowClick"
+      @sortable:onUpdate="handleOnSort"
     >
       <template #[`item.action`]="{ item }">
         <v-menu>
@@ -252,6 +253,9 @@ export default {
     },
     handleRowClick(row) {
       this.selectedItems = [row]
+    },
+    handleOnSort(e) {
+      this.$emit('sortable:onSort', e)
     },
   },
 }

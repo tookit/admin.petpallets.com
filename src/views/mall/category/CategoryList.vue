@@ -14,6 +14,7 @@
           "
           search-field="name"
           @create="handleCreateItem"
+          @sortable:onSort="handleOnSort"
         />
       </v-col>
     </v-row>
@@ -28,5 +29,10 @@ export default {
     PageList,
   },
   mixins: [Mixin],
+  methods: {
+    handleOnSort(e) {
+      console.log(e)
+    },
+  },
 }
 </script>
