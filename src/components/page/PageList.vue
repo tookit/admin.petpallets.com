@@ -29,6 +29,7 @@
       <v-divider />
       <v-sheet v-show="showFilter">
         <v-form-builder
+          ref="builder"
           v-model="filters"
           tile
           flat
@@ -98,12 +99,10 @@
 <script>
 import TooltipMixin from '@/mixins/Tooltip'
 import CGrid from '@/components/grid'
-import { VFormBuilder } from '@tookit/vma'
 import { getObjectValueByPath } from 'vuetify/lib/util/helpers'
 export default {
   components: {
     CGrid,
-    VFormBuilder,
   },
   mixins: [TooltipMixin],
   props: {
@@ -200,7 +199,6 @@ export default {
       this.dataSource
         .call(this, params)
         .then(({ data, meta }) => {
-          console.log(data.map((item) => item.id))
           this.items = data
           this.serverItemsLength = meta.total
           this.loadingItems = false
@@ -214,9 +212,16 @@ export default {
       this.fetchRecords()
     },
     handleResetFilter() {
+      const val = {}
+      for (let key in this.filters) {
+        val[key] = null
+      }
+      this.$refs.builder.$emit('input', val) // stupid hack method
       this.$router.replace({
         path: this.$route.path,
-        query: {},
+        query: {
+          t: Date.now(),
+        },
       })
     },
     handleApplyFilter() {
@@ -228,6 +233,7 @@ export default {
       })
     },
     handleClear() {
+      console.log(this.$refs.builder)
       this.$router.replace({
         path: this.$route.path,
         query: {},

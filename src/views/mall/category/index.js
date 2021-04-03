@@ -97,7 +97,7 @@ export default {
     filterItems() {
       return [
         {
-          cols: 12,
+          cols: 6,
           element: 'VCascader',
           transform: (val) => {
             return val ? parseInt(val) : -1
@@ -109,6 +109,19 @@ export default {
             clearable: true,
             itemText: 'name',
             itemValue: 'id',
+          },
+        },
+        {
+          cols: 6,
+          element: VAutocomplete,
+          transform: (val) => {
+            return val ? parseInt(val) : null
+          },
+          props: {
+            name: 'flag',
+            items: this.getProductFlags,
+            outlined: true,
+            clearable: true,
           },
         },
       ]

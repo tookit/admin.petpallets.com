@@ -16,8 +16,9 @@ import PerfectScrollbar from 'vue2-perfect-scrollbar'
 import 'vue2-perfect-scrollbar/dist/vue2-perfect-scrollbar.css'
 import 'dropzone/dist/dropzone.css'
 import 'jodit/build/jodit.css'
-import { VCascader, VFormBuilder } from '@tookit/vma'
 
+import VFormBuilder from '@/components/form-builder/VFormBuilder'
+import VCascader from '@/components/cascader/VCascader'
 // register global component
 
 Vue.component('VCascader', VCascader)
