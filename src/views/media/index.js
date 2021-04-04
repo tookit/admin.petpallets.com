@@ -171,7 +171,7 @@ export default {
     },
     handleDeleteItem({ id }) {
       if (window.confirm('Are you sure to delete this item ?')) {
-        this.$store.dispatch('deleteAbbr', id).then(() => {
+        this.$store.dispatch('deleteMedia', id).then(() => {
           this.$refs.grid.fetchRecords()
         })
       }

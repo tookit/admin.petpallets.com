@@ -51,6 +51,15 @@
               :items="['local', 'oss']"
             />
           </v-col>
+          <v-col cols="4">
+            <v-text-field
+              v-model="filter['filter[product.id]']"
+              outlined
+              clearable
+              name="Product ID"
+              placeholder="Product ID"
+            />
+          </v-col>
         </v-row>
       </v-card-text>
       <v-card-actions>
@@ -157,6 +166,7 @@ export default {
   mixins: [ResizeMixin, TooltipMixin],
   props: {
     directory: String,
+    dataSource: Function,
     entityId: {
       type: [Number, String],
       default: null,
@@ -299,6 +309,7 @@ export default {
         page: 1,
         pageSize: 30,
         'filter[directory]': null,
+        'filter[product.id]': null,
         'filter[disk]': null,
         'filter[fingerprint]': null,
       }

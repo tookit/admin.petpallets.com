@@ -61,6 +61,8 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
+import { getObjectValueByPath } from 'vuetify/lib/util/helpers'
+
 export default {
   name: 'FormMedia',
   components: {},
@@ -87,26 +89,24 @@ export default {
   watch: {
     item: {
       handler(item) {
-        if (item) {
-          this.formModel.fingerprint = item.fingerprint
-          if (item.custom_properties !== null) {
-            this.formModel.custom_properties = item.custom_properties
-          }
-        } else {
-          this.formModel = {
-            filename: '',
-            fingerprint: null,
-            custom_properties: {
-              title: '',
-              featured: false,
-            },
-          }
-        }
+        this.initModel(item)
       },
       immediate: true,
     },
   },
   methods: {
+    initModel(item) {
+      for (let key in this.formModel) {
+        if (key === 'custom_properties') {
+          this.formModel['custom_properties'] = {
+            title: getObjectValueByPath(item, 'custom_properties.title'),
+            featured: getObjectValueByPath(item, 'custom_properties.featured'),
+          }
+        } else {
+          this.formModel[key] = getObjectValueByPath(item, key)
+        }
+      }
+    },
     handleSubmit() {
       this.loading = true
       const payload = {
