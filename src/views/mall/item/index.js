@@ -209,7 +209,7 @@ export default {
             return val ? parseInt(val) : val
           },
           props: {
-            name: 'category_id',
+            name: 'categories.id',
             items: this.getProductCategories,
             outlined: true,
             itemText: 'name',

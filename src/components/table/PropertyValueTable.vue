@@ -27,6 +27,13 @@
       show-select
       hide-default-footer
     >
+      <template #[`item.value`]="{ item }">
+        <v-text-field
+          v-model="item.value"
+          append-icon="mdi-pencil"
+          @click:append="handleUpdateValue(item)"
+        />
+      </template>
       <template #[`item.action`]="{ item }">
         <v-menu>
           <template #activator="{ on: menu }">
@@ -167,6 +174,22 @@ export default {
     handleShowMerge(item) {
       this.selectedItem = item
       this.showMergeDialog = true
+    },
+    handleUpdateValue(item) {
+      const data = {
+        id: item.id,
+        data: {
+          value: item.value,
+        },
+      }
+      this.$store
+        .dispatch('updatePropertyValue', data)
+        .then(() => {
+          this.loading = false
+        })
+        .catch(() => {
+          this.loading = false
+        })
     },
     handleDeleteItem({ id }) {
       if (window.confirm('Are you sure to delete this item ?')) {

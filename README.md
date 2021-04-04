@@ -1,3 +1,5 @@
-# merge prop value -> com
+# SEO
+# Update media upload
+# Add category property
 
-#
+# Add property condition

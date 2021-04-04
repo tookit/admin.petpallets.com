@@ -21,16 +21,6 @@
                 :return-object="false"
                 @change="handleNameChange"
               >
-                <template #no-data>
-                  <v-list-item>
-                    <v-list-item-content>
-                      <v-list-item-title>
-                        No results matching "<strong>{{ searchName }}</strong
-                        >". Press <kbd>enter</kbd> to create a new one
-                      </v-list-item-title>
-                    </v-list-item-content>
-                  </v-list-item>
-                </template>
               </v-combobox>
             </v-col>
             <v-col :cols="8">
