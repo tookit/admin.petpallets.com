@@ -154,6 +154,21 @@ export default {
       })
       dialog.show()
     },
+    handleMoveItem(item) {
+      const dialog = this.$root.$dialog
+      dialog.loadComponent({
+        component: FormMoveMedia,
+        data: {
+          item: item,
+        },
+        on: {
+          'form:cancel': () => {
+            dialog.hide()
+          },
+        },
+      })
+      dialog.show()
+    },
     handleDeleteItem({ id }) {
       if (window.confirm('Are you sure to delete this item ?')) {
         this.$store.dispatch('deleteAbbr', id).then(() => {

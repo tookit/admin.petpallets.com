@@ -82,6 +82,16 @@ const actions = {
       data: data,
     })
   },
+  moveMedia({ commit }, { id, directory, filename }) {
+    return request({
+      url: `/media/${id}/move`,
+      method: 'post',
+      data: {
+        directory,
+        filename,
+      },
+    })
+  },
   updateMedia({ commit }, { id, data }) {
     return request({
       url: `/media/${id}`,

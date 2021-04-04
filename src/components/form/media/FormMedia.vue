@@ -3,7 +3,7 @@
     <v-img
       aspect-ratio="1"
       contain
-      height="500"
+      height="300"
       class="grey lighten-3"
       :src="item.cloud_url"
     />
@@ -14,15 +14,22 @@
           v-model="formModel.custom_properties.title"
           name="title"
           outlined
-          dense
           label="Title"
           placeholder="Title"
         />
+        <v-combobox
+          v-model="formModel.directory"
+          label="Directory"
+          placeholder="Move to new directory"
+          outlined
+          :items="getMediaDir"
+          :return-object="false"
+        >
+        </v-combobox>
         <v-text-field
           v-model="formModel.filename"
           name="filename"
           outlined
-          dense
           label="filename"
           placeholder="filename"
         />
@@ -30,7 +37,6 @@
           v-model="formModel.fingerprint"
           name="fingerprint"
           outlined
-          dense
           label="Fingerprint"
           placeholder="Fingerprint"
         />
@@ -54,6 +60,7 @@
   </v-card>
 </template>
 <script>
+import { mapGetters } from 'vuex'
 export default {
   name: 'FormMedia',
   components: {},
@@ -64,6 +71,7 @@ export default {
     return {
       loading: false,
       formModel: {
+        directory: null,
         fingerprint: null,
         filename: null,
         custom_properties: {
@@ -73,7 +81,9 @@ export default {
       },
     }
   },
-  computed: {},
+  computed: {
+    ...mapGetters(['getMediaDir']),
+  },
   watch: {
     item: {
       handler(item) {
