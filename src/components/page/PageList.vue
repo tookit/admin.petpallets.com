@@ -140,7 +140,7 @@ export default {
       serverItemsLength: 0,
       gridOptions: {
         page: 1,
-        itemsPerPage: 30,
+        itemsPerPage: 15,
         sortBy: [],
         sortDesc: [],
       },
@@ -161,7 +161,7 @@ export default {
     updateListOption(query) {
       const { page, pageSize } = query
       this.gridOptions.page = page ? parseInt(page) : 1
-      this.gridOptions.itemsPerPage = pageSize ? parseInt(pageSize) : 30
+      this.gridOptions.itemsPerPage = pageSize ? parseInt(pageSize) : 15
       this.search = getObjectValueByPath(query, this.searchField)
       this.filterItems.forEach((item) => {
         const key = item.props.name

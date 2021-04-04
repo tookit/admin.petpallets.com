@@ -1,5 +1,6 @@
 import FormMallCategory from '@/components/form/mall/category/FormMallCategory'
 import FormMergeCategory from '@/components/form/mall/category/FormMergeCategory'
+import MediaTable from '@/components/table/MediaTable'
 import FormSeo from '@/components/form/seo/FormSeo'
 import { mapGetters } from 'vuex'
 import { VAutocomplete, VSwitch, VIcon } from 'vuetify/lib'
@@ -19,10 +20,6 @@ export default {
               {
                 icon: 'mdi-pencil',
                 click: this.handleEditItem,
-              },
-              {
-                icon: 'mdi-filter',
-                click: this.handleEditProperty,
               },
               {
                 icon: 'mdi-image',
@@ -239,6 +236,24 @@ export default {
         component: FormMallCategory,
         data: {
           item: item,
+        },
+        on: {
+          'form:cancel': () => {
+            dialog.hide()
+          },
+        },
+      })
+      dialog.show()
+    },
+    handleEditImage(item) {
+      const dialog = this.$root.$dialog
+      dialog.loadComponent({
+        component: MediaTable,
+        data: {
+          entityId: item.id,
+          entity: 'App\\Models\\Mall\\Category',
+          directory: `category/${item.id}`,
+          showSelect: true,
         },
         on: {
           'form:cancel': () => {
