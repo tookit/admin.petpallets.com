@@ -46,7 +46,7 @@
 export default {
   props: {
     item: Object,
-    action: String
+    action: String,
   },
   data() {
     return {
@@ -54,8 +54,8 @@ export default {
       formModel: {
         meta_title: null,
         meta_keywords: null,
-        meta_description: null
-      }
+        meta_description: null,
+      },
     }
   },
   computed: {},
@@ -64,8 +64,8 @@ export default {
       handler(item) {
         return item ? this.assignModel(item) : this.initModel()
       },
-      immediate: true
-    }
+      immediate: true,
+    },
   },
   methods: {
     assignModel(data) {
@@ -77,16 +77,16 @@ export default {
       this.formModel = {
         meta_title: null,
         meta_keywords: null,
-        meta_description: null
+        meta_description: null,
       }
     },
     handleSubmit() {
       this.$store.dispatch(this.action, {
         id: this.item.id,
-        data: this.formModel
+        data: this.formModel,
       })
-    }
-  }
+    },
+  },
 }
 </script>
 

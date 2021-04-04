@@ -1,4 +1,5 @@
 import FormQuickItem from '@/components/form/mall/item/FormQuickItem'
+import FormSeo from '@/components/form/seo/FormSeo'
 import FormItemProperty from '@/components/form/mall/item/FormItemProperty'
 import FormSpecImport from '@/components/form/mall/item/FormSpecImport'
 
@@ -47,6 +48,10 @@ export default {
               {
                 icon: 'mdi-image',
                 click: this.handleEditImage,
+              },
+              {
+                icon: 'mdi-google',
+                click: this.handleEditSeo,
               },
             ]
             const nodes = [
@@ -322,6 +327,24 @@ export default {
           entity: 'App\\Models\\Mall\\Product',
           directory: `fiber/${item.id}`,
           showSelect: true,
+        },
+        on: {
+          'form:cancel': () => {
+            dialog.hide()
+          },
+        },
+      })
+      dialog.show()
+    },
+    handleEditSeo(item) {
+      const dialog = this.$root.$dialog
+      dialog.loadComponent({
+        component: FormSeo,
+        data: {
+          item: item,
+          action: (data) => {
+            return this.$store.dispatch('updateProduct', data)
+          },
         },
         on: {
           'form:cancel': () => {
