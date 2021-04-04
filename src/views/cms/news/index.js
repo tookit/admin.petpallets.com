@@ -1,6 +1,7 @@
 import FormNews from '@/components/form/cms/FormNews'
 import FormSeo from '@/components/form/seo/FormSeo'
-import { VSwitch, VAvatar, VImg, VIcon } from 'vuetify/lib'
+import { VSwitch, VAvatar, VImg, VIcon, VAutocomplete } from 'vuetify/lib'
+import { mapGetters } from 'vuex'
 export default {
   data() {
     return {
@@ -129,14 +130,29 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(['getCmsCategories']),
     filterItems() {
       return [
         {
           cols: 6,
+          element: VAutocomplete,
+          transform: (val) => {
+            return val ? parseInt(val) : null
+          },
+          props: {
+            label: 'Category',
+            name: 'category_id',
+            hideDetails: true,
+            outlined: true,
+            items: this.getCmsCategories,
+          },
+        },
+        {
+          cols: 6,
           element: VSwitch,
           props: {
+            label: 'Active',
             name: 'is_active',
-            dense: true,
             hideDetails: true,
             outlined: true,
           },

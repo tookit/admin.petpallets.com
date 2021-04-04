@@ -214,9 +214,11 @@ export default {
             return val ? parseInt(val) : val
           },
           props: {
+            label: 'Category',
             name: 'categories.id',
             items: this.getProductCategories,
             outlined: true,
+            clearable: true,
             itemText: 'name',
             itemValue: 'id',
           },
@@ -247,6 +249,16 @@ export default {
             items: this.getProductFlags,
             outlined: true,
             hideDetails: true,
+          },
+        },
+        {
+          cols: 6,
+          element: VSwitch,
+          props: {
+            label: 'Active',
+            name: 'is_active',
+            hideDetails: true,
+            outlined: true,
           },
         },
       ]
