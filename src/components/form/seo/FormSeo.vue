@@ -73,18 +73,7 @@ export default {
   },
   methods: {
     initModel(item) {
-      const { meta_title, meta_keywords, meta_description } = item
-      return {
-        meta_title: meta_title
-          ? meta_title
-          : 'China factory provide ' + item.name,
-        meta_keywords: meta_keywords
-          ? meta_keywords
-          : item.categories.map((item) => item.name).join(', '),
-        meta_description: meta_description
-          ? meta_description
-          : item.description,
-      }
+      return item
     },
     handleSubmit() {
       const form = this.$refs.builder.$refs.form

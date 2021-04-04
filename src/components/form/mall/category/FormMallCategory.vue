@@ -75,14 +75,6 @@ export default {
             outlined: true,
           },
         },
-        {
-          cols: 6,
-          element: VSwitch,
-          props: {
-            name: 'Active',
-            outlined: true,
-          },
-        },
       ]
     },
   },

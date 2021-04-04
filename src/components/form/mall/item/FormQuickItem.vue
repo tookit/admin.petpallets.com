@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import { VTextField, VTextarea, VAutocomplete } from 'vuetify/lib'
+import { VTextField, VTextarea, VAutocomplete, VSwitch } from 'vuetify/lib'
 import { getObjectValueByPath } from 'vuetify/lib/util/helpers'
 import { mapGetters } from 'vuex'
 export default {
@@ -53,7 +53,7 @@ export default {
           },
         },
         {
-          cols: 6,
+          cols: 12,
           element: 'v-cascader',
           props: {
             name: 'category_id',

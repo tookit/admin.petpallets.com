@@ -253,6 +253,22 @@ export default {
     },
   },
   methods: {
+    setSeo(item) {
+      const { meta_title, meta_keywords, meta_description } = item
+      return {
+        id: item.id,
+        name: item.name,
+        meta_title: meta_title
+          ? meta_title
+          : 'China factory provide ' + item.name,
+        meta_keywords: meta_keywords
+          ? meta_keywords
+          : item.categories.map((item) => item.name).join(', '),
+        meta_description: meta_description
+          ? meta_description
+          : item.description,
+      }
+    },
     //action
     handleViewItem(item) {
       window.open(item.href, '_blank')
@@ -341,7 +357,7 @@ export default {
       dialog.loadComponent({
         component: FormSeo,
         data: {
-          item: item,
+          item: this.setSeo(item),
           action: (data) => {
             return this.$store.dispatch('updateProduct', data)
           },

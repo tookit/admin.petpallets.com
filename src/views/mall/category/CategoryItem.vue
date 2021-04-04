@@ -51,7 +51,7 @@
             </v-tab-item>
             <v-tab-item key="landing" value="landing">
               <form-category-landing :category="item" />
-            </v-tab-item> 
+            </v-tab-item>
           </v-tabs-items>
         </v-col>
       </v-row>
@@ -61,7 +61,7 @@
 
 <script>
 import FormProductCategory from '@/components/form/product/FormProductCategory'
-import FormSeo from '@/components/form/FormSeo'
+import FormSeo from '@/components/form/seo/FormSeo'
 import FormCategorySpec from '@/components/form/product/FormCategorySpec'
 import FormCategoryLanding from '@/components/form/product/FormCategoryLanding'
 import CategoryProductTable from '@/components/table/CategoryProductTable'
@@ -113,7 +113,7 @@ export default {
         {
           text: 'Landing',
           value: 'landing',
-        },        
+        },
         {
           text: this.__('seo'),
           value: 'seo',

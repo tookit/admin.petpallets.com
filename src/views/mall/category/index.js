@@ -1,7 +1,8 @@
 import FormMallCategory from '@/components/form/mall/category/FormMallCategory'
 import FormMergeCategory from '@/components/form/mall/category/FormMergeCategory'
+import FormSeo from '@/components/form/seo/FormSeo'
 import { mapGetters } from 'vuex'
-import { VAutocomplete, VSwitch } from 'vuetify/lib'
+import { VAutocomplete, VSwitch, VIcon } from 'vuetify/lib'
 export default {
   data() {
     return {
@@ -11,9 +12,27 @@ export default {
           value: 'id',
         },
         {
-          text: 'Name',
+          text: this.__('name'),
           value: 'name',
           render: (item) => {
+            const actions = [
+              {
+                icon: 'mdi-pencil',
+                click: this.handleEditItem,
+              },
+              {
+                icon: 'mdi-filter',
+                click: this.handleEditProperty,
+              },
+              {
+                icon: 'mdi-image',
+                click: this.handleEditImage,
+              },
+              {
+                icon: 'mdi-google',
+                click: this.handleEditSeo,
+              },
+            ]
             const nodes = [
               this.$createElement(
                 'a',
@@ -24,6 +43,23 @@ export default {
                   },
                 },
                 item.name
+              ),
+              this.$createElement(
+                'div',
+                actions.map((act) => {
+                  return this.$createElement(
+                    VIcon,
+                    {
+                      props: { size: 20, color: act.color },
+                      on: {
+                        click: () => {
+                          act.click(item)
+                        },
+                      },
+                    },
+                    act.icon
+                  )
+                })
               ),
             ]
             return nodes
@@ -143,12 +179,44 @@ export default {
   },
   watch: {},
   methods: {
+    setSeo(item) {
+      const { meta_title, meta_keywords, meta_description } = item
+      return {
+        id: item.id,
+        name: item.name,
+        meta_title: meta_title
+          ? meta_title
+          : 'China factory provide ' + item.name,
+        meta_keywords: meta_keywords ? meta_keywords : item.name,
+        meta_description: meta_description
+          ? meta_description
+          : item.description,
+      }
+    },
     //action
     handleViewItem(item) {
       let routeData = this.$router.resolve({
         path: `/mall/category/item/${item.id}`,
       })
       window.open(routeData.href, '_blank')
+    },
+    handleEditSeo(item) {
+      const dialog = this.$root.$dialog
+      dialog.loadComponent({
+        component: FormSeo,
+        data: {
+          item: this.setSeo(item),
+          action: (data) => {
+            return this.$store.dispatch('updateProductCategory', data)
+          },
+        },
+        on: {
+          'form:cancel': () => {
+            dialog.hide()
+          },
+        },
+      })
+      dialog.show()
     },
     handleCreateItem() {
       const dialog = this.$root.$dialog
