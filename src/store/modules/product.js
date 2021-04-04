@@ -66,6 +66,12 @@ const actions = {
       method: 'get',
     })
   },
+  duplicateProduct(context, id) {
+    return request({
+      url: `/mall/item/${id}/duplicate`,
+      method: 'put',
+    })
+  },
   createProduct(context, data) {
     return request({
       url: `/mall/item/`,

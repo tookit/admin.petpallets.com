@@ -196,6 +196,11 @@ export default {
           click: this.handleEditItem,
         },
         {
+          text: 'Duplicate Item',
+          icon: 'mdi-copyright',
+          click: this.handleDuplicateItem,
+        },
+        {
           text: 'Delete Item',
           icon: 'mdi-close',
           click: this.handleDeleteItem,
@@ -381,6 +386,13 @@ export default {
         },
       })
       dialog.show()
+    },
+    handleDuplicateItem({ id }) {
+      if (window.confirm('Are you sure to duplicate this item ?')) {
+        this.$store.dispatch('duplicateProduct', id).then(() => {
+          this.$refs.grid.fetchRecords()
+        })
+      }
     },
     handleDeleteItem({ id }) {
       if (window.confirm('Are you sure to delete this item ?')) {
