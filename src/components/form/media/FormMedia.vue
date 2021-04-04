@@ -16,6 +16,7 @@
           outlined
           label="Title"
           placeholder="Title"
+          @change="handleTitleChange"
         />
         <v-combobox
           v-model="formModel.directory"
@@ -26,13 +27,6 @@
           :return-object="false"
         >
         </v-combobox>
-        <v-text-field
-          v-model="formModel.filename"
-          name="filename"
-          outlined
-          label="filename"
-          placeholder="filename"
-        />
         <v-text-field
           v-model="formModel.fingerprint"
           name="fingerprint"
@@ -106,6 +100,9 @@ export default {
           this.formModel[key] = getObjectValueByPath(item, key)
         }
       }
+    },
+    handleTitleChange(val) {
+      this.formModel.fingerprint = val
     },
     handleSubmit() {
       this.loading = true

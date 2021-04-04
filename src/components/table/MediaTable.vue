@@ -90,6 +90,11 @@
         <template #[`item.cloud_url`]="{ item }">
           <image-viewer :items="[item]" />
         </template>
+        <template #[`item.fingerprint`]="{ item }">
+          <a href="#" @click="handleEditItem(item)">{{
+            item.fingerprint ? item.fingerprint : 'None'
+          }}</a>
+        </template>
         <template #[`item.size`]="{ item }">
           <span>{{ item.size | bytes }}</span>
         </template>
@@ -193,7 +198,8 @@ export default {
       filter: {
         page: 1,
         pageSize: 30,
-        'filter[directory]': this.directory,
+        'filter[directory]': null,
+        'filter[product.id]': null,
         'filter[disk]': null,
         'filter[fingerprint]': null,
       },
@@ -211,6 +217,11 @@ export default {
           text: 'Image',
           value: 'cloud_url',
         },
+        // {
+        //   text: 'Filename',
+        //   value: 'filename',
+        //   width: 150,
+        // },
         {
           text: 'Fingerprint',
           value: 'fingerprint',
@@ -227,18 +238,18 @@ export default {
           text: 'Directory',
           value: 'directory',
         },
-        {
-          text: 'Disk',
-          value: 'disk',
-        },
+        // {
+        //   text: 'Disk',
+        //   value: 'disk',
+        // },
         {
           text: 'Featured',
           value: 'custom_properties.featured',
         },
-        {
-          text: 'Created',
-          value: 'created_at',
-        },
+        // {
+        //   text: 'Created',
+        //   value: 'created_at',
+        // },
         {
           text: 'Action',
           value: 'action',
@@ -288,22 +299,22 @@ export default {
       },
       immediate: true,
     },
-    directory: {
+    entityId: {
       handler(val) {
-        this.filter['filter[directory]'] = val
-        this.fetchRecords(this.filter)
+        console.log(val)
+        this.filter['filter[product.id]'] = val
+      },
+      immediate: true,
+    },
+    directory: {
+      handler() {
+        this.fetchRecords()
       },
       immediate: true,
     },
   },
   created() {},
   methods: {
-    updateFilterQuery(query) {
-      const filter = Object.assign(this.filter, query)
-      filter.page = parseInt(filter.page)
-      filter.pageSize = parseInt(filter.pageSize)
-      return filter
-    },
     resetFilter() {
       this.filter = {
         page: 1,
@@ -314,11 +325,11 @@ export default {
         'filter[fingerprint]': null,
       }
     },
-    fetchRecords(query) {
+    fetchRecords() {
       this.loadingItems = true
       this.items = []
       return this.$store
-        .dispatch('fetchMedia', query)
+        .dispatch('fetchMedia', this.filter)
         .then(({ data, meta }) => {
           this.items = data
           this.serverItemsLength = meta ? meta.total : data.length
@@ -346,7 +357,7 @@ export default {
       }
     },
     handleRefreshItem() {
-      this.fetchRecords(this.filter)
+      this.fetchRecords()
     },
     // filter
     handlePageChanged(page) {
@@ -367,7 +378,7 @@ export default {
     },
     handleResetFilter() {
       this.resetFilter()
-      this.fetchRecords(this.filter)
+      this.fetchRecords()
     },
     handleApplyFilter() {
       if (this.$route.name === 'media.index') {
@@ -377,7 +388,7 @@ export default {
           query: this.filter,
         })
       } else {
-        this.fetchRecords(this.filter)
+        this.fetchRecords()
       }
     },
     handleClear() {
@@ -391,12 +402,12 @@ export default {
     // upload
     handleFormCancel() {
       this.showDialog = false
-      this.fetchRecords(this.filter)
+      this.fetchRecords()
     },
     handleUploadSuccess({ data }) {
       // attach entity
       this.selectedItem = data
-      this.fetchRecords(this.filter)
+      this.fetchRecords()
     },
     handleItemSelected(e) {
       // this.$emit('input', this.selectedItems)

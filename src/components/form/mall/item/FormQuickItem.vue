@@ -124,7 +124,7 @@ export default {
         .forEach((prop) => {
           temp[prop] = getObjectValueByPath(value, prop)
         })
-      temp.tags = temp.tags.map((item) => item.name)
+      temp.tags = temp.tags ? temp.tags.map((item) => item.name) : null
       return temp
     },
     handleSubmit() {
