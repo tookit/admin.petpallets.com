@@ -13,7 +13,8 @@
 </template>
 
 <script>
-import { VTextField, VTextarea, VAutocomplete, VSwitch } from 'vuetify/lib'
+import TagSelect from '@/components/tag/TagSelect'
+import { VTextField, VTextarea, VAutocomplete } from 'vuetify/lib'
 import { getObjectValueByPath } from 'vuetify/lib/util/helpers'
 import { mapGetters } from 'vuex'
 export default {
@@ -27,7 +28,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getProductCategories', 'getProductFlags']),
+    ...mapGetters(['getProductCategories', 'getTagsByType']),
     formTitle() {
       return this.item ? 'Edit Product - ' + this.item.name : 'Create Product'
     },
@@ -75,6 +76,27 @@ export default {
           },
         },
         {
+          cols: 6,
+          element: TagSelect,
+          props: {
+            name: 'tags',
+            type: 'fiber',
+            required: true,
+            outlined: true,
+          },
+        },
+        {
+          cols: 12,
+          element: TagSelect,
+          props: {
+            name: 'applications',
+            type: 'application',
+            required: true,
+            outlined: true,
+          },
+        },
+
+        {
           cols: 12,
           element: VTextarea,
           props: {
@@ -102,6 +124,7 @@ export default {
         .forEach((prop) => {
           temp[prop] = getObjectValueByPath(value, prop)
         })
+      temp.tags = temp.tags.map((item) => item.name)
       return temp
     },
     handleSubmit() {

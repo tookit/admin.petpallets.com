@@ -43,6 +43,9 @@ const getters = {
   getTagTypes: (state) => {
     return state.tagTypes
   },
+  getTagList: (state) => {
+    return state.tags
+  },
 }
 const actions = {
   fetchNews({ commit }, query) {
