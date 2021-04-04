@@ -197,7 +197,7 @@ export default {
         },
         {
           text: 'Duplicate Item',
-          icon: 'mdi-copyright',
+          icon: 'mdi-content-duplicate',
           click: this.handleDuplicateItem,
         },
         {

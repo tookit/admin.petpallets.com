@@ -37,8 +37,6 @@
               name="directory"
               placeholder="Directory"
               :items="getMediaDir"
-              item-text="directory"
-              item-value="directory"
             />
           </v-col>
           <v-col cols="4">
