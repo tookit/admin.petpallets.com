@@ -1,11 +1,31 @@
 <template>
   <v-card>
-    <v-tabs v-model="defaultTab">
+    <v-tabs v-model="defaultTab" background-color="primary" dark>
       <v-tab v-for="(item, key) in tabs" :key="key" :href="'#' + item.value">
         {{ item.text }}
       </v-tab>
     </v-tabs>
     <v-card-text class="pa-3">
+      <v-combobox
+        v-model="directory"
+        label="directory"
+        placeholder="directory"
+        outlined
+        :items="getMediaDir"
+        :search-input.sync="searchName"
+        :return-object="false"
+      >
+        <template #no-data>
+          <v-list-item>
+            <v-list-item-content>
+              <v-list-item-title>
+                No results matching "<strong>{{ searchName }}</strong
+                >". Press <kbd>enter</kbd> to create a new one
+              </v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </template>
+      </v-combobox>
       <v-tabs-items v-model="defaultTab">
         <v-tab-item value="upload">
           <v-dropzone
@@ -51,6 +71,8 @@ export default {
       attrs: {
         accept: 'image/*',
       },
+      searchName: null,
+      directory: null,
       //tabs
       defaultTab: 'upload',
       tabs: [
@@ -66,10 +88,10 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getAccessToken']),
+    ...mapGetters(['getAccessToken', 'getMediaDir']),
     option() {
       return {
-        url: this.action,
+        url: this.computeUrl(this.action),
         headers: {
           Authorization: 'Bearer ' + this.getAccessToken,
           entityId: this.entityId,
@@ -81,6 +103,12 @@ export default {
   },
   watch: {},
   methods: {
+    computeUrl(action) {
+      const queryString = require('query-string')
+      const { query, url } = queryString.parseUrl(action)
+      query.dir = this.directory ? this.directory : query.dir
+      return queryString.stringifyUrl({ url: url, query: query })
+    },
     handleUpload() {
       this.submiting = true
       const data = {

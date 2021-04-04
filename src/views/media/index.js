@@ -3,6 +3,8 @@ import FormMedia from '@/components/form/media/FormMedia.vue'
 import ImageViewer from '@/components/image/ImageViewer'
 import { VAutocomplete } from 'vuetify/lib'
 import { mapGetters } from 'vuex'
+import { humanReadableFileSize } from 'vuetify/lib/util/helpers'
+
 export default {
   data() {
     return {
@@ -11,6 +13,7 @@ export default {
           text: 'ID',
           value: 'id',
         },
+
         {
           text: 'Image',
           value: 'cloud_url',
@@ -23,6 +26,10 @@ export default {
             })
           },
         },
+        // {
+        //   text: 'Filename',
+        //   value: 'filename',
+        // },
         {
           text: 'Fingerprint',
           value: 'fingerprint',
@@ -44,6 +51,9 @@ export default {
         {
           text: 'Size',
           value: 'size',
+          render: (item) => {
+            return this.$createElement('span', humanReadableFileSize(item.size))
+          },
         },
         {
           text: 'Directory',
@@ -81,7 +91,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getMediaDir']),
+    ...mapGetters(['getMediaDir', 'getMediaExt']),
     filterItems() {
       return [
         {
@@ -93,8 +103,17 @@ export default {
             clearable: true,
             outlined: true,
             hideDetails: true,
-            itemText: 'directory',
-            itemValue: 'directory',
+          },
+        },
+        {
+          cols: 4,
+          element: VAutocomplete,
+          props: {
+            name: 'extension',
+            items: this.getMediaExt,
+            clearable: true,
+            outlined: true,
+            hideDetails: true,
           },
         },
       ]

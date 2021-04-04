@@ -1,6 +1,12 @@
 <template>
   <v-card>
-    <v-img class="grey lighten-3" height="300px" :src="item.cloud_url" />
+    <v-img
+      aspect-ratio="1"
+      contain
+      height="500"
+      class="grey lighten-3"
+      :src="item.cloud_url"
+    />
     <v-divider></v-divider>
     <v-card-text class="pa-3">
       <v-form>
@@ -11,6 +17,14 @@
           dense
           label="Title"
           placeholder="Title"
+        />
+        <v-text-field
+          v-model="formModel.filename"
+          name="filename"
+          outlined
+          dense
+          label="filename"
+          placeholder="filename"
         />
         <v-text-field
           v-model="formModel.fingerprint"
@@ -51,6 +65,7 @@ export default {
       loading: false,
       formModel: {
         fingerprint: null,
+        filename: null,
         custom_properties: {
           title: '',
           featured: false,

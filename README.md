@@ -1,5 +1,6 @@
 # SEO
 # Update media upload
-# Add category property
+- specified upload dir, not by module
+
 
 # Add property condition

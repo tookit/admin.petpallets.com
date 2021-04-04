@@ -27,10 +27,20 @@ const getters = {
     return state.entityList
   },
   getMediaDir: (state) => {
-    return state.dirs
+    return state.dirs.map((item) => {
+      return {
+        text: item.directory,
+        value: item.directory,
+      }
+    })
   },
   getMediaExt: (state) => {
-    return state.exts
+    return state.exts.map((item) => {
+      return {
+        text: item.extension,
+        value: item.extension,
+      }
+    })
   },
 }
 const actions = {
