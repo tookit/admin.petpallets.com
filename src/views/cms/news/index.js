@@ -1,5 +1,6 @@
 import FormNews from '@/components/form/cms/FormNews'
-import { VSwitch, VAvatar, VImg } from 'vuetify/lib'
+import FormSeo from '@/components/form/seo/FormSeo'
+import { VSwitch, VAvatar, VImg, VIcon } from 'vuetify/lib'
 export default {
   data() {
     return {
@@ -26,9 +27,50 @@ export default {
           },
         },
         {
-          text: 'Name',
+          text: this.__('name'),
           value: 'name',
-          sortable: true,
+          render: (item) => {
+            const actions = [
+              {
+                icon: 'mdi-pencil',
+                click: this.handleEditItem,
+              },
+              {
+                icon: 'mdi-google',
+                click: this.handleEditSeo,
+              },
+            ]
+            const nodes = [
+              this.$createElement(
+                'a',
+                {
+                  domProps: {
+                    target: '_blank',
+                    href: item.href,
+                  },
+                },
+                item.name
+              ),
+              this.$createElement(
+                'div',
+                actions.map((act) => {
+                  return this.$createElement(
+                    VIcon,
+                    {
+                      props: { size: 20, color: act.color },
+                      on: {
+                        click: () => {
+                          act.click(item)
+                        },
+                      },
+                    },
+                    act.icon
+                  )
+                })
+              ),
+            ]
+            return nodes
+          },
         },
         {
           text: 'Category',
@@ -104,6 +146,22 @@ export default {
   },
   watch: {},
   methods: {
+    setSeo(item) {
+      const { meta_title, meta_keywords, meta_description } = item
+      return {
+        id: item.id,
+        name: item.name,
+        meta_title: meta_title
+          ? meta_title
+          : 'China factory provide ' + item.name,
+        meta_keywords: meta_keywords
+          ? meta_keywords
+          : item.tags.map((item) => item.name).join(', '),
+        meta_description: meta_description
+          ? meta_description
+          : item.description,
+      }
+    },
     handleViewItem(item) {
       window.open(item.href, '_blank')
     },
@@ -128,6 +186,24 @@ export default {
         component: FormNews,
         data: {
           item: item,
+        },
+        on: {
+          'form:cancel': () => {
+            dialog.hide()
+          },
+        },
+      })
+      dialog.show()
+    },
+    handleEditSeo(item) {
+      const dialog = this.$root.$dialog
+      dialog.loadComponent({
+        component: FormSeo,
+        data: {
+          item: this.setSeo(item),
+          action: (data) => {
+            return this.$store.dispatch('updateNews', data)
+          },
         },
         on: {
           'form:cancel': () => {

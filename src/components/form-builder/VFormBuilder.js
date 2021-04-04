@@ -68,10 +68,15 @@ export default {
           placeholder: item.props.placeholder
             ? item.props.placeholder
             : name.toUpperCase(),
+          inputValue: this.formData[name],
           value: this.formData[name],
         },
         on: {
           input: (e) => {
+            this.formData[name] = e
+            this.$emit('input', this.formData)
+          },
+          change: (e) => {
             this.formData[name] = e
             this.$emit('input', this.formData)
           },

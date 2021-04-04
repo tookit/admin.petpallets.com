@@ -14,6 +14,7 @@
 
 <script>
 import { VTextField, VTextarea, VAutocomplete, VSwitch } from 'vuetify/lib'
+import TagSelect from '@/components/tag/TagSelect'
 import ImagePicker from '@/components/image/ImagePicker'
 import VEditor from '@/components/editor/VEditor'
 import { mapGetters } from 'vuex'
@@ -73,14 +74,13 @@ export default {
           element: VSwitch,
           props: {
             name: 'is_active',
-            inputValue: 0,
-            trueValue: 1,
-            falseValue: 0,
+            trueValue: true,
+            falseValue: false,
             outlined: true,
           },
         },
         {
-          cols: 6,
+          cols: 4,
           element: ImagePicker,
           props: {
             name: 'image',
@@ -90,15 +90,13 @@ export default {
           },
         },
         {
-          cols: 6,
-          element: VAutocomplete,
+          cols: 8,
+          element: TagSelect,
           props: {
             name: 'tags',
+            type: 'fiber',
+            required: true,
             outlined: true,
-            multiple: true,
-            smallChips: true,
-            clearable: true,
-            items: this.getTagsByType('fiber'),
           },
         },
         {
@@ -136,6 +134,7 @@ export default {
       for (let key in source) {
         source[key] = target[key]
       }
+      source.tags = source.tags.map((item) => item.name)
       return source
     },
     formData() {

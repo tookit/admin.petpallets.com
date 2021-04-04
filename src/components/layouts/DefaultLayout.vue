@@ -40,7 +40,7 @@ export default {
   },
   created() {
     this.$store.dispatch('fetchProductCategoryTree')
-    this.$store.dispatch('fetchNewsCategory')
+    this.$store.dispatch('fetchNewsCategory', { pageSize: -1 })
     this.$store.dispatch('fetchCountries')
     this.$store.dispatch('fetchVendors', { pageSize: -1 })
     this.$store.dispatch('fetchTags', { pageSize: -1 })

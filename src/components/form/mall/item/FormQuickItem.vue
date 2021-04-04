@@ -28,7 +28,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getProductCategories', 'getTagsByType']),
+    ...mapGetters(['getProductCategories', 'getTagsByType', 'getProductFlags']),
     formTitle() {
       return this.item ? 'Edit Product - ' + this.item.name : 'Create Product'
     },
