@@ -34,6 +34,7 @@ export default {
     updateOption(val) {
       this.$nextTick(() => {
         this.dropzone.options.url = val.url
+        console.log(this.dropzone.options.url)
       })
     },
   },

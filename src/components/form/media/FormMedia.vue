@@ -123,9 +123,3 @@ export default {
   },
 }
 </script>
-
-<style scoped lang="scss">
-.v-dropzone {
-  border: 2px dashed #0087f7;
-}
-</style>

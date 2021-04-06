@@ -1,5 +1,6 @@
 import FormUpload from '@/components/form/media/FormUpload.vue'
 import FormMedia from '@/components/form/media/FormMedia.vue'
+import FormEntity from '@/components/form/media/FormEntity.vue'
 import ImageViewer from '@/components/image/ImageViewer'
 import { VAutocomplete } from 'vuetify/lib'
 import { mapGetters } from 'vuex'
@@ -49,6 +50,33 @@ export default {
           },
         },
         {
+          text: 'Entity',
+          value: 'entity',
+          render: (item) => {
+            let nodes = []
+            this.getEntityList.filter((entity) => {
+              const key = entity.text.toLowerCase()
+              const model = item[key]
+              if (model && model.length > 0) {
+                const entity = model[0]
+                nodes.push(
+                  this.$createElement(
+                    'a',
+                    {
+                      domProps: {
+                        href: entity.href,
+                        target: '_blank',
+                      },
+                    },
+                    key + ':' + entity.id
+                  )
+                )
+              }
+            })
+            return nodes
+          },
+        },
+        {
           text: 'Size',
           value: 'size',
           render: (item) => {
@@ -83,6 +111,11 @@ export default {
           click: this.handleEditItem,
         },
         {
+          text: 'Attach Entity',
+          icon: 'mdi-pencil',
+          click: this.handleAttachEntity,
+        },
+        {
           text: 'Delete Item',
           icon: 'mdi-close',
           click: this.handleDeleteItem,
@@ -91,7 +124,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getMediaDir', 'getMediaExt']),
+    ...mapGetters(['getMediaDir', 'getMediaExt', 'getEntityList']),
     filterItems() {
       return [
         {
@@ -143,6 +176,21 @@ export default {
       const dialog = this.$root.$dialog
       dialog.loadComponent({
         component: FormMedia,
+        data: {
+          item: item,
+        },
+        on: {
+          'form:cancel': () => {
+            dialog.hide()
+          },
+        },
+      })
+      dialog.show()
+    },
+    handleAttachEntity(item) {
+      const dialog = this.$root.$dialog
+      dialog.loadComponent({
+        component: FormEntity,
         data: {
           item: item,
         },
