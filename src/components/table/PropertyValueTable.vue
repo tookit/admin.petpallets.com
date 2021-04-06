@@ -27,13 +27,6 @@
       show-select
       hide-default-footer
     >
-      <template #[`item.value`]="{ item }">
-        <v-text-field
-          v-model="item.value"
-          append-icon="mdi-pencil"
-          @click:append="handleUpdateValue(item)"
-        />
-      </template>
       <template #[`item.action`]="{ item }">
         <v-menu>
           <template #activator="{ on: menu }">

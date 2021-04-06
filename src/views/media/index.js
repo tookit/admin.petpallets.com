@@ -2,7 +2,7 @@ import FormUpload from '@/components/form/media/FormUpload.vue'
 import FormMedia from '@/components/form/media/FormMedia.vue'
 import FormEntity from '@/components/form/media/FormEntity.vue'
 import ImageViewer from '@/components/image/ImageViewer'
-import { VAutocomplete } from 'vuetify/lib'
+import { VAutocomplete, VTextField } from 'vuetify/lib'
 import { mapGetters } from 'vuex'
 import { humanReadableFileSize } from 'vuetify/lib/util/helpers'
 
@@ -144,6 +144,17 @@ export default {
           props: {
             name: 'extension',
             items: this.getMediaExt,
+            clearable: true,
+            outlined: true,
+            hideDetails: true,
+          },
+        },
+        {
+          cols: 4,
+          element: VTextField,
+          props: {
+            label: 'Size Great(mb)',
+            name: 'size_great',
             clearable: true,
             outlined: true,
             hideDetails: true,

@@ -8,7 +8,7 @@
         <v-container fluid>
           <v-row>
             <v-col :cols="4">
-              <v-combobox
+              <v-autocomplete
                 v-model="formModel.name"
                 outlined
                 label="Name"
@@ -17,11 +17,9 @@
                 :search-input.sync="searchName"
                 placeholder="Property Name"
                 item-text="text"
-                item-value="name"
-                :return-object="false"
+                item-value="id"
                 @change="handleNameChange"
-              >
-              </v-combobox>
+              />
             </v-col>
             <v-col :cols="8">
               <v-autocomplete
@@ -34,9 +32,7 @@
                 placeholder="Property Value"
                 item-text="value"
                 item-value="id"
-                :return-object="false"
-              >
-              </v-autocomplete>
+              />
             </v-col>
           </v-row>
         </v-container>
@@ -107,14 +103,10 @@ export default {
         })
     },
     handleMergeValue() {},
-    handleNameChange(name) {
-      this.$store
-        .dispatch('fetchProperty', {
-          'filter[name]': name,
-        })
-        .then((resp) => {
-          this.values = resp.data.length > 0 ? resp.data[0].values : []
-        })
+    handleNameChange(property_id) {
+      this.$store.dispatch('fetchValueById', property_id).then((resp) => {
+        this.values = resp.data
+      })
     },
   },
 }
