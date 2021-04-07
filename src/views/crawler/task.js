@@ -12,6 +12,15 @@ export default {
         {
           text: 'Link',
           value: 'link',
+          render: (item) => {
+            return this.$createElement(
+              'a',
+              {
+                domProps: { href: item.link, target: '_blank' },
+              },
+              item.link
+            )
+          },
         },
         {
           text: 'Product',
