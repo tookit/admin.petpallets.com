@@ -1,8 +1,13 @@
+import Vue from 'vue'
 import request from '@/utils/request'
+import { arrayToTree } from '@/utils/tree'
 const state = {
   categories: [],
 }
 const getters = {
+  getNestedCategories: (state) => {
+    return arrayToTree(state.categories)
+  },
   getProductCategories: (state) => {
     return state.categories.map((item) => {
       return {
@@ -48,6 +53,9 @@ const actions = {
       url: `/mall/category/`,
       method: 'post',
       data: data,
+    }).then((resp) => {
+      commit('ADD_MALL_CATEGORY_ITEM', resp.data)
+      return resp
     })
   },
   // eslint-disable-next-line no-unused-vars
@@ -61,11 +69,14 @@ const actions = {
       },
     })
   },
-  updateProductCategory({}, { id, data }) {
+  updateProductCategory({ commit }, { id, data }) {
     return request({
       url: `/mall/category/${id}`,
       method: 'put',
       data: data,
+    }).then((resp) => {
+      commit('UPDATE_MALL_CATEGORY_ITEM', resp.data)
+      return resp
     })
   },
   updateCategoryProperty({}, { id, data }) {
@@ -82,11 +93,12 @@ const actions = {
       data: data,
     })
   },
-  deleteProductCategory({}, id) {
+  deleteProductCategory({ commit }, id) {
     return request({
       url: `/mall/category/${id}`,
       method: 'delete',
     }).then((resp) => {
+      commit('REMOVE_MALL_CATEGORY_ITEM', id)
       return resp
     })
   },
@@ -122,6 +134,7 @@ const actions = {
         target,
       },
     }).then((resp) => {
+      commit('REMOVE_MALL_CATEGORY_ITEM', source)
       return resp
     })
   },
@@ -137,7 +150,31 @@ const mutations = {
     state.properties = data
   },
   SET_MALL_CATEGORIES(state, data) {
-    state.categories = data
+    state.categories = data.map((item) => {
+      return {
+        id: item.id,
+        name: item.name,
+        parent_id: item.parent_id,
+        depth: item.depth,
+      }
+    })
+  },
+  ADD_MALL_CATEGORY_ITEM(state, data) {
+    state.categories.push(data)
+  },
+  REMOVE_MALL_CATEGORY_ITEM(state, id) {
+    state.categories = state.categories.filter((item) => {
+      return item.id !== id
+    })
+  },
+  UPDATE_MALL_CATEGORY_ITEM(state, data) {
+    const index = state.categories.find((item) => item.id === data.id)
+    const item = {
+      id: data.id,
+      name: data.name,
+      parent_id: data.parent_id,
+    }
+    Vue.set(state.categories, index, item)
   },
 }
 

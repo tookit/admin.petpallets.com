@@ -140,7 +140,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getProductFlags', 'getProductCategories']),
+    ...mapGetters(['getProductFlags', 'getNestedCategories']),
     filterItems() {
       return [
         {
@@ -151,7 +151,7 @@ export default {
           },
           props: {
             name: 'parent_id',
-            items: this.getProductCategories,
+            items: this.getNestedCategories,
             outlined: true,
             clearable: true,
             itemText: 'name',

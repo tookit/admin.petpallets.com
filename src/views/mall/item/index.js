@@ -209,7 +209,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getProductFlags', 'getProductCategories', 'getVendors']),
+    ...mapGetters(['getProductFlags', 'getNestedCategories', 'getVendors']),
     filterItems() {
       return [
         {
@@ -221,7 +221,7 @@ export default {
           props: {
             label: 'Category',
             name: 'categories.id',
-            items: this.getProductCategories,
+            items: this.getNestedCategories,
             outlined: true,
             clearable: true,
             itemText: 'name',

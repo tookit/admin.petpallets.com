@@ -27,7 +27,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getProductCategories', 'getProductFlags']),
+    ...mapGetters(['getNestedCategories', 'getProductFlags']),
     formTitle() {
       return this.item
         ? 'Edit Mall Category - ' + this.item.name
@@ -50,7 +50,7 @@ export default {
           element: 'v-cascader',
           props: {
             name: 'parent_id',
-            items: this.getProductCategories,
+            items: this.getNestedCategories,
             itemText: 'name',
             itemValue: 'id',
             required: true,
