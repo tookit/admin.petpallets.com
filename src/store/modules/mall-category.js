@@ -116,6 +116,12 @@ const actions = {
       method: 'get',
     })
   },
+  getProductCategoryById({}, id) {
+    return request({
+      url: `/mall/category/${id}/propertty`,
+      method: 'get',
+    })
+  },
   getPropertyByCategoryId({}, { id, query }) {
     return request({
       url: `/mall/category/${id}/property`,

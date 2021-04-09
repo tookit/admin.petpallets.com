@@ -18,6 +18,7 @@
 
 <script>
 import FormMallCategory from './FormMallCategory'
+import FormCategoryProperty from './FormCategoryProperty'
 import MediaTable from '@/components/table/MediaTable'
 export default {
   props: {
@@ -43,6 +44,11 @@ export default {
         {
           text: 'Property',
           value: 'property',
+          element: FormCategoryProperty,
+          bind: {
+            id: this.id,
+            showHeader: true,
+          },
         },
         {
           text: 'Image',
