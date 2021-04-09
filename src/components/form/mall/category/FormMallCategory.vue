@@ -6,14 +6,13 @@
     :items="formItems"
     :loading="loading"
     color="primary"
-    show-header
     @form:submit="handleSubmit"
     @form:cancel="$emit('form:cancel')"
   />
 </template>
 
 <script>
-import { VTextField, VTextarea, VSwitch, VAutocomplete } from 'vuetify/lib'
+import { VTextField, VTextarea, VAutocomplete } from 'vuetify/lib'
 import { mapGetters } from 'vuex'
 import { getObjectValueByPath } from 'vuetify/lib/util/helpers'
 export default {

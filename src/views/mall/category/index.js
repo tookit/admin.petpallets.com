@@ -1,4 +1,5 @@
 import FormMallCategory from '@/components/form/mall/category/FormMallCategory'
+import FormEditCategory from '@/components/form/mall/category/FormEditCategory'
 import FormMergeCategory from '@/components/form/mall/category/FormMergeCategory'
 import MediaTable from '@/components/table/MediaTable'
 import FormSeo from '@/components/form/seo/FormSeo'
@@ -233,7 +234,7 @@ export default {
     handleEditItem(item) {
       const dialog = this.$root.$dialog
       dialog.loadComponent({
-        component: FormMallCategory,
+        component: FormEditCategory,
         data: {
           item: item,
         },

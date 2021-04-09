@@ -6,7 +6,6 @@
     :items="formItems"
     :loading="loading"
     color="primary"
-    show-header
     @form:submit="handleSubmit"
     @form:cancel="$emit('form:cancel')"
   />
