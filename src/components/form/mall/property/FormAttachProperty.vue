@@ -5,8 +5,8 @@
         <v-container fluid>
           <v-row>
             <v-col :cols="4">
-              <v-combobox
-                v-model="formModel.name"
+              <v-autocomplete
+                v-model="formModel.property_id"
                 outlined
                 label="Name"
                 :items="getProperties"
@@ -14,25 +14,14 @@
                 :search-input.sync="searchName"
                 placeholder="Property Name"
                 item-text="text"
-                item-value="name"
-                :return-object="false"
+                item-value="id"
                 @change="handleNameChange"
               >
-                <template #no-data>
-                  <v-list-item>
-                    <v-list-item-content>
-                      <v-list-item-title>
-                        No results matching "<strong>{{ searchName }}</strong
-                        >". Press <kbd>enter</kbd> to create a new one
-                      </v-list-item-title>
-                    </v-list-item-content>
-                  </v-list-item>
-                </template>
-              </v-combobox>
+              </v-autocomplete>
             </v-col>
             <v-col :cols="8">
-              <v-combobox
-                v-model="formModel.value"
+              <v-autocomplete
+                v-model="formModel.values"
                 label="Value"
                 outlined
                 :items="values"
@@ -41,20 +30,9 @@
                 placeholder="Property Value"
                 multiple
                 item-text="value"
-                item-value="value"
-                :return-object="false"
+                item-value="id"
               >
-                <template #no-data>
-                  <v-list-item>
-                    <v-list-item-content>
-                      <v-list-item-title>
-                        No results matching "<strong>{{ searchValue }}</strong
-                        >". Press <kbd>enter</kbd> to create a new one
-                      </v-list-item-title>
-                    </v-list-item-content>
-                  </v-list-item>
-                </template>
-              </v-combobox>
+              </v-autocomplete>
             </v-col>
           </v-row>
         </v-container>
@@ -74,7 +52,11 @@ import { mapGetters } from 'vuex'
 export default {
   components: {},
   props: {
-    productId: [Number, String],
+    id: [Number, String],
+    entity: {
+      type: String,
+      default: 'item',
+    },
   },
   data() {
     return {
@@ -85,8 +67,8 @@ export default {
       items: [],
       values: [],
       formModel: {
-        name: null,
-        value: null,
+        property_id: null,
+        values: null,
       },
     }
   },
@@ -105,9 +87,19 @@ export default {
   methods: {
     handleSubmit() {
       this.loading = true
-      const data = { id: this.productId, data: this.formModel }
+      const data = {
+        id: this.id,
+        data: {
+          values: this.formModel.values,
+          withoutDetach: true,
+        },
+      }
+      const action =
+        this.entity === 'category'
+          ? 'attachPropertyForCategory'
+          : 'attachPropertyForProduct'
       this.$store
-        .dispatch('attachDirectPropForProduct', data)
+        .dispatch(action, data)
         .then(() => {
           this.loading = false
           this.$emit('attach')
@@ -116,13 +108,13 @@ export default {
           this.loading = false
         })
     },
-    handleNameChange(name) {
+    handleNameChange(id) {
       this.$store
-        .dispatch('fetchProperty', {
-          'filter[name]': name,
+        .dispatch('fetchPropertyValue', {
+          'filter[property_id]': id,
         })
         .then((resp) => {
-          this.values = resp.data.length > 0 ? resp.data[0].values : []
+          this.values = resp.data
         })
     },
   },

@@ -9,9 +9,6 @@
       <v-btn icon @click="handleCreateItem">
         <v-icon>mdi-plus</v-icon>
       </v-btn>
-      <v-btn icon @click="handleInheritedProp">
-        <v-icon>mdi-set-merge</v-icon>
-      </v-btn>
     </v-toolbar>
     <v-divider />
     <v-card-text class="pa-0">
@@ -43,6 +40,12 @@
             deletable-chips
           />
         </template>
+        <template #[`item.searchable`]="{ item }">
+          <v-switch
+            v-model="item.searchable"
+            @change="handleUpdateSearchable(item, item.searchable)"
+          />
+        </template>
         <template #[`item.action`]="{ item }">
           <v-icon small @click="handleDeleteItem(item)">mdi-delete</v-icon>
         </template>
@@ -59,12 +62,16 @@
     <v-dialog v-model="showAttachDialog" scrollable width="860px">
       <v-card>
         <v-toolbar dark tile color="primary">
-          <v-toolbar-title>Attach property for product </v-toolbar-title>
+          <v-toolbar-title>Attach property </v-toolbar-title>
           <v-spacer />
           <v-icon @click="showAttachDialog = false">mdi-close</v-icon>
         </v-toolbar>
         <v-card-text class="pa-0">
-          <form-direct-property :product-id="id" @attach="fetchRecords(id)" />
+          <form-attach-property
+            :id="id"
+            entity="category"
+            @attach="fetchRecords(id)"
+          />
         </v-card-text>
       </v-card>
     </v-dialog>
@@ -72,12 +79,12 @@
 </template>
 
 <script>
-import FormDirectProperty from '@/components/form/product/FormDirectProperty'
+import FormAttachProperty from '@/components/form/mall/property/FormAttachProperty'
 import ResizeMixin from '@/mixins/Resize'
 import TooltipMixin from '@/mixins/Tooltip'
 import { mapGetters } from 'vuex'
 export default {
-  components: { FormDirectProperty },
+  components: { FormAttachProperty },
   mixins: [ResizeMixin, TooltipMixin],
   props: {
     id: [Number, String], // category id
@@ -101,7 +108,12 @@ export default {
           width: 300,
           sortable: false,
         },
-
+        {
+          text: 'Searchable',
+          value: 'searchable',
+          sortable: false,
+          width: 80,
+        },
         {
           text: 'Action',
           value: 'action',
@@ -123,22 +135,16 @@ export default {
     },
   },
   methods: {
-    computeValue(item, itemProps) {
-      const find = itemProps.find(
-        (prop) => item.property_id === prop.property_id
-      )
-      return find ? find.options.map((item) => item.property_value_id) : null
-    },
-    computeItemOptions(options) {
-      return options.map((option) => option.value).join(',')
-    },
     fetchRecords(id) {
       this.loadingItems = true
       this.items = []
       return this.$store
-        .dispatch('getCategoryPropertyById', id)
+        .dispatch('getPropertyByCategoryId', id)
         .then(({ data }) => {
-          this.items = data
+          this.items = data.map((item) => {
+            item.values = item.options.map((option) => option.property_value_id)
+            return item
+          })
           this.loadingItems = false
         })
         .catch(() => {
@@ -150,38 +156,33 @@ export default {
       this.showAttachDialog = true
     },
     handleDeleteItem(item) {
-      this.productProps = this.productProps.filter(
+      this.items = this.items.filter(
         (prop) => prop.property_id !== item.property_id
       )
       this.handleAttachProperty()
     },
     handleAttachProperty() {
-      const values = this.productProps.map((item) => item.values).flat()
+      const values = this.items.map((item) => item.values).flat()
       const payload = {
-        id: this.product.id,
-        data: values,
+        id: this.id,
+        data: {
+          values,
+        },
       }
-      this.$store.dispatch('attachPropsForProduct', payload)
-    },
-    attachForCategory(item) {
-      const data = {
-        category_id: this.product.category_id,
-        property_id: item.property_id,
-        options: item.options.map((option) => option.value),
-      }
-      this.$store.dispatch('createCategoryProperty', data).then(() => {
-        this.productProps = this.productProps.filter(
-          (prop) => prop.property_id !== item.property_id
-        )
-      })
+      this.$store.dispatch('attachPropertyForCategory', payload)
     },
     attachPropForProduct(item) {
       console.log(item)
     },
-    handleInheritedProp() {
-      const category_id = this.product.category_id
-      this.$store.dispatch('importCategoryProp', category_id)
+    handleUpdateSearchable(item, searchable) {
+      const data = {
+        category_id: this.id,
+        values: item.values,
+        searchable: searchable,
+      }
+      this.$store.dispatch('updateCategoryPropertySearchable', data)
     },
+
     handleRowClick(row) {
       this.selectedItems = [row]
     },

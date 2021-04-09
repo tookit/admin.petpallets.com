@@ -114,7 +114,7 @@ const actions = {
     })
   },
 
-  getPropertyValuesByProductId({}, id) {
+  getPropertyByProductId({}, id) {
     return request({
       url: `/mall/item/${id}/property`,
       method: 'get',
@@ -136,18 +136,11 @@ const actions = {
       },
     })
   },
-  attachDirectPropForProduct({}, { id, data }) {
+  attachPropertyForProduct({}, { id, data }) {
     data.withoutDetach = true
     return request({
       url: `/mall/item/${id}/property`,
       method: 'put',
-      data: data,
-    })
-  },
-  attachSkuForProduct({}, { id, data }) {
-    return request({
-      url: `/mall/item/${id}/sku`,
-      method: 'post',
       data: data,
     })
   },
@@ -159,6 +152,15 @@ const actions = {
       data: data,
     })
   },
+
+  updateProductPropertySearchable({}, data) {
+    return request({
+      url: `/mall/product_property`,
+      method: 'put',
+      data: data,
+    })
+  },
+
   attachCategoryProperty({}, id) {
     return request({
       url: `/mall/item/${id}/cat_property`,

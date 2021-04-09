@@ -118,15 +118,14 @@ const actions = {
   },
   getProductCategoryById({}, id) {
     return request({
-      url: `/mall/category/${id}/propertty`,
+      url: `/mall/category/${id}`,
       method: 'get',
     })
   },
-  getPropertyByCategoryId({}, { id, query }) {
+  getPropertyByCategoryId({}, id) {
     return request({
       url: `/mall/category/${id}/property`,
       method: 'get',
-      params: query,
     }).then((resp) => {
       return resp
     })
@@ -148,6 +147,20 @@ const actions = {
     return request({
       url: `/mall/category/${id}/import`,
       method: 'put',
+    })
+  },
+  updateCategoryPropertySearchable({}, data) {
+    return request({
+      url: `/mall/cat_property`,
+      method: 'put',
+      data: data,
+    })
+  },
+  attachPropertyForCategory({}, { id, data }) {
+    return request({
+      url: `/mall/category/${id}/property`,
+      method: 'put',
+      data: data,
     })
   },
 }
