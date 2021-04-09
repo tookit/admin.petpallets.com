@@ -5,6 +5,7 @@
     :title="formTitle"
     :items="formItems"
     :loading="loading"
+    :show-header="showHeader"
     color="primary"
     @form:submit="handleSubmit"
     @form:cancel="$emit('form:cancel')"
@@ -16,6 +17,7 @@ import { VTextField, VTextarea } from 'vuetify/lib'
 export default {
   props: {
     item: Object,
+    showHeader: Boolean,
     action: Function,
   },
   data() {

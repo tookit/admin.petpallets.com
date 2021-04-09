@@ -8,8 +8,10 @@ import {
   VToolbar,
   VToolbarTitle,
   VBtn,
+  VDivider,
+  VSpacer,
 } from 'vuetify/lib'
-
+import { getSlot } from 'vuetify/lib/util/helpers'
 export default {
   name: 'v-form-builder',
   props: {
@@ -124,7 +126,8 @@ export default {
         {
           props: {
             color: this.color,
-            dark: true,
+            tile: true,
+            flat: true,
           },
         },
         [
@@ -135,6 +138,8 @@ export default {
             },
             this.title
           ),
+          this.$createElement(VSpacer),
+          getSlot(this, 'toolbar'),
         ]
       )
     },
@@ -180,11 +185,16 @@ export default {
         ]
       )
     },
+    genDivider() {
+      return this.$createElement(VDivider)
+    },
   },
   render(h) {
     const nodes = [
       this.genFormTitle(),
+      this.genDivider(),
       this.genFormWrapper(),
+      this.genDivider(),
       this.genFormFooter(),
     ]
     if (!this.showHeader) nodes.shift()

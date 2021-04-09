@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="visible" :width="width" scrollable>
+  <v-dialog v-model="visible" :width="width" scrollable class="c-dialog">
     <component :is="component" v-bind="data" ref="comp" v-on="on" />
   </v-dialog>
 </template>
@@ -37,3 +37,4 @@ export default {
   },
 }
 </script>
+<style scoped lang="sass"></style>

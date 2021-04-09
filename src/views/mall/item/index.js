@@ -1,5 +1,5 @@
+import FormEditItem from '@/components/form/mall/item/FormEditItem'
 import FormQuickItem from '@/components/form/mall/item/FormQuickItem'
-import FormSeo from '@/components/form/seo/FormSeo'
 import FormItemProperty from '@/components/form/mall/item/FormItemProperty'
 import FormSpecImport from '@/components/form/mall/item/FormSpecImport'
 
@@ -48,10 +48,6 @@ export default {
               {
                 icon: 'mdi-image',
                 click: this.handleEditImage,
-              },
-              {
-                icon: 'mdi-google',
-                click: this.handleEditSeo,
               },
             ]
             const nodes = [
@@ -288,7 +284,10 @@ export default {
     },
     //action
     handleViewItem(item) {
-      window.open(item.href, '_blank')
+      let routeData = this.$router.resolve({
+        path: `/mall/item/${item.id}`,
+      })
+      window.open(routeData.href, '_blank')
     },
     handleCreateItem() {
       const dialog = this.$root.$dialog
@@ -296,6 +295,7 @@ export default {
         component: FormQuickItem,
         data: {
           item: null,
+          showHeader: true,
         },
         on: {
           'form:cancel': () => {
@@ -308,9 +308,9 @@ export default {
     handleEditItem(item) {
       const dialog = this.$root.$dialog
       dialog.loadComponent({
-        component: FormQuickItem,
+        component: FormEditItem,
         data: {
-          item: item,
+          id: item.id,
         },
         on: {
           'form:cancel': () => {
@@ -325,7 +325,8 @@ export default {
       dialog.loadComponent({
         component: FormItemProperty,
         data: {
-          product: item,
+          id: item.id,
+          showHeader: true,
         },
         on: {
           'form:cancel': () => {
@@ -360,24 +361,6 @@ export default {
           entity: 'App\\Models\\Mall\\Product',
           directory: `fiber/${item.id}`,
           showSelect: true,
-        },
-        on: {
-          'form:cancel': () => {
-            dialog.hide()
-          },
-        },
-      })
-      dialog.show()
-    },
-    handleEditSeo(item) {
-      const dialog = this.$root.$dialog
-      dialog.loadComponent({
-        component: FormSeo,
-        data: {
-          item: this.setSeo(item),
-          action: (data) => {
-            return this.$store.dispatch('updateProduct', data)
-          },
         },
         on: {
           'form:cancel': () => {

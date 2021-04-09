@@ -1,9 +1,9 @@
 <template>
   <v-card>
-    <v-toolbar flat dark color="primary">
-      <v-toolbar-title>{{ product.name }}</v-toolbar-title>
+    <v-toolbar v-show="showHeader" tile flat height="48">
+      <v-toolbar-title>{{ id }}</v-toolbar-title>
       <v-spacer />
-      <v-btn icon @click="fetchRecords(product)">
+      <v-btn icon @click="fetchRecords(id)">
         <v-icon>mdi-refresh</v-icon>
       </v-btn>
       <v-btn icon @click="handleCreateItem">
@@ -64,10 +64,7 @@
           <v-icon @click="showAttachDialog = false">mdi-close</v-icon>
         </v-toolbar>
         <v-card-text class="pa-0">
-          <form-direct-property
-            :product-id="product.id"
-            @attach="fetchRecords(product)"
-          />
+          <form-direct-property :product-id="id" @attach="fetchRecords(id)" />
         </v-card-text>
       </v-card>
     </v-dialog>
@@ -83,10 +80,8 @@ export default {
   components: { FormDirectProperty },
   mixins: [ResizeMixin, TooltipMixin],
   props: {
-    product: {
-      type: Object,
-      default: null,
-    },
+    id: [Number, String],
+    showHeader: Boolean,
   },
   data() {
     return {
@@ -97,19 +92,19 @@ export default {
       loadingItems: false,
       headers: [
         {
-          text: this.__('name'),
+          text: 'name',
           value: 'property_name',
           width: 200,
         },
         {
-          text: this.__('value'),
+          text: 'value',
           value: 'options',
           width: 300,
           sortable: false,
         },
 
         {
-          text: this.__('action'),
+          text: 'Action',
           value: 'action',
           width: 50,
         },
@@ -123,9 +118,10 @@ export default {
     ...mapGetters(['getPropertyValuesById']),
   },
   watch: {
-    product: {
-      handler(item) {
-        this.fetchRecords(item)
+    id: {
+      handler(id) {
+        console.log(id)
+        this.fetchRecords(id)
       },
       immediate: true,
     },
@@ -140,12 +136,12 @@ export default {
     computeItemOptions(options) {
       return options.map((option) => option.value).join(',')
     },
-    fetchRecords(item) {
+    fetchRecords(id) {
       this.loadingItems = true
       this.catProps = this.productProps = []
 
       return this.$store
-        .dispatch('getPropertyValuesByProductId', item.id)
+        .dispatch('getPropertyValuesByProductId', id)
         .then(({ data }) => {
           this.catProps = data.category
           this.productProps = data.item.map((item) => {

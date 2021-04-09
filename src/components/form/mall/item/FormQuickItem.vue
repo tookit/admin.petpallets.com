@@ -5,11 +5,15 @@
     :title="formTitle"
     :items="formItems"
     :loading="loading"
-    color="primary"
-    show-header
+    :show-header="showHeader"
+    tile
     @form:submit="handleSubmit"
     @form:cancel="$emit('form:cancel')"
-  />
+  >
+    <v-btn v-if="id" slot="toolbar" icon>
+      <v-icon @click="fetchRecord(id)">mdi-refresh</v-icon>
+    </v-btn>
+  </v-form-builder>
 </template>
 
 <script>
@@ -19,16 +23,18 @@ import { getObjectValueByPath } from 'vuetify/lib/util/helpers'
 import { mapGetters } from 'vuex'
 export default {
   props: {
-    item: Object,
+    id: [Number, String],
+    showHeader: Boolean,
   },
   data() {
     return {
       loading: false,
+      item: null,
       formModel: {},
     }
   },
   computed: {
-    ...mapGetters(['getProductCategories', 'getTagsByType', 'getProductFlags']),
+    ...mapGetters(['getNestedCategories', 'getTagsByType', 'getProductFlags']),
     formTitle() {
       return this.item ? 'Edit Product - ' + this.item.name : 'Create Product'
     },
@@ -58,7 +64,7 @@ export default {
           element: 'v-cascader',
           props: {
             name: 'category_id',
-            items: this.getProductCategories,
+            items: this.getNestedCategories,
             itemText: 'name',
             itemValue: 'id',
             required: true,
@@ -105,18 +111,60 @@ export default {
             outlined: true,
           },
         },
+        {
+          cols: 12,
+          element: VTextField,
+          props: {
+            name: 'meta_title',
+            required: true,
+            outlined: true,
+          },
+        },
+
+        {
+          cols: 12,
+          element: VTextField,
+          props: {
+            name: 'meta_keywords',
+            required: true,
+            outlined: true,
+          },
+        },
+        {
+          cols: 12,
+          element: VTextField,
+          props: {
+            name: 'meta_description',
+            required: true,
+            outlined: true,
+          },
+        },
       ]
     },
   },
   watch: {
-    item: {
-      handler(item) {
-        this.formModel = this.assignModel(item) || {}
+    id: {
+      handler(id) {
+        return id ? this.fetchRecord(id) : null
       },
       immediate: true,
     },
   },
   methods: {
+    fetchRecord(id) {
+      this.loading = true
+      this.formModel = {}
+      this.$store
+        .dispatch('getProductById', id)
+        .then((resp) => {
+          this.item = resp.data
+          this.formModel = this.assignModel(resp.data)
+          this.loading = false
+        })
+        .catch(() => {
+          this.loading = false
+        })
+    },
     assignModel(value) {
       const temp = {}
       this.formItems

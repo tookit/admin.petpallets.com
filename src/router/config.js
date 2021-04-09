@@ -105,6 +105,17 @@ export const protectedRoute = [
                   icon: 'mdi-basket',
                 },
               },
+              {
+                path: '/mall/item/:id',
+                name: 'mall.item.view',
+                props: true,
+                component: () => import('@/views/mall/item/ItemView.vue'),
+                meta: {
+                  title: 'Product item',
+                  hiddenInMenu: false,
+                  icon: 'mdi-basket',
+                },
+              },
             ],
           },
           {
