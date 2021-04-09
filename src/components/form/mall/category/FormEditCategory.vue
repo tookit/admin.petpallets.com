@@ -1,45 +1,43 @@
 <template>
-  <v-card>
-    <v-tabs
-      v-model="defaultTab"
-      background-color="primary"
-      class="border-bottom"
-      dark
-    >
+  <v-sheet>
+    <v-tabs v-model="defaultTab" class="border-bottom">
       <v-tab v-for="tab in tabs" :key="tab.value" :href="'#' + tab.value">
         {{ tab.text }}
       </v-tab>
       <v-spacer />
     </v-tabs>
-    <v-card-text>
-      <v-tabs-items v-model="defaultTab">
-        <template v-for="tab in tabs">
-          <v-tab-item :key="tab.value" :value="tab.value">
-            <component :is="tab.element" v-bind="tab.bind" />
-          </v-tab-item>
-        </template>
-      </v-tabs-items>
-    </v-card-text>
-  </v-card>
+    <v-tabs-items v-model="defaultTab">
+      <template v-for="tab in tabs">
+        <v-tab-item :key="tab.value" :value="tab.value">
+          <component :is="tab.element" v-bind="tab.bind" />
+        </v-tab-item>
+      </template>
+    </v-tabs-items>
+  </v-sheet>
 </template>
 
 <script>
-import FormMallCategory from '@/components/form/mall/category/FormMallCategory'
-import FormSeo from '@/components/form/seo/FormSeo'
+import FormMallCategory from './FormMallCategory'
+import MediaTable from '@/components/table/MediaTable'
 export default {
   props: {
-    item: Object,
+    id: [Number, String],
   },
   data() {
     return {
       defaultTab: 'general',
-      tabs: [
+    }
+  },
+  computed: {
+    tabs() {
+      return [
         {
           text: 'General',
           value: 'general',
           element: FormMallCategory,
           bind: {
-            item: this.item,
+            id: this.id,
+            showHeader: true,
           },
         },
         {
@@ -47,15 +45,18 @@ export default {
           value: 'property',
         },
         {
-          text: 'SEO',
-          value: 'seo',
-          element: FormSeo,
+          text: 'Image',
+          value: 'image',
+          element: MediaTable,
           bind: {
-            item: this.item,
+            entityId: this.id,
+            entity: 'App\\Models\\Mall\\Category',
+            directory: `category/${this.id}`,
+            showSelect: true,
           },
         },
-      ],
-    }
+      ]
+    },
   },
 }
 </script>

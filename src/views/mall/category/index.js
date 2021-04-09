@@ -2,7 +2,6 @@ import FormMallCategory from '@/components/form/mall/category/FormMallCategory'
 import FormEditCategory from '@/components/form/mall/category/FormEditCategory'
 import FormMergeCategory from '@/components/form/mall/category/FormMergeCategory'
 import MediaTable from '@/components/table/MediaTable'
-import FormSeo from '@/components/form/seo/FormSeo'
 import { mapGetters } from 'vuex'
 import { VAutocomplete, VSwitch, VIcon } from 'vuetify/lib'
 export default {
@@ -14,7 +13,7 @@ export default {
           value: 'id',
         },
         {
-          text: this.__('name'),
+          text: 'Name',
           value: 'name',
           render: (item) => {
             const actions = [
@@ -25,10 +24,6 @@ export default {
               {
                 icon: 'mdi-image',
                 click: this.handleEditImage,
-              },
-              {
-                icon: 'mdi-google',
-                click: this.handleEditSeo,
               },
             ]
             const nodes = [
@@ -177,44 +172,12 @@ export default {
   },
   watch: {},
   methods: {
-    setSeo(item) {
-      const { meta_title, meta_keywords, meta_description } = item
-      return {
-        id: item.id,
-        name: item.name,
-        meta_title: meta_title
-          ? meta_title
-          : 'China factory provide ' + item.name,
-        meta_keywords: meta_keywords ? meta_keywords : item.name,
-        meta_description: meta_description
-          ? meta_description
-          : item.description,
-      }
-    },
     //action
     handleViewItem(item) {
       let routeData = this.$router.resolve({
         path: `/mall/category/item/${item.id}`,
       })
       window.open(routeData.href, '_blank')
-    },
-    handleEditSeo(item) {
-      const dialog = this.$root.$dialog
-      dialog.loadComponent({
-        component: FormSeo,
-        data: {
-          item: this.setSeo(item),
-          action: (data) => {
-            return this.$store.dispatch('updateProductCategory', data)
-          },
-        },
-        on: {
-          'form:cancel': () => {
-            dialog.hide()
-          },
-        },
-      })
-      dialog.show()
     },
     handleCreateItem() {
       const dialog = this.$root.$dialog
@@ -236,7 +199,7 @@ export default {
       dialog.loadComponent({
         component: FormEditCategory,
         data: {
-          item: item,
+          id: item.id,
         },
         on: {
           'form:cancel': () => {

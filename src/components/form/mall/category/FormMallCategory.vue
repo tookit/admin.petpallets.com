@@ -5,10 +5,14 @@
     :title="formTitle"
     :items="formItems"
     :loading="loading"
-    color="primary"
+    :show-header="showHeader"
     @form:submit="handleSubmit"
     @form:cancel="$emit('form:cancel')"
-  />
+  >
+    <v-btn v-if="id" slot="toolbar" icon>
+      <v-icon @click="fetchRecord(id)">mdi-refresh</v-icon>
+    </v-btn>
+  </v-form-builder>
 </template>
 
 <script>
@@ -17,11 +21,13 @@ import { mapGetters } from 'vuex'
 import { getObjectValueByPath } from 'vuetify/lib/util/helpers'
 export default {
   props: {
-    item: Object,
+    id: [Number, String],
+    showHeader: Boolean,
   },
   data() {
     return {
       loading: false,
+      item: null,
       formModel: {},
     }
   },
@@ -74,18 +80,60 @@ export default {
             outlined: true,
           },
         },
+        {
+          cols: 12,
+          element: VTextField,
+          props: {
+            name: 'meta_title',
+            required: true,
+            outlined: true,
+          },
+        },
+
+        {
+          cols: 12,
+          element: VTextField,
+          props: {
+            name: 'meta_keywords',
+            required: true,
+            outlined: true,
+          },
+        },
+        {
+          cols: 12,
+          element: VTextarea,
+          props: {
+            name: 'meta_description',
+            required: true,
+            outlined: true,
+          },
+        },
       ]
     },
   },
   watch: {
-    item: {
-      handler(item) {
-        this.formModel = this.assignModel(item) || {}
+    id: {
+      handler(id) {
+        return id ? this.fetchRecord(id) : null
       },
       immediate: true,
     },
   },
   methods: {
+    fetchRecord(id) {
+      this.loading = true
+      this.formModel = {}
+      this.$store
+        .dispatch('getProductCategoryById', id)
+        .then((resp) => {
+          this.item = resp.data
+          this.formModel = this.assignModel(resp.data)
+          this.loading = false
+        })
+        .catch(() => {
+          this.loading = false
+        })
+    },
     assignModel(value) {
       const temp = {}
       this.formItems

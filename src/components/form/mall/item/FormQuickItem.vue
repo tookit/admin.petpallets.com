@@ -132,7 +132,7 @@ export default {
         },
         {
           cols: 12,
-          element: VTextField,
+          element: VTextarea,
           props: {
             name: 'meta_description',
             required: true,
