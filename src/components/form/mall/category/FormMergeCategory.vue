@@ -5,7 +5,6 @@
     :title="formTitle"
     :items="formItems"
     :loading="loading"
-    color="primary"
     show-header
     @form:submit="handleSubmit"
     @form:cancel="$emit('form:cancel')"
@@ -25,7 +24,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getProductCategories']),
+    ...mapGetters(['getNestedCategories']),
     formTitle() {
       return this.item ? 'Merge Category - ' + this.item.name : 'Merge Category'
     },
@@ -36,7 +35,7 @@ export default {
           element: 'v-cascader',
           props: {
             name: 'target',
-            items: this.getProductCategories,
+            items: this.getNestedCategories,
             itemText: 'name',
             itemValue: 'id',
             required: true,
