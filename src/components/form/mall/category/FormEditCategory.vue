@@ -23,6 +23,7 @@ import MediaTable from '@/components/table/MediaTable'
 export default {
   props: {
     id: [Number, String],
+    name: String,
   },
   data() {
     return {
@@ -47,6 +48,7 @@ export default {
           element: FormCategoryProperty,
           bind: {
             id: this.id,
+            name: this.name,
             showHeader: true,
           },
         },

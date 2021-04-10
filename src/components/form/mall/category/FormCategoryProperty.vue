@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-toolbar v-show="showHeader" tile flat height="48">
-      <v-toolbar-title>{{ id }}</v-toolbar-title>
+      <v-toolbar-title>{{ name }}</v-toolbar-title>
       <v-spacer />
       <v-btn icon @click="fetchRecords(id)">
         <v-icon>mdi-refresh</v-icon>
@@ -88,6 +88,7 @@ export default {
   mixins: [ResizeMixin, TooltipMixin],
   props: {
     id: [Number, String], // category id
+    name: String,
     showHeader: Boolean,
   },
   data() {

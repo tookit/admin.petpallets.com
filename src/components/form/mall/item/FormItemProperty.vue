@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-toolbar v-show="showHeader" tile flat height="48">
-      <v-toolbar-title>{{ id }}</v-toolbar-title>
+      <v-toolbar-title>{{ name }}</v-toolbar-title>
       <v-spacer />
       <v-btn icon @click="fetchRecords(id)">
         <v-icon>mdi-refresh</v-icon>
@@ -43,6 +43,8 @@
         <template #[`item.searchable`]="{ item }">
           <v-switch
             v-model="item.searchable"
+            class="my-auto"
+            hide-details
             @change="handleUpdateSearchable(item, item.searchable)"
           />
         </template>
@@ -87,7 +89,8 @@ export default {
   components: { FormAttachProperty },
   mixins: [ResizeMixin, TooltipMixin],
   props: {
-    id: [Number, String], // category id
+    id: [Number, String],
+    name: String,
     showHeader: Boolean,
   },
   data() {

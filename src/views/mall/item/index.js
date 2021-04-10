@@ -311,6 +311,7 @@ export default {
         component: FormEditItem,
         data: {
           id: item.id,
+          name: item.name,
         },
         on: {
           'form:cancel': () => {

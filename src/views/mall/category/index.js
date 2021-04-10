@@ -63,7 +63,7 @@ export default {
           value: 'order_column',
         },
         {
-          text: this.__('flag'),
+          text: 'Flag',
           value: 'flag',
           width: 120,
           render: (item) => {
@@ -200,6 +200,7 @@ export default {
         component: FormEditCategory,
         data: {
           id: item.id,
+          name: item.name,
         },
         on: {
           'form:cancel': () => {
