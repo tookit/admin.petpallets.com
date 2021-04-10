@@ -76,10 +76,11 @@ const actions = {
       method: 'post',
     })
   },
-  linkProduct({ commit }, id) {
+  linkProduct({ commit }, { id, data }) {
     return request({
       url: `/crawler/task/${id}/link`,
       method: 'post',
+      data: data,
     })
   },
 }

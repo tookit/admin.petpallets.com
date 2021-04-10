@@ -1,4 +1,5 @@
 import FormTask from '@/components/form/crawler/FormTask'
+import FormItemImport from '@/components/form/crawler/FormItemImport'
 import { VAutocomplete, VIcon } from 'vuetify/lib'
 import { mapGetters } from 'vuex'
 export default {
@@ -87,7 +88,7 @@ export default {
           icon: 'mdi-database-import',
           click: this.handleLinkProduct,
           enable: (item) => {
-            return item.raw_data
+            return item.raw_data && item.type === 'item'
           },
         },
         {
@@ -179,17 +180,20 @@ export default {
           })
       }
     },
-    handleLinkProduct({ id, status, type }) {
-      if (type === 'item' && status === 'finished') {
-        this.showOverlay = true
-        this.$store
-          .dispatch('linkProduct', id)
-          .then(() => {
-            this.handleRefreshItem()
-            this.showOverlay = false
-          })
-          .catch(() => (this.showOverlay = false))
-      }
+    handleLinkProduct(item) {
+      const dialog = this.$root.$dialog
+      dialog.loadComponent({
+        component: FormItemImport,
+        data: {
+          item: item,
+        },
+        on: {
+          'form:cancel': () => {
+            dialog.hide()
+          },
+        },
+      })
+      dialog.show()
     },
   },
 }
