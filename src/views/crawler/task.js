@@ -9,16 +9,17 @@ export default {
           text: 'ID',
           value: 'id',
         },
+
         {
-          text: 'Link',
-          value: 'link',
+          text: 'Name',
+          value: 'name',
           render: (item) => {
             return this.$createElement(
               'a',
               {
                 domProps: { href: item.link, target: '_blank' },
               },
-              item.link
+              item.name
             )
           },
         },
@@ -37,7 +38,7 @@ export default {
             return this.$createElement(
               VIcon,
               {
-                props: { size: 24 },
+                props: { size: 20 },
                 on: {
                   click: () => {
                     this.handleEditItem(item)
@@ -98,7 +99,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getVendors']),
+    ...mapGetters(['getVendors', 'getCrawlerTypeList']),
     filterItems() {
       return [
         {
@@ -107,6 +108,16 @@ export default {
           props: {
             name: 'vendor_id',
             items: this.getVendors,
+            outlined: true,
+            hideDetails: true,
+          },
+        },
+        {
+          cols: 6,
+          element: VAutocomplete,
+          props: {
+            name: 'type',
+            items: this.getCrawlerTypeList,
             outlined: true,
             hideDetails: true,
           },
