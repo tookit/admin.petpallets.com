@@ -10,14 +10,14 @@
     <v-toolbar color="primary darken-1" dark>
       <img :src="computeLogo" height="36" alt="Vue Material Admin Template" />
       <v-toolbar-title>
-        <span class="hidden-sm-and-down">Vue Material</span>
+        <span class="hidden-sm-and-down">Kamefiiber</span>
       </v-toolbar-title>
     </v-toolbar>
-    <vue-perfect-scrollbar class="app-drawer__scrollbar">
+    <PerfectScrollbar class="app-drawer__scrollbar">
       <div class="app-drawer__inner">
         <nav-list :items="computeMenu" :mini="mini" />
       </div>
-    </vue-perfect-scrollbar>
+    </PerfectScrollbar>
     <template #append>
       <div class="grey lighten-3">
         <template v-if="mini">
@@ -69,7 +69,7 @@ export default {
 
   computed: {
     computeLogo() {
-      return '/static/m.png'
+      return '/img/logo.png'
     },
     computeMenu() {
       return this.filterRouteItem(routes[0].children)

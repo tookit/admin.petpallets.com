@@ -81,7 +81,7 @@ export default {
           },
         },
         {
-          text: this.__('status'),
+          text: 'Active',
           value: 'is_active',
           width: 50,
           render: (item) => {
@@ -100,12 +100,12 @@ export default {
           },
         },
         {
-          text: this.__('products'),
+          text: 'Products',
           value: 'products_count',
           width: 50,
         },
         {
-          text: this.__('action'),
+          text: 'Action',
           value: 'action',
           width: 50,
         },
@@ -113,12 +113,12 @@ export default {
       items: [],
       actions: [
         {
-          text: this.__('view_item'),
+          text: 'View Item',
           icon: 'mdi-eye',
           click: this.handleViewItem,
         },
         {
-          text: this.__('edit_item'),
+          text: 'Edit Item',
           icon: 'mdi-pencil',
           click: this.handleEditItem,
         },
@@ -128,7 +128,7 @@ export default {
           click: this.handleMergeItem,
         },
         {
-          text: this.__('delete_item'),
+          text: 'Delete Item',
           icon: 'mdi-close',
           click: this.handleDeleteItem,
         },

@@ -9,7 +9,7 @@
           <v-row>
             <v-col :cols="4">
               <v-autocomplete
-                v-model="formModel.name"
+                v-model="formModel.property_id"
                 outlined
                 label="Name"
                 :items="getProperties"
@@ -30,8 +30,10 @@
                 :loading="isLoading"
                 :search-input.sync="searchValue"
                 placeholder="Property Value"
+                :append-outer-icon="formModel.property_id ? 'mdi-refresh' : ''"
                 item-text="value"
                 item-value="id"
+                @click:append-outer="handleNameChange(formModel.property_id)"
               />
             </v-col>
           </v-row>
@@ -62,7 +64,7 @@ export default {
       items: [],
       values: [],
       formModel: {
-        name: null,
+        property_id: null,
         value: null,
       },
     }
@@ -102,10 +104,11 @@ export default {
           this.loadingloading = false
         })
     },
-    handleMergeValue() {},
     handleNameChange(property_id) {
+      this.isLoading = true
       this.$store.dispatch('fetchValueById', property_id).then((resp) => {
         this.values = resp.data
+        this.isLoading = false
       })
     },
   },

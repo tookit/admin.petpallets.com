@@ -195,7 +195,6 @@ export const protectedRoute = [
             component: () => import('@/views/mall/property/PropertyList.vue'),
             meta: {
               title: 'Property',
-              hiddenInMenu: false,
               icon: 'mdi-filter-variant',
             },
           },
@@ -352,7 +351,7 @@ export const protectedRoute = [
         name: 'Forbidden',
         meta: {
           title: 'Access Denied',
-          hiddenInMenu: true,
+          hidden: true,
         },
         component: () => import('@/views/error/Deny.vue'),
       },

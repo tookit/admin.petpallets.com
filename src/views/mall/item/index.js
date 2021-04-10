@@ -157,7 +157,7 @@ export default {
           },
         },
         {
-          text: this.__('status'),
+          text: 'Status',
           value: 'is_active',
           width: 50,
           render: (item) => {

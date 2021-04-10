@@ -10,7 +10,6 @@
           showFilter ? 'mdi-filter-variant-plus' : 'mdi-filter-variant'
         "
         append-icon="mdi-magnify"
-        :placeholder="__('search')"
         hide-details
         clearable
         @keyup.enter="handleApplyFilter"
@@ -62,10 +61,8 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn text @click="handleResetFilter">{{ __('reset') }}</v-btn>
-        <v-btn tile color="primary" @click="handleApplyFilter">{{
-          __('apply')
-        }}</v-btn>
+        <v-btn text @click="handleResetFilter">Reset</v-btn>
+        <v-btn tile color="primary" @click="handleApplyFilter">Apply</v-btn>
       </v-card-actions>
     </v-card>
     <v-card-text class="pa-0">
@@ -110,7 +107,7 @@
                     <v-icon>mdi-dots-vertical</v-icon>
                   </v-btn>
                 </template>
-                <span>{{ __('$vuetify.action') }}</span>
+                <span>Action</span>
               </v-tooltip>
             </template>
             <v-list class="pa-0" dense>

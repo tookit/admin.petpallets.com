@@ -6,7 +6,6 @@
         solo
         flat
         append-icon="mdi-magnify"
-        :placeholder="__('search')"
         hide-details
         clearable
       />
@@ -36,7 +35,7 @@
                   <v-icon>mdi-dots-vertical</v-icon>
                 </v-btn>
               </template>
-              <span>{{ __('$vuetify.action') }}</span>
+              <span>Action</span>
             </v-tooltip>
           </template>
           <v-list class="pa-0" dense>
@@ -87,15 +86,15 @@ export default {
       serverItemsLength: 0,
       headers: [
         {
-          text: this.__('id'),
+          text: 'ID',
           value: 'id',
         },
         {
-          text: this.__('name'),
+          text: 'Name',
           value: 'property_name',
         },
         {
-          text: this.__('value'),
+          text: 'Value',
           value: 'value',
           sortable: true,
           width: 250,
@@ -107,7 +106,7 @@ export default {
           width: 50,
         },
         {
-          text: this.__('action'),
+          text: 'Action',
           value: 'action',
           width: 50,
         },

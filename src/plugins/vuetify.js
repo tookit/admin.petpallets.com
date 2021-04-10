@@ -1,16 +1,29 @@
 import Vue from 'vue'
-import VueI18n from 'vue-i18n'
-Vue.use(VueI18n)
-import store from '../store'
-import zhHans from '@/locale/zh-Hans.json'
-import en from '@/locale/en.json'
-const translation = {
-  zh: zhHans,
-  en: en,
-}
-const i18n = new VueI18n({
-  locale: store.getters.getLocale, // set locale
-  messages: translation, // set locale messages
-})
 
-export default i18n
+import Vuetify from 'vuetify/lib'
+import store from '../store'
+import i18n from './i18n'
+Vue.use(Vuetify)
+
+export default new Vuetify({
+  lang: {
+    t: (key, ...params) => i18n.t(key, params),
+    current: 'en',
+  },
+  theme: {
+    options: {
+      customProperties: true,
+    },
+    themes: {
+      light: {
+        primary: store.getters.getThemeColor,
+        secondary: '#424242',
+        accent: '#82B1FF',
+        error: '#FF5252',
+        info: '#2196F3',
+        success: '#4CAF50',
+        warning: '#FFC107',
+      },
+    },
+  },
+})

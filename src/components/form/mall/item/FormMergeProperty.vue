@@ -104,19 +104,19 @@ export default {
       loadingItems: false,
       headers: [
         {
-          text: this.__('name'),
+          text: 'Name',
           value: 'property_name',
           width: 200,
         },
         {
-          text: this.__('value'),
+          text: 'Value',
           value: 'options',
           width: 300,
           sortable: false,
         },
 
         {
-          text: this.__('action'),
+          text: 'Action',
           value: 'action',
           width: 50,
         },

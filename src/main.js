@@ -7,11 +7,10 @@ import './theme/default.sass'
 
 import App from './App.vue'
 import vuetify from './plugins/vuetify'
+import i18n from './plugins/i18n'
 import VueTheMask from 'vue-the-mask'
 import Lightbox from 'vue-easy-lightbox'
 Vue.use(Lightbox)
-// import ConfirmDialog from '@/components/dialog/ConfirmDialog'
-// Vue.use(ConfirmDialog, { vuetify })
 import PerfectScrollbar from 'vue2-perfect-scrollbar'
 import 'vue2-perfect-scrollbar/dist/vue2-perfect-scrollbar.css'
 import 'dropzone/dist/dropzone.css'
@@ -30,10 +29,8 @@ Vue.config.productionTip = false
 const app = new Vue({
   router,
   store,
+  i18n,
   vuetify,
   render: (h) => h(App),
 })
-Vue.prototype.__ = (key, ...parrams) => {
-  return app.$vuetify.lang.translator(key, ...parrams)
-}
 app.$mount('#app')

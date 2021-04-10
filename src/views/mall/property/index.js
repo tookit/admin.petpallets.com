@@ -109,6 +109,7 @@ export default {
         component: FormProperty,
         data: {
           item: null,
+          showHeader: true,
         },
         on: {
           'form:cancel': () => {
@@ -124,6 +125,7 @@ export default {
         component: FormProperty,
         data: {
           item: item,
+          showHeader: true,
         },
         on: {
           'form:cancel': () => {

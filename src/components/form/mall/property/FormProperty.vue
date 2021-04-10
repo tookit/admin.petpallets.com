@@ -4,8 +4,7 @@
     v-model="formModel"
     :items="formItems"
     :loading="loading"
-    color="primary"
-    show-header
+    :show-header="showHeader"
     @form:submit="handleSubmit"
     @form:cancel="$emit('form:cancel')"
   />
@@ -17,6 +16,7 @@ export default {
   name: 'FormProperty',
   props: {
     item: Object,
+    showHeader: Boolean,
   },
   data() {
     return {

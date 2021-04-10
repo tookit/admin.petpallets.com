@@ -28,7 +28,7 @@ export default {
           },
         },
         {
-          text: this.__('name'),
+          text: 'Name',
           value: 'name',
           render: (item) => {
             const actions = [

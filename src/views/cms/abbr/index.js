@@ -5,7 +5,7 @@ export default {
     return {
       headers: [
         {
-          text: this.__('id'),
+          text: 'Id',
           value: 'id',
         },
         {

@@ -66,12 +66,8 @@ export default {
         password: null,
       },
       formRule: {
-        username: [
-          (v) => !!v || this.__('$vuetify.rule.required', ['username']),
-        ],
-        password: [
-          (v) => !!v || this.__('$vuetify.rule.required', ['password']),
-        ],
+        username: [(v) => !!v || 'usename required'],
+        password: [(v) => !!v || 'Password required'],
       },
       socialIcons: [
         {
