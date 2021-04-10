@@ -31,6 +31,8 @@
                 multiple
                 item-text="value"
                 item-value="id"
+                :append-outer-icon="formModel.property_id ? 'mdi-refresh' : ''"
+                @click:append-outer="handleNameChange(formModel.property_id)"
               >
               </v-autocomplete>
             </v-col>
@@ -109,12 +111,14 @@ export default {
         })
     },
     handleNameChange(id) {
+      this.isLoading = true
       this.$store
         .dispatch('fetchPropertyValue', {
           'filter[property_id]': id,
         })
         .then((resp) => {
           this.values = resp.data
+          this.isLoading = false
         })
     },
   },

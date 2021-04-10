@@ -26,6 +26,17 @@
       show-select
       hide-default-footer
     >
+      <template #[`item.products`]="{ item }">
+        <v-chip
+          v-for="product in item.products.slice(0, 1)"
+          :key="product.id"
+          :href="product.href"
+          target="_blank"
+          x-small
+        >
+          {{ product.id }}
+        </v-chip>
+      </template>
       <template #[`item.action`]="{ item }">
         <v-menu>
           <template #activator="{ on: menu }">
@@ -104,7 +115,7 @@ export default {
         },
         {
           text: 'Products',
-          value: 'products_count',
+          value: 'products',
           sortable: true,
           width: 50,
         },
