@@ -99,6 +99,7 @@ export default {
         })
         .then(() => {
           this.loading = false
+          this.$emit('merged')
         })
         .catch(() => {
           this.loadingloading = false

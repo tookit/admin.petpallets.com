@@ -404,7 +404,7 @@ export default {
       this.selectedItem = data
       this.fetchRecords()
     },
-    handleItemSelected(e) {
+    handleItemSelected() {
       // this.$emit('input', this.selectedItems)
     },
     handleAttachEntity(item) {

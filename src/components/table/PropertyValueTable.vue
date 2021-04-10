@@ -57,7 +57,10 @@
       <form-property-value :item="selectedItem" :property-id="property.id" />
     </v-dialog>
     <v-dialog v-model="showMergeDialog" scrollable width="800">
-      <form-merge-value :source="selectedItem" />
+      <form-merge-value
+        :source="selectedItem"
+        @merged="fetchRecords(property.id)"
+      />
     </v-dialog>
   </div>
 </template>
