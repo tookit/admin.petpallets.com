@@ -5,7 +5,6 @@
     :title="formTitle"
     :items="formItems"
     :loading="loading"
-    color="primary"
     show-header
     @form:submit="handleSubmit"
     @form:cancel="$emit('form:cancel')"
@@ -64,6 +63,15 @@ export default {
           },
         },
         {
+          cols: 6,
+          element: VTextField,
+          props: {
+            name: 'name',
+            required: true,
+            outlined: true,
+          },
+        },
+        {
           cols: 12,
           element: VJsonEditor,
           props: {
@@ -85,7 +93,7 @@ export default {
   watch: {
     item: {
       handler(item) {
-        this.formModel = item || {}
+        this.formModel = item || { raw_data: {}, rule: {} }
       },
       immediate: true,
     },

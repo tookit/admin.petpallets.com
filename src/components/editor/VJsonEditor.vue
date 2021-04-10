@@ -1,30 +1,33 @@
 <template>
-  <AceEditor
-    v-model="rawData"
-    lang="json"
-    theme="monokai"
-    width="100%"
-    height="500px"
-    :options="{
-      enableBasicAutocompletion: true,
-      enableLiveAutocompletion: true,
-      fontSize: 14,
-      highlightActiveLine: true,
-      enableSnippets: true,
-      showLineNumbers: true,
-      tabSize: 2,
-      showPrintMargin: false,
-      showGutter: true,
-    }"
-    :commands="[
-      {
-        name: 'save',
-        bindKey: { win: 'Ctrl-s', mac: 'Command-s' },
-        readOnly: true,
-      },
-    ]"
-    @init="editorInit"
-  />
+  <div>
+    <label for="">{{ label }}</label>
+    <AceEditor
+      v-model="rawData"
+      lang="json"
+      theme="monokai"
+      width="100%"
+      height="500px"
+      :options="{
+        enableBasicAutocompletion: true,
+        enableLiveAutocompletion: true,
+        fontSize: 14,
+        highlightActiveLine: true,
+        enableSnippets: true,
+        showLineNumbers: true,
+        tabSize: 2,
+        showPrintMargin: false,
+        showGutter: true,
+      }"
+      :commands="[
+        {
+          name: 'save',
+          bindKey: { win: 'Ctrl-s', mac: 'Command-s' },
+          readOnly: true,
+        },
+      ]"
+      @init="editorInit"
+    />
+  </div>
 </template>
 
 <script>
@@ -33,7 +36,8 @@ export default {
   name: 'VJsonEditor',
   components: { AceEditor },
   props: {
-    value: Object,
+    value: [Object, Array],
+    label: String,
   },
   data() {
     return {
@@ -57,7 +61,6 @@ export default {
       },
     },
   },
-  watch: {},
   methods: {
     editorInit: function () {
       require('brace/ext/language_tools') //language extension prerequsite...
