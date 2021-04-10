@@ -2,103 +2,60 @@
   <v-navigation-drawer
     v-model="showDrawer"
     app
-    class="app--drawer"
+    class="app-drawer"
+    :mini-variant.sync="mini"
+    mini-variant-width="64"
     :width="drawerWidth"
   >
-    <v-toolbar color="primary darken-1" class="app-drawer__toolbar" dark flat>
-      <img
-        :src="computeLogo"
-        :width="drawerWidth === 64 ? 64 : 256"
-        alt="Kame"
-      />
+    <v-toolbar color="primary darken-1" dark>
+      <img :src="computeLogo" height="36" alt="Vue Material Admin Template" />
+      <v-toolbar-title>
+        <span class="hidden-sm-and-down">Vue Material</span>
+      </v-toolbar-title>
     </v-toolbar>
-    <v-list class="pa-0">
-      <template v-for="(item, key) in computeMenu">
-        <template v-if="item.children && item.children.length > 0">
-          <v-list-group
-            :key="key"
-            :prepend-icon="item.meta.icon"
-            :to="item.path"
-            :value="computeGroupExpanded(item, $route)"
-            no-action
-          >
-            <template #activator>
-              <v-list-item-content>
-                <v-list-item-title v-text="item.meta.title" />
-              </v-list-item-content>
-            </template>
-            <v-list-item
-              v-for="subItem in item.children"
-              v-show="!subItem.meta.hiddenInMenu"
-              :key="subItem.name"
-              :class="drawerWidth === 64 ? 'pl-4' : ''"
-              :to="subItem.path"
-            >
-              <template v-if="drawerWidth === 64">
-                <v-list-item-icon>
-                  <v-icon v-text="subItem.meta.icon"></v-icon>
-                </v-list-item-icon>
-              </template>
-              <template v-else>
-                <v-list-item-content>
-                  <v-list-item-title v-text="subItem.meta.title" />
-                </v-list-item-content>
-              </template>
-            </v-list-item>
-          </v-list-group>
-        </template>
-        <template v-else>
-          <v-list-item
-            v-show="!item.meta.hiddenInMenu"
-            :key="key"
-            :to="item.path"
-          >
-            <v-list-item-icon>
-              <v-icon v-text="item.meta.icon"></v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-              <v-list-item-title v-text="item.meta.title"></v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </template>
-      </template>
-    </v-list>
+    <vue-perfect-scrollbar class="app-drawer__scrollbar">
+      <div class="app-drawer__inner">
+        <nav-list :items="computeMenu" :mini="mini" />
+      </div>
+    </vue-perfect-scrollbar>
     <template #append>
-      <template v-if="drawerWidth === 64">
-        <div class="d-flex">
+      <div class="grey lighten-3">
+        <template v-if="mini">
           <v-btn
+            block
             width="64"
+            height="48"
             icon
             tile
             class="mx-auto"
-            @click="handleDrawerToggle"
+            @click="handleDrawerCollapse"
           >
             <v-icon>mdi-arrow-collapse-right</v-icon>
           </v-btn>
-        </div>
-      </template>
-      <template v-else>
-        <div class="d-flex">
-          <v-spacer></v-spacer>
-          <v-btn icon tile class="mr-2" @click="handleDrawerToggle">
+        </template>
+        <template v-else>
+          <v-btn
+            right
+            block
+            height="48"
+            icon
+            tile
+            @click="handleDrawerCollapse"
+          >
             <v-icon>mdi-arrow-collapse-left</v-icon>
           </v-btn>
-        </div>
-      </template>
+        </template>
+      </div>
     </template>
   </v-navigation-drawer>
 </template>
 <script>
 import { protectedRoute as routes } from '@/router/config'
+import NavList from '@/components/nav/NavList'
 export default {
   name: 'AppDrawer',
-  components: {},
-  props: {
-    expanded: {
-      type: Boolean,
-      default: true,
-    },
-  },
+  components: { NavList },
+  props: {},
   data() {
     return {
       mini: false,
@@ -111,39 +68,48 @@ export default {
   },
 
   computed: {
-    computeMenu() {
-      return routes[0].children
-    },
-
-    computeGroupActive() {
-      return true
-    },
     computeLogo() {
-      return this.drawerWidth === 256 ? '/img/logo_text.png' : '/img/logo.png'
+      return '/static/m.png'
+    },
+    computeMenu() {
+      return this.filterRouteItem(routes[0].children)
+    },
+    computeHeight() {
+      return {
+        height: this.height || '',
+      }
     },
   },
   created() {},
 
   methods: {
-    handleDrawerToggle() {
-      if (this.drawerWidth === 64) {
-        this.drawerWidth = 256
-      } else {
-        this.drawerWidth = 64
-      }
+    filterRouteItem(routes) {
+      return routes
+        .filter((item) => item.meta.hidden !== true)
+        .map((item) => {
+          return {
+            title: this.$t(item.meta.title),
+            icon: item.meta.icon,
+            path: item.path,
+            isNew: item.meta.isNew || false,
+            children: item.children ? this.filterRouteItem(item.children) : [],
+          }
+        })
     },
-    computeGroupExpanded(item, $route) {
-      return $route.matched.map((item) => item.path).includes(item.path)
+    handleDrawerCollapse() {
+      this.mini = !this.mini
+    },
+    toggleDrawer() {
+      this.showDrawer = !this.showDrawer
     },
   },
 }
 </script>
 
 <style lang="sass" scoped>
-.app--drawer
-  overflow: hidden !important
-
-  .drawer-menu--scroll
-    height: calc(100vh - 48px)
-    overflow: auto
+.app-drawer
+  &__srollbar
+    max-height:  calc(100vh - 64px - 36px - 44px)
+  &__inner
+    height: calc(100vh - 64px - 36px - 44px)
 </style>

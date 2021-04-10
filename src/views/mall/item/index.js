@@ -12,7 +12,7 @@ export default {
     return {
       headers: [
         {
-          text: this.__('id'),
+          text: 'ID',
           value: 'id',
         },
         {
@@ -28,7 +28,7 @@ export default {
           },
         },
         {
-          text: this.__('name'),
+          text: 'Name',
           value: 'name',
           render: (item) => {
             const actions = [
@@ -83,7 +83,7 @@ export default {
           },
         },
         {
-          text: this.__('vendor'),
+          text: 'Vendor',
           value: 'vendor.name',
           render: (item) => {
             return this.$createElement(
@@ -99,7 +99,7 @@ export default {
           },
         },
         {
-          text: this.__('category'),
+          text: 'Category',
           value: 'categories',
           width: 250,
           render: (item) => {
@@ -110,6 +110,7 @@ export default {
                 {
                   domProps: {
                     href: item.category ? item.category.href : '#',
+                    target: '_blank',
                   },
                 },
                 label
@@ -138,7 +139,7 @@ export default {
           },
         },
         {
-          text: this.__('flag'),
+          text: 'Flag',
           value: 'flag',
           width: 150,
           render: (item) => {
@@ -175,7 +176,7 @@ export default {
           },
         },
         {
-          text: this.__('action'),
+          text: 'Action',
           value: 'action',
         },
       ],
