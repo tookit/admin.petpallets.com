@@ -93,6 +93,16 @@ const actions = {
     })
   },
 
+  deleteBatchProduct({}, data) {
+    return request({
+      url: `/mall/item/`,
+      method: 'delete',
+      data: {
+        ids: data,
+      },
+    })
+  },
+
   fetchSpecByProductId({}, id) {
     return request({
       url: `/mall/item/${id}/sku`,

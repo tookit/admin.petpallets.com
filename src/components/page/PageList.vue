@@ -19,6 +19,7 @@
           @click:prepend="showFilter = !showFilter"
           @click:clear="handleClear"
         />
+
         <v-btn icon @click="handleRefreshItem">
           <v-icon>mdi-refresh</v-icon>
         </v-btn>
@@ -76,7 +77,7 @@
               v-for="act in actions"
               v-show="handleShowAct(act, item)"
               :key="act.text"
-              @click="handleAction(act, item)"
+              @click="handleAction(act, item, selectedItems)"
             >
               <v-list-item-icon class="mr-2">
                 <v-icon small>{{ act.icon }}</v-icon>
@@ -234,14 +235,13 @@ export default {
       })
     },
     handleClear() {
-      console.log(this.$refs.builder)
       this.$router.replace({
         path: this.$route.path,
         query: {},
       })
     },
-    handleAction(act, item) {
-      act.click.apply(this, [item])
+    handleAction(act, item, selectedItems) {
+      act.click.apply(this, [item, selectedItems])
     },
     // default action
     handleShowAct(act, item) {

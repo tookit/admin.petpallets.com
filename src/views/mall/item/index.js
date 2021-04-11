@@ -202,6 +202,11 @@ export default {
           icon: 'mdi-close',
           click: this.handleDeleteItem,
         },
+        {
+          text: 'Delete Batch',
+          icon: 'mdi-close',
+          click: this.handleDeleteBatch,
+        },
       ],
     }
   },
@@ -379,9 +384,19 @@ export default {
         })
       }
     },
-    handleDeleteItem({ id }) {
+    handleDeleteItem(item) {
       if (window.confirm('Are you sure to delete this item ?')) {
-        this.$store.dispatch('deleteProduct', id).then(() => {
+        this.$store.dispatch('deleteProduct', item.id).then(() => {
+          this.$refs.grid.fetchRecords()
+        })
+      }
+    },
+
+    handleDeleteBatch(item, selectedItems) {
+      if (window.confirm('Are you sure to delete selected items ?')) {
+        const data =
+          selectedItems.length > 0 ? selectedItems.map((s) => s.id) : [item.id]
+        this.$store.dispatch('deleteBatchProduct', data).then(() => {
           this.$refs.grid.fetchRecords()
         })
       }
