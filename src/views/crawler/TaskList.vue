@@ -7,11 +7,7 @@
           :headers="headers"
           :filter-items="filterItems"
           :actions="actions"
-          :data-source="
-            (q) => {
-              return $store.dispatch('fetchCrawlerTask', q)
-            }
-          "
+          :data-source="fetchRecords"
           search-field="name"
           @create="handleCreateItem"
         />

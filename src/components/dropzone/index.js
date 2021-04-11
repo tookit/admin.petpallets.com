@@ -26,21 +26,21 @@ export default {
   methods: {
     initDropzone(val) {
       if (this.dropzone) {
-        this.dropzone.emit('url:change', val.url)
+        this.dropzone.emit('url-change', val.url)
       } else {
         const dropzone = new Dropzone(this.$refs.dropzone, {
           url: val.url,
           headers: val.headers,
           addRemoveLinks: true,
           init: function () {
-            this.on('url:change', (url) => {
+            this.on('url-change', (url) => {
               console.log(url)
               this.options.url = url
             })
           },
         })
         dropzone.on('success', (e) => {
-          this.$emit(e)
+          this.$emit('success', e)
         })
 
         this.dropzone = dropzone

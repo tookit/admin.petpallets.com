@@ -129,6 +129,10 @@ export default {
   watch: {},
   methods: {
     //action
+    fetchRecords(q) {
+      return this.$store.dispatch('fetchCrawlerTask', q)
+    },
+
     handleCreateItem() {
       const dialog = this.$root.$dialog
       dialog.loadComponent({
@@ -168,16 +172,12 @@ export default {
     },
     handleRunTask({ id }) {
       if (window.confirm('Are you sure to run this task ?')) {
-        this.showOverlay = true
         this.$store
           .dispatch('runCrawlerTask', id)
           .then(() => {
-            this.handleRefreshItem()
-            this.showOverlay = false
+            this.$refs.grid.fetchRecords()
           })
-          .catch(() => {
-            this.showOverlay = false
-          })
+          .catch(() => {})
       }
     },
     handleLinkProduct(item) {
