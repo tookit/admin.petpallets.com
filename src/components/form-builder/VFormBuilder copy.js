@@ -194,14 +194,7 @@ export default {
     if (!this.showHeader) nodes.shift()
     return h(
       VCard,
-      {
-        props: {
-          loading: this.loading,
-          tile: this.tile,
-          flat: this.flat,
-          color: this.color,
-        },
-      },
+      { props: { loading: this.loading, tile: this.tile, flat: this.flat } },
       nodes
     )
   },

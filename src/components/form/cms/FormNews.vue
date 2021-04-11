@@ -14,7 +14,6 @@
 <script>
 import { VTextField, VTextarea, VAutocomplete, VSwitch } from 'vuetify/lib'
 import TagSelect from '@/components/tag/TagSelect'
-import ImagePicker from '@/components/image/ImagePicker'
 import VEditor from '@/components/editor/VEditor'
 import { mapGetters } from 'vuex'
 export default {

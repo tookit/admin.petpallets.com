@@ -313,7 +313,8 @@ export default {
         page: 1,
         pageSize: 30,
         'filter[directory]': null,
-        'filter[product.id]': null,
+        'filter[entity]': null,
+        'filter[entityId]': null,
         'filter[disk]': null,
         'filter[fingerprint]': null,
       }

@@ -5,7 +5,6 @@
     :title="formTitle"
     :items="formItems"
     :loading="loading"
-    color="primary"
     show-header
     @form:submit="handleSubmit"
     @form:cancel="$emit('form:cancel')"
@@ -28,7 +27,7 @@ export default {
   computed: {
     formTitle() {
       return this.item
-        ? 'Edit CMS Category - ' + this.item.username
+        ? 'Edit CMS Category - ' + this.item.name
         : 'Create CMs Category'
     },
     formItems() {
