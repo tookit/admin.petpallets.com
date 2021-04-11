@@ -81,16 +81,7 @@ export default {
           icon: 'mdi-pencil',
           click: this.handleEditItem,
         },
-        {
-          text: 'Edit Link Rule',
-          icon: 'mdi-hammer',
-          click: this.handleEditLink,
-        },
-        {
-          text: 'Edit Item Rule',
-          icon: 'mdi-hammer',
-          click: this.handleEditItemMap,
-        },
+
         {
           text: 'Delete Item',
           icon: 'mdi-close',

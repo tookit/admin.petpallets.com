@@ -1,6 +1,7 @@
 import FormNews from '@/components/form/cms/FormNews'
-import FormSeo from '@/components/form/seo/FormSeo'
-import { VSwitch, VAvatar, VImg, VIcon, VAutocomplete } from 'vuetify/lib'
+import ImageViewer from '@/components/image/ImageViewer'
+import MediaTable from '@/components/table/MediaTable'
+import { VSwitch, VIcon, VAutocomplete } from 'vuetify/lib'
 import { mapGetters } from 'vuex'
 export default {
   data() {
@@ -12,19 +13,14 @@ export default {
         },
         {
           text: 'Image',
-          value: 'image',
+          value: 'media',
           sortable: true,
           render: (item) => {
-            return this.$createElement(
-              VAvatar,
-              {
-                class: 'ma-2 rounded',
-                props: {
-                  size: 48,
-                },
+            return this.$createElement(ImageViewer, {
+              props: {
+                items: item.media,
               },
-              [this.$createElement(VImg, { props: { src: item.image } })]
-            )
+            })
           },
         },
         {
@@ -37,8 +33,8 @@ export default {
                 click: this.handleEditItem,
               },
               {
-                icon: 'mdi-google',
-                click: this.handleEditSeo,
+                icon: 'mdi-image',
+                click: this.handleEditImage,
               },
             ]
             const nodes = [
@@ -211,15 +207,15 @@ export default {
       })
       dialog.show()
     },
-    handleEditSeo(item) {
+    handleEditImage(item) {
       const dialog = this.$root.$dialog
       dialog.loadComponent({
-        component: FormSeo,
+        component: MediaTable,
         data: {
-          item: this.setSeo(item),
-          action: (data) => {
-            return this.$store.dispatch('updateNews', data)
-          },
+          entityId: item.id,
+          entity: 'App\\Models\\CMS\\Post',
+          directory: `upload`,
+          showSelect: true,
         },
         on: {
           'form:cancel': () => {

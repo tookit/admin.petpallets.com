@@ -4,7 +4,6 @@
     v-model="formModel"
     :items="formItems"
     :loading="loading"
-    color="primary"
     show-header
     @form:submit="handleSubmit"
     @form:cancel="$emit('form:cancel')"
@@ -15,6 +14,7 @@
 import { URL } from '@/utils/regex'
 import { mapGetters } from 'vuex'
 import { VTextarea, VTextField, VAutocomplete } from 'vuetify/lib'
+import VJsonEditor from '@/components/editor/VJsonEditor'
 export default {
   name: 'FormVendor',
   props: {
@@ -96,6 +96,22 @@ export default {
           element: VTextField,
           props: {
             name: 'email',
+            outlined: true,
+          },
+        },
+        {
+          cols: 12,
+          element: VJsonEditor,
+          props: {
+            name: 'link_map',
+            outlined: true,
+          },
+        },
+        {
+          cols: 12,
+          element: VJsonEditor,
+          props: {
+            name: 'product_map',
             outlined: true,
           },
         },

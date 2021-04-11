@@ -20,7 +20,7 @@ export default {
               {
                 domProps: { href: item.link, target: '_blank' },
               },
-              item.name
+              item.name || item.link
             )
           },
         },

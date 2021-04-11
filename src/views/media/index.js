@@ -160,6 +160,29 @@ export default {
             hideDetails: true,
           },
         },
+        {
+          cols: 4,
+          element: VAutocomplete,
+          props: {
+            label: 'Entity',
+            name: 'entity',
+            items: this.getEntityList,
+            clearable: true,
+            outlined: true,
+            hideDetails: true,
+          },
+        },
+        {
+          cols: 4,
+          element: VTextField,
+          props: {
+            label: 'Entity ID',
+            name: 'entityId',
+            clearable: true,
+            outlined: true,
+            hideDetails: true,
+          },
+        },
       ]
     },
     uploadAction() {

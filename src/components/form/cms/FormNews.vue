@@ -5,7 +5,6 @@
     :title="formTitle"
     :items="formItems"
     :loading="loading"
-    color="primary"
     show-header
     @form:submit="handleSubmit"
     @form:cancel="$emit('form:cancel')"
@@ -80,17 +79,7 @@ export default {
           },
         },
         {
-          cols: 4,
-          element: ImagePicker,
-          props: {
-            name: 'image',
-            entity: this.entity,
-            tag: 'post',
-            outlined: true,
-          },
-        },
-        {
-          cols: 8,
+          cols: 12,
           element: TagSelect,
           props: {
             name: 'tags',

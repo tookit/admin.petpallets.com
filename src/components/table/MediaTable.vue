@@ -28,17 +28,18 @@
     <v-card v-show="showFilter" flat class="grey lighten-4">
       <v-card-text>
         <v-row>
-          <v-col cols="4">
+          <v-col cols="3">
             <v-combobox
               v-model="filter['filter[directory]']"
               outlined
               clearable
               name="directory"
               placeholder="Directory"
+              :return-object="false"
               :items="getMediaDir"
             />
           </v-col>
-          <v-col cols="4">
+          <v-col cols="3">
             <v-autocomplete
               v-model="filter['filter[disk]']"
               outlined
@@ -48,13 +49,23 @@
               :items="['local', 'oss']"
             />
           </v-col>
-          <v-col cols="4">
-            <v-text-field
-              v-model="filter['filter[product.id]']"
+          <v-col cols="3">
+            <v-autocomplete
+              v-model="filter['filter[entity]']"
               outlined
               clearable
-              name="Product ID"
-              placeholder="Product ID"
+              name="entity"
+              placeholder="Entity"
+              :items="getEntityList"
+            />
+          </v-col>
+          <v-col cols="3">
+            <v-text-field
+              v-model="filter['filter[entityId]']"
+              outlined
+              clearable
+              name="Entity ID"
+              placeholder="Entity ID"
             />
           </v-col>
         </v-row>
@@ -194,7 +205,8 @@ export default {
         page: 1,
         pageSize: 30,
         'filter[directory]': null,
-        'filter[product.id]': null,
+        'filter[entity]': null,
+        'filter[entityId]': null,
         'filter[disk]': null,
         'filter[fingerprint]': null,
       },
@@ -212,11 +224,6 @@ export default {
           text: 'Image',
           value: 'cloud_url',
         },
-        // {
-        //   text: 'Filename',
-        //   value: 'filename',
-        //   width: 150,
-        // },
         {
           text: 'Fingerprint',
           value: 'fingerprint',
@@ -233,18 +240,10 @@ export default {
           text: 'Directory',
           value: 'directory',
         },
-        // {
-        //   text: 'Disk',
-        //   value: 'disk',
-        // },
         {
           text: 'Featured',
           value: 'custom_properties.featured',
         },
-        // {
-        //   text: 'Created',
-        //   value: 'created_at',
-        // },
         {
           text: 'Action',
           value: 'action',
@@ -271,7 +270,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getLocales', 'getMediaDir']),
+    ...mapGetters(['getLocales', 'getMediaDir', 'getEntityList']),
     uploadAction() {
       const directory = this.directory
         ? this.directory
@@ -296,8 +295,7 @@ export default {
     },
     entityId: {
       handler(val) {
-        console.log(val)
-        this.filter['filter[product.id]'] = val
+        this.filter['filter[entityId]'] = val
       },
       immediate: true,
     },
