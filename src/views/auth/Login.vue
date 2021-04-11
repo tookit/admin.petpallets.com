@@ -19,8 +19,8 @@
                 aria-autocomplete="off"
                 autocomplete="off"
                 name="login"
-                :label="__('$vuetify.username')"
-                :placeholder="__('$vuetify.username')"
+                :label="$t('susername')"
+                :placeholder="$t('susername')"
                 type="text"
                 required
                 outlined
@@ -32,8 +32,8 @@
                 aria-autocomplete="off"
                 autocomplete="off"
                 name="password"
-                :label="__('$vuetify.password')"
-                :placeholder="__('$vuetify.password')"
+                :label="$t('spassword')"
+                :placeholder="$t('spassword')"
                 type="password"
                 :rules="formRule.password"
                 required
@@ -45,7 +45,7 @@
           <v-card-actions>
             <v-spacer />
             <v-btn large tile color="primary" :loading="loading" @click="login">
-              {{ __('$vuetify.login') }}
+              login
             </v-btn>
           </v-card-actions>
         </v-card>
