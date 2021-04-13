@@ -58,24 +58,31 @@ export default {
     genFormItem(item) {
       const { name } = item.props
       const VNode = this.$createElement(item.element, {
+        model: {
+          value: this.formData[name],
+          callback: (newValue) => {
+            console.log(newValue, VNode)
+            this.formData[name] = newValue
+          },
+        },
         props: {
           ...item.props,
           label: item.props.label ? item.props.label : name.toUpperCase(),
           placeholder: item.props.placeholder
             ? item.props.placeholder
             : name.toUpperCase(),
-          inputValue: this.formData[name],
-          value: this.formData[name],
+          // inputValue: this.formData[name],
+          // value: this.formData[name],
         },
         on: {
-          input: (e) => {
-            this.formData[name] = e
-            this.$emit('input', this.formData)
-          },
-          change: (e) => {
-            this.formData[name] = e
-            this.$emit('input', this.formData)
-          },
+          // input: (e) => {
+          //   this.formData[name] = e
+          //   this.$emit('input', this.formData)
+          // },
+          // change: (e) => {
+          //   this.formData[name] = e
+          //   this.$emit('input', this.formData)
+          // },
         },
       })
 

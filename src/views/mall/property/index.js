@@ -1,5 +1,6 @@
 import FormProperty from '@/components/form/mall/property/FormProperty'
 import PropertyValueTable from '@/components/table/PropertyValueTable'
+import FormTranslation from '@/components/form/FormTranslation'
 import { VChip, VIcon } from 'vuetify/lib'
 export default {
   data() {
@@ -13,18 +14,47 @@ export default {
           text: 'Name',
           value: 'name',
           sortable: true,
-          render: (row) => {
-            return this.$createElement(
-              'a',
+          render: (item) => {
+            const actions = [
               {
-                on: {
-                  click: () => {
-                    this.handleEditItem(row)
+                icon: 'mdi-pencil',
+                click: this.handleEditItem,
+              },
+              {
+                icon: 'mdi-translate',
+                click: this.handleTranslate,
+              },
+            ]
+            const nodes = [
+              this.$createElement(
+                'a',
+                {
+                  domProps: {
+                    target: '_blank',
+                    href: item.href,
                   },
                 },
-              },
-              row.name
-            )
+                item.name
+              ),
+              this.$createElement(
+                'div',
+                actions.map((act) => {
+                  return this.$createElement(
+                    VIcon,
+                    {
+                      props: { size: 20, color: act.color },
+                      on: {
+                        click: () => {
+                          act.click(item)
+                        },
+                      },
+                    },
+                    act.icon
+                  )
+                })
+              ),
+            ]
+            return nodes
           },
         },
         {
@@ -126,6 +156,26 @@ export default {
         data: {
           item: item,
           showHeader: true,
+        },
+        on: {
+          'form:cancel': () => {
+            dialog.hide()
+          },
+        },
+      })
+      dialog.show()
+    },
+    handleTranslate(item) {
+      const dialog = this.$root.$dialog
+      dialog.loadComponent({
+        component: FormTranslation,
+        data: {
+          entity: {
+            id: item.id,
+            model: 'App\\Models\\Mall\\Property',
+            field: 'name',
+          },
+          text: item.name,
         },
         on: {
           'form:cancel': () => {

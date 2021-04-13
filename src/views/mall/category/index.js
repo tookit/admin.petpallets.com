@@ -1,6 +1,7 @@
 import FormMallCategory from '@/components/form/mall/category/FormMallCategory'
 import FormEditCategory from '@/components/form/mall/category/FormEditCategory'
 import FormMergeCategory from '@/components/form/mall/category/FormMergeCategory'
+import FormTranslation from '@/components/form/FormTranslation'
 import MediaTable from '@/components/table/MediaTable'
 import { mapGetters } from 'vuex'
 import { VAutocomplete, VSwitch, VIcon } from 'vuetify/lib'
@@ -24,6 +25,10 @@ export default {
               {
                 icon: 'mdi-image',
                 click: this.handleEditImage,
+              },
+              {
+                icon: 'mdi-translate',
+                click: this.handleTranslate,
               },
             ]
             const nodes = [
@@ -201,6 +206,26 @@ export default {
         data: {
           id: item.id,
           name: item.name,
+        },
+        on: {
+          'form:cancel': () => {
+            dialog.hide()
+          },
+        },
+      })
+      dialog.show()
+    },
+    handleTranslate(item) {
+      const dialog = this.$root.$dialog
+      dialog.loadComponent({
+        component: FormTranslation,
+        data: {
+          entity: {
+            id: item.id,
+            model: 'App\\Models\\Mall\\Category',
+            field: 'name',
+          },
+          text: item.name,
         },
         on: {
           'form:cancel': () => {

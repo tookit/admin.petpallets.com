@@ -6,7 +6,7 @@
       <v-form>
         <v-container>
           <v-row>
-            <v-col :cols="12" v-for="item in getLocales" :key="item.value">
+            <v-col v-for="item in getLocales" :key="item.value" :cols="12">
               <v-text-field
                 v-model="formModel[item.value]"
                 :label="item.text"
@@ -14,9 +14,9 @@
                 :append-icon="
                   item.value === getLocale ? '' : 'mdi-google-translate'
                 "
-                @click:append="handleAutoTranslate(item.value)"
                 outlined
                 hide-details
+                @click:append="handleAutoTranslate(item.value)"
               />
             </v-col>
           </v-row>
@@ -26,9 +26,7 @@
     <v-divider />
     <v-card-actions class="py-3">
       <v-spacer />
-      <v-btn text @click="$emit('form:cancel')">
-        cancel
-      </v-btn>
+      <v-btn text @click="$emit('form:cancel')"> cancel </v-btn>
       <v-btn :loading="loading" tile color="primary" @click="handleSubmit"
         >save</v-btn
       >
@@ -42,21 +40,20 @@ export default {
   name: 'FormTranslation',
   props: {
     entity: Object,
-    field: String,
-    text: String
+    text: String,
   },
   data() {
     return {
       loading: false,
       btnLoading: false,
-      formModel: {}
+      formModel: {},
     }
   },
   computed: {
     ...mapGetters(['getLocales', 'getLocale']),
     formTitle() {
       return 'Translation - ' + this.text
-    }
+    },
   },
   watch: {
     entity: {
@@ -65,39 +62,26 @@ export default {
         this.fetchFieldTranslation(item)
       },
       deep: true,
-      immediate: true
+      immediate: true,
     },
-    field: {
-      handler(val) {
-        this.initModel()
-        this.fetchFieldTranslation(this.entity)
-      }
-    }
   },
   methods: {
     initModel() {
       this.formModel = {
-        en: this.text
+        en: this.text,
       }
     },
     fetchFieldTranslation(item) {
-      const { model, id } = item
-      this.$store
-        .dispatch('fetchFieldTranslation', {
-          model,
-          id,
-          field: this.field
-        })
-        .then(({ data }) => {
-          this.formModel = data
-        })
+      this.$store.dispatch('fetchFieldTranslation', item).then(({ data }) => {
+        this.formModel = data
+      })
     },
     handleAutoTranslate(target) {
       this.loading = true
       this.$store
         .dispatch('fetchTranslation', {
           target: target,
-          text: this.text
+          text: this.text,
         })
         .then(({ data }) => {
           this.formModel[target] = data.text
@@ -106,19 +90,15 @@ export default {
     },
     handleSubmit() {
       const data = {
-        model: this.entity.model,
-        id: this.entity.id,
-        field: this.field,
-        translations: this.formModel
+        ...this.entity,
+        translations: this.formModel,
       }
       this.btnLoading = true
       this.$store.dispatch('updateFieldTranslation', data).then(({ data }) => {
         this.btnLoading = false
         this.$emit('form:success')
       })
-    }
-  }
+    },
+  },
 }
 </script>
-
-<style></style>

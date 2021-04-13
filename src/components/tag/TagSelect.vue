@@ -63,7 +63,6 @@ export default {
   },
   methods: {
     handleChange(val) {
-      console.log(val)
       this.$emit('input', val)
     },
   },

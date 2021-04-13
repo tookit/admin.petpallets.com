@@ -2,6 +2,7 @@ import FormEditItem from '@/components/form/mall/item/FormEditItem'
 import FormQuickItem from '@/components/form/mall/item/FormQuickItem'
 import FormItemProperty from '@/components/form/mall/item/FormItemProperty'
 import FormSpecImport from '@/components/form/mall/item/FormSpecImport'
+import FormTranslation from '@/components/form/FormTranslation'
 
 import MediaTable from '@/components/table/MediaTable'
 import ImageViewer from '@/components/image/ImageViewer'
@@ -48,6 +49,10 @@ export default {
               {
                 icon: 'mdi-image',
                 click: this.handleEditImage,
+              },
+              {
+                icon: 'mdi-translate',
+                click: this.handleTranslate,
               },
             ]
             const nodes = [
@@ -368,6 +373,26 @@ export default {
           entity: 'App\\Models\\Mall\\Product',
           directory: `fiber/${item.id}`,
           showSelect: true,
+        },
+        on: {
+          'form:cancel': () => {
+            dialog.hide()
+          },
+        },
+      })
+      dialog.show()
+    },
+    handleTranslate(item) {
+      const dialog = this.$root.$dialog
+      dialog.loadComponent({
+        component: FormTranslation,
+        data: {
+          entity: {
+            id: item.id,
+            model: 'App\\Models\\Mall\\Product',
+            field: 'name',
+          },
+          text: item.name,
         },
         on: {
           'form:cancel': () => {

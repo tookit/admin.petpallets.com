@@ -3,7 +3,7 @@
     <v-container>
       <v-row>
         <v-col :cols="3">
-          <v-card tile :loading="loading" to="/mall/quote">
+          <v-card tile :loading="loading" to="/mall/quote/list">
             <v-card-text class="pa-0">
               <v-row no-gutters>
                 <v-col class="pa-3">
@@ -102,16 +102,16 @@ export default {
       loading: false,
       state: {
         order: {
-          total: 0
+          total: 0,
         },
         product: {
           uncategorized: {
-            total: 0
+            total: 0,
           },
           online: 0,
-          offline: 0
-        }
-      }
+          offline: 0,
+        },
+      },
     }
   },
   created() {
@@ -124,8 +124,8 @@ export default {
         this.state = data
         this.loading = false
       })
-    }
-  }
+    },
+  },
 }
 </script>
 
