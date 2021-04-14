@@ -37,7 +37,7 @@ export default {
   props: {
     entity: Object,
     loading: Boolean,
-    value: Object,
+    value: [Object, Array],
     field: String,
     text: String,
   },

@@ -1,6 +1,7 @@
 import FormNews from '@/components/form/cms/FormNews'
 import ImageViewer from '@/components/image/ImageViewer'
 import MediaTable from '@/components/table/MediaTable'
+import FormTranslation from '@/components/form/FormTranslation'
 import { VSwitch, VIcon, VAutocomplete } from 'vuetify/lib'
 import { mapGetters } from 'vuex'
 export default {
@@ -35,6 +36,10 @@ export default {
               {
                 icon: 'mdi-image',
                 click: this.handleEditImage,
+              },
+              {
+                icon: 'mdi-translate',
+                click: this.handleTranslate,
               },
             ]
             const nodes = [
@@ -198,6 +203,26 @@ export default {
         component: FormNews,
         data: {
           item: item,
+        },
+        on: {
+          'form:cancel': () => {
+            dialog.hide()
+          },
+        },
+      })
+      dialog.show()
+    },
+    handleTranslate(item) {
+      const dialog = this.$root.$dialog
+      dialog.loadComponent({
+        component: FormTranslation,
+        data: {
+          entity: {
+            id: item.id,
+            model: 'App\\Models\\CMS\\Post',
+          },
+          item: item,
+          fields: ['name', 'description'],
         },
         on: {
           'form:cancel': () => {
