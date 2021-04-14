@@ -10,7 +10,7 @@
     <v-toolbar color="primary darken-1" dark>
       <img :src="computeLogo" height="36" alt="Vue Material Admin Template" />
       <v-toolbar-title>
-        <span class="hidden-sm-and-down">Kamefiiber</span>
+        <span class="hidden-sm-and-down">Kamefiber</span>
       </v-toolbar-title>
     </v-toolbar>
     <PerfectScrollbar class="app-drawer__scrollbar">
@@ -88,7 +88,7 @@ export default {
         .filter((item) => item.meta.hidden !== true)
         .map((item) => {
           return {
-            title: this.$t(item.meta.title),
+            title: this.$t(item.meta.title.toLowerCase()),
             icon: item.meta.icon,
             path: item.path,
             isNew: item.meta.isNew || false,

@@ -19,8 +19,8 @@
                 aria-autocomplete="off"
                 autocomplete="off"
                 name="login"
-                :label="$t('susername')"
-                :placeholder="$t('susername')"
+                :label="$t('username')"
+                :placeholder="$t('username')"
                 type="text"
                 required
                 outlined
@@ -32,8 +32,8 @@
                 aria-autocomplete="off"
                 autocomplete="off"
                 name="password"
-                :label="$t('spassword')"
-                :placeholder="$t('spassword')"
+                :label="$t('password')"
+                :placeholder="$t('password')"
                 type="password"
                 :rules="formRule.password"
                 required

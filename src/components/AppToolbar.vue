@@ -3,12 +3,12 @@
     <v-app-bar-nav-icon @click="$emit('drawer:toggle')"></v-app-bar-nav-icon>
     <v-spacer></v-spacer>
     <v-toolbar-items class="align-center">
-      <v-btn icon href="https://theopticalfiber.com" target="_blank">
+      <v-btn icon href="https://kamefiber.com" target="_blank">
         <v-icon>mdi-target</v-icon>
       </v-btn>
       <v-menu offset-y origin="center center" transition="scale-transition">
-        <template v-slot:activator="{ on }">
-          <v-btn icon text slot="activator" v-on="on">
+        <template #activator="{ on }">
+          <v-btn slot="activator" icon text v-on="on">
             <v-avatar size="24">
               <v-img :src="locale.svg" />
             </v-avatar>
@@ -17,8 +17,8 @@
         <v-list class="pa-0">
           <v-list-item
             v-for="item in getLocales"
-            @click="handleChangeLocale(item)"
             :key="item.value"
+            @click="handleChangeLocale(item)"
           >
             <v-list-item-avatar size="30" tile>
               <v-img :height="18" :src="item.svg"></v-img>
@@ -30,8 +30,8 @@
         </v-list>
       </v-menu>
       <v-menu offset-y origin="center center" transition="scale-transition">
-        <template v-slot:activator="{ on }">
-          <v-btn icon text slot="activator" v-on="on">
+        <template #activator="{ on }">
+          <v-btn slot="activator" icon text v-on="on">
             <v-avatar>
               <v-icon dark>mdi-account-circle</v-icon>
             </v-avatar>
@@ -40,9 +40,9 @@
         <v-list class="pa-0">
           <v-list-item
             v-for="(item, index) in profileMenus"
+            :key="index"
             :to="!item.href ? { name: item.name } : null"
             @click="item.click ? item.click() : null"
-            :key="index"
           >
             <v-list-item-action v-if="item.icon">
               <v-icon>{{ item.icon }}</v-icon>
@@ -71,23 +71,23 @@ export default {
           icon: 'mdi-account-circle',
           href: '#',
           title: 'Profile',
-          click: this.handleProfile
+          click: this.handleProfile,
         },
         {
           icon: 'mdi-cog',
           href: '#',
           title: 'Settings',
-          click: this.handleSetting
+          click: this.handleSetting,
         },
         {
           icon: 'mdi-logout',
           href: '#',
           title: 'Logout',
-          click: this.handleLogout
-        }
+          click: this.handleLogout,
+        },
       ],
       selectedCategories: [],
-      selectedProject: null
+      selectedProject: null,
     }
   },
   computed: {
@@ -97,16 +97,17 @@ export default {
     },
     locale() {
       return this.getLocales.find((item) => item.value === this.getLocale)
-    }
+    },
   },
+  created() {},
   methods: {
     handleViewJob() {
       this.$router.push({
         name: 'Pipelines',
         query: {
           tab: 'history',
-          crontab_id: this.getRunNowJob._source.job_id
-        }
+          crontab_id: this.getRunNowJob._source.job_id,
+        },
       })
     },
     handleFullScreen() {
@@ -118,7 +119,7 @@ export default {
         window._VMA.$emit('SHOW_SNACKBAR', {
           show: true,
           text: 'Logout successfull',
-          color: 'success'
+          color: 'success',
         })
         this.$router.push('/auth/login')
       }
@@ -128,10 +129,10 @@ export default {
     },
     handleProfile() {},
     handleChangeLocale(locale) {
+      this.$i18n.locale = locale.value
       this.$store.dispatch('changeLocale', locale.value)
-    }
+    },
   },
-  created() {}
 }
 </script>
 <style lang="scss" scoped></style>

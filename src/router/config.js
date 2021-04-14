@@ -169,7 +169,7 @@ export const protectedRoute = [
                 component: () =>
                   import('@/views/mall/category/CategoryItem.vue'),
                 meta: {
-                  title: 'Create  Category',
+                  title: 'Create Category',
                   hiddenInMenu: true,
                   icon: 'mdi-view',
                 },
@@ -181,7 +181,7 @@ export const protectedRoute = [
                 component: () =>
                   import('@/views/mall/category/CategoryItem.vue'),
                 meta: {
-                  title: 'Edit  Category',
+                  title: 'Edit Category',
                   hiddenInMenu: true,
                   icon: 'mdi-view',
                 },
@@ -289,7 +289,7 @@ export const protectedRoute = [
             name: 'crawler.task',
             component: () => import('@/views/crawler/TaskList.vue'),
             meta: {
-              title: 'Tasks',
+              title: 'Task',
               hiddenInMenu: false,
               icon: 'mdi-playlist-check',
             },
@@ -339,7 +339,7 @@ export const protectedRoute = [
             name: 'acl.user',
             component: () => import('@/views/acl/user/UserList.vue'),
             meta: {
-              title: 'Users',
+              title: 'User',
               hiddenInMenu: false,
               icon: 'mdi-account',
             },

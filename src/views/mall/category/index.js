@@ -223,9 +223,9 @@ export default {
           entity: {
             id: item.id,
             model: 'App\\Models\\Mall\\Category',
-            field: 'name',
           },
-          text: item.name,
+          item: item,
+          fields: ['name', 'description'],
         },
         on: {
           'form:cancel': () => {
