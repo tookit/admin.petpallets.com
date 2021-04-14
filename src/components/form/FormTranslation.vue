@@ -1,20 +1,13 @@
 <template>
   <v-card :loading="loading">
-    <v-toolbar tile flat>
-      <v-toolbar-items>
-        <v-autocomplete
-          v-model="field"
-          class="align-center"
-          :items="computeTranslable"
-          label="Translable"
-          hide-details
-          dense
-          @change="handleFieldChange"
-        />
-      </v-toolbar-items>
-    </v-toolbar>
+    <v-tabs v-model="field" class="border-bottom" @change="handleTabChange">
+      <v-tab v-for="tab in fields" :key="tab" :href="'#' + tab">
+        {{ tab }}
+      </v-tab>
+      <v-spacer />
+    </v-tabs>
     <v-divider />
-    <v-card-text>
+    <v-card-text v-if="field">
       <v-form>
         <v-container>
           <v-row>
@@ -57,7 +50,7 @@ export default {
   },
   data() {
     return {
-      field: 'name',
+      field: null,
       loading: false,
       btnLoading: false,
       translations: {},
@@ -84,7 +77,6 @@ export default {
   watch: {
     entity: {
       handler(item) {
-        this.initModel()
         this.fetchFieldTranslation(item)
       },
       deep: true,
@@ -92,15 +84,12 @@ export default {
     },
   },
   methods: {
-    initModel() {
-      this.formModel = {
-        en: this.text,
-      }
-    },
     fetchFieldTranslation(item) {
+      this.loading = true
       this.$store.dispatch('fetchFieldTranslation', item).then(({ data }) => {
         this.translations = data
         this.formModel = data[this.field]
+        this.loading = false
       })
     },
     handleAutoTranslate(target) {
@@ -115,7 +104,7 @@ export default {
           this.loading = false
         })
     },
-    handleFieldChange(field) {
+    handleTabChange(field) {
       this.formModel = this.translations[field]
     },
     handleSubmit() {
