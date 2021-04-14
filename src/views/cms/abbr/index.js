@@ -1,7 +1,7 @@
 import FormAbbr from '@/components/form/cms/FormAbbr'
 import ImageViewer from '@/components/image/ImageViewer'
 import FormTranslation from '@/components/form/FormTranslation'
-import { VChip, VIcon } from 'vuetify/lib'
+import { VIcon } from 'vuetify/lib'
 export default {
   data() {
     return {

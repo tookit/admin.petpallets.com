@@ -1,5 +1,7 @@
 import FormNewsCategory from '@/components/form/cms/FormNewsCategory'
-import { VSwitch } from 'vuetify/lib'
+import FormTranslation from '@/components/form/FormTranslation'
+
+import { VSwitch, VIcon } from 'vuetify/lib'
 export default {
   data() {
     return {
@@ -12,6 +14,48 @@ export default {
           text: 'Name',
           value: 'name',
           sortable: true,
+          render: (item) => {
+            const actions = [
+              {
+                icon: 'mdi-pencil',
+                click: this.handleEditItem,
+              },
+              {
+                icon: 'mdi-translate',
+                click: this.handleTranslate,
+              },
+            ]
+            const nodes = [
+              this.$createElement(
+                'a',
+                {
+                  domProps: {
+                    target: '_blank',
+                    href: item.href,
+                  },
+                },
+                item.name
+              ),
+              this.$createElement(
+                'div',
+                actions.map((act) => {
+                  return this.$createElement(
+                    VIcon,
+                    {
+                      props: { size: 20, color: act.color },
+                      on: {
+                        click: () => {
+                          act.click(item)
+                        },
+                      },
+                    },
+                    act.icon
+                  )
+                })
+              ),
+            ]
+            return nodes
+          },
         },
         {
           text: 'Posts',
@@ -84,6 +128,26 @@ export default {
         component: FormNewsCategory,
         data: {
           item: null,
+        },
+        on: {
+          'form:cancel': () => {
+            dialog.hide()
+          },
+        },
+      })
+      dialog.show()
+    },
+    handleTranslate(item) {
+      const dialog = this.$root.$dialog
+      dialog.loadComponent({
+        component: FormTranslation,
+        data: {
+          entity: {
+            id: item.id,
+            model: 'App\\Models\\CMS\\Category',
+          },
+          item: item,
+          fields: ['name', 'description'],
         },
         on: {
           'form:cancel': () => {
