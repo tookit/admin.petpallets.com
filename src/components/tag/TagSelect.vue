@@ -46,12 +46,14 @@ export default {
   data() {
     return {
       searchName: '',
-      inputValue: this.value,
       isLoading: false,
     }
   },
   computed: {
     ...mapGetters(['getTagsByType']),
+    inputValue() {
+      return this.value
+    },
   },
   watch: {
     searchName(val) {

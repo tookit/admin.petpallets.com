@@ -172,8 +172,13 @@ export default {
         .forEach((prop) => {
           temp[prop] = getObjectValueByPath(value, prop)
         })
-      temp.tags = temp.tags ? temp.tags.map((item) => item.name) : null
+      temp.applications = this.computeTags(value.tags, 'application')
+      temp.tags = this.computeTags(value.tags, 'fiber')
       return temp
+    },
+    computeTags(tags, type) {
+      const filtered = tags.filter((item) => item.type === type)
+      return filtered.map((item) => item.name)
     },
     handleSubmit() {
       const form = this.$refs.builder.$refs.form
