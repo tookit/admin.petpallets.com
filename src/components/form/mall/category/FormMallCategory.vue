@@ -155,6 +155,7 @@ export default {
               data: data,
             })
             .then(() => {
+              this.$store.dispatch('fetchProductCategory', { pageSize: -1 })
               this.loading = false
             })
             .catch(() => {

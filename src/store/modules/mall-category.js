@@ -1,10 +1,11 @@
-import Vue from 'vue'
 import request from '@/utils/request'
 import { arrayToTree } from '@/utils/tree'
 const state = {
   categories: [],
+  list: [], // list view
 }
 const getters = {
+  getMallCategoryList: (state) => state.list,
   getNestedCategories: (state) => {
     return arrayToTree(state.categories)
   },
@@ -20,21 +21,20 @@ const getters = {
   },
 }
 const actions = {
-  fetchProductCategories({}, query) {
+  fetchProductCategory({ commit, getters }, query) {
     return request({
       url: '/mall/category',
       method: 'get',
       params: query,
-    })
-  },
-
-  fetchProductCategory({}, query) {
-    return request({
-      url: '/mall/category',
-      method: 'get',
-      params: query,
-    }).then(({ data }) => {
-      return data
+    }).then((resp) => {
+      console.log(query)
+      if (query.pageSize === -1) {
+        commit('SET_MALL_CATEGORIES', resp.data)
+      } else {
+        commit('SET_MALL_CAT_LIST', resp.data)
+      }
+      resp.data = getters.getMallCategoryList
+      return resp
     })
   },
 
@@ -47,7 +47,6 @@ const actions = {
       return data
     })
   },
-  // eslint-disable-next-line no-unused-vars
   createProductCategory({ commit }, data) {
     return request({
       url: `/mall/category/`,
@@ -58,7 +57,6 @@ const actions = {
       return resp
     })
   },
-  // eslint-disable-next-line no-unused-vars
   mallCategorySwapOrder({ commit }, { source, target }) {
     return request({
       url: `/mall/category/swap_order`,
@@ -178,22 +176,20 @@ const mutations = {
       }
     })
   },
+  SET_MALL_CAT_LIST(state, data) {
+    state.list = data
+  },
   ADD_MALL_CATEGORY_ITEM(state, data) {
-    state.categories.push(data)
+    state.list.push(data)
   },
   REMOVE_MALL_CATEGORY_ITEM(state, id) {
-    state.categories = state.categories.filter((item) => {
+    state.list = state.list.filter((item) => {
       return item.id !== id
     })
   },
   UPDATE_MALL_CATEGORY_ITEM(state, data) {
-    const index = state.categories.find((item) => item.id === data.id)
-    const item = {
-      id: data.id,
-      name: data.name,
-      parent_id: data.parent_id,
-    }
-    Vue.set(state.categories, index, item)
+    const find = state.list.find((item) => item.id === data.id)
+    Object.assign(find, data)
   },
 }
 

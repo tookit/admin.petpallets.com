@@ -135,9 +135,7 @@ export default {
       immediate: true,
     },
   },
-  created() {
-    this.$store.dispatch('fetchProductCategoryTree')
-  },
+  created() {},
   methods: {
     handleAddProperty() {},
     fetchRecords(id) {

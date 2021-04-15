@@ -9,7 +9,7 @@
           :actions="actions"
           :data-source="
             (q) => {
-              return $store.dispatch('fetchProductCategories', q)
+              return $store.dispatch('fetchProductCategory', q)
             }
           "
           search-field="name"

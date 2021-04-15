@@ -39,7 +39,7 @@ export default {
     ...mapGetters(['getBreadcrumbs']),
   },
   created() {
-    this.$store.dispatch('fetchProductCategoryTree')
+    this.$store.dispatch('fetchProductCategory', { pageSize: -1 })
     this.$store.dispatch('fetchNewsCategory', { pageSize: -1 })
     this.$store.dispatch('fetchCountries')
     this.$store.dispatch('fetchVendors', { pageSize: -1 })

@@ -132,7 +132,7 @@ const actions = {
       method: 'post',
       data: data,
     }).then((resp) => {
-      commit('UPDATE_RPODUCT_LIST', resp.data)
+      commit('UPDATE_PRODUCT_LIST', resp.data)
       return resp
     })
   },
