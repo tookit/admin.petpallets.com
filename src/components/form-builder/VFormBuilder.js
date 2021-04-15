@@ -31,7 +31,6 @@ export default {
     },
     items: {
       type: Array,
-      default: () => [],
     },
     value: {
       type: Object,

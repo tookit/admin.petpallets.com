@@ -1,5 +1,6 @@
 import request from '@/utils/request'
 import { arrayToTree } from '@/utils/tree'
+import Vue from 'vue'
 const state = {
   categories: [],
   list: [], // list view
@@ -73,7 +74,8 @@ const actions = {
       method: 'put',
       data: data,
     }).then((resp) => {
-      commit('UPDATE_MALL_CATEGORY_ITEM', resp.data)
+      commit('UPDATE_MALL_CATEGORY_LIST', resp.data)
+      commit('UPDATE_MALL_CATEGORIES', resp.data)
       return resp
     })
   },
@@ -176,6 +178,7 @@ const mutations = {
       }
     })
   },
+
   SET_MALL_CAT_LIST(state, data) {
     state.list = data
   },
@@ -187,9 +190,18 @@ const mutations = {
       return item.id !== id
     })
   },
-  UPDATE_MALL_CATEGORY_ITEM(state, data) {
+  UPDATE_MALL_CATEGORY_LIST(state, data) {
     const find = state.list.find((item) => item.id === data.id)
     Object.assign(find, data)
+  },
+  UPDATE_MALL_CATEGORIES(state, data) {
+    const index = state.categories.findIndex((item) => item.id === data.id)
+    const item = {
+      id: data.id,
+      name: data.name,
+      parent_id: data.parent_id,
+    }
+    Vue.set(state.categories, index, item)
   },
 }
 

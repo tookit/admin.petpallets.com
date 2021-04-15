@@ -142,6 +142,7 @@ export default {
   },
   computed: {
     ...mapGetters(['getProductFlags', 'getNestedCategories']),
+
     filterItems() {
       return [
         {

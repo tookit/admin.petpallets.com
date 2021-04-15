@@ -148,7 +148,9 @@ export default {
       items: [],
     }
   },
-  computed: {},
+  computed: {
+
+  },
   watch: {
     '$route.query': {
       handler(query) {
