@@ -43,7 +43,7 @@ export const publicRoute = [
     component: () => import('@/views/error/Error.vue'),
   },
 ]
-
+import i18n from '../plugins/i18n'
 export const protectedRoute = [
   {
     path: '/',
@@ -61,7 +61,7 @@ export const protectedRoute = [
         name: 'dashboard',
         component: () => import('@/views/Dashboard.vue'),
         meta: {
-          title: 'Dashboard',
+          title: i18n.t('dashboard'),
           hiddenInMenu: false,
           icon: 'mdi-monitor-dashboard',
         },
@@ -71,9 +71,7 @@ export const protectedRoute = [
         path: '/mall',
         name: 'mall.index',
         meta: {
-          group: 'mall',
-          title: 'Mall',
-          hiddenInMenu: false,
+          title: i18n.t('mall'),
           icon: 'mdi-store',
         },
         component: RouterWrapper,
@@ -86,8 +84,7 @@ export const protectedRoute = [
             path: '/mall/item',
             name: 'mall.item',
             meta: {
-              title: 'Product',
-              hiddenInMenu: false,
+              title: i18n.t('product'),
               icon: 'mdi-basket',
             },
             component: RouterWrapper,
@@ -100,8 +97,7 @@ export const protectedRoute = [
                 name: 'mall.item.list',
                 component: () => import('@/views/mall/item/ItemList.vue'),
                 meta: {
-                  title: 'Product List',
-                  hiddenInMenu: false,
+                  title: i18n.t('list'),
                   icon: 'mdi-basket',
                 },
               },
@@ -111,8 +107,7 @@ export const protectedRoute = [
                 props: true,
                 component: () => import('@/views/mall/item/ItemView.vue'),
                 meta: {
-                  title: 'Product item',
-                  hiddenInMenu: false,
+                  title: i18n.t('view product'),
                   icon: 'mdi-basket',
                 },
               },
@@ -133,8 +128,7 @@ export const protectedRoute = [
             name: 'mall.vendor.list',
             component: () => import('@/views/mall/vendor/VendorList.vue'),
             meta: {
-              title: 'Vendor',
-              hiddenInMenu: false,
+              title: i18n.t('vendor'),
               icon: 'mdi-basket',
             },
           },
@@ -142,8 +136,7 @@ export const protectedRoute = [
             path: '/mall/category',
             name: 'mall.category',
             meta: {
-              title: 'Category',
-              hiddenInMenu: false,
+              title: i18n.t('category'),
               icon: 'mdi-buffer',
             },
             component: RouterWrapper,
@@ -157,21 +150,8 @@ export const protectedRoute = [
                 component: () =>
                   import('@/views/mall/category/CategoryList.vue'),
                 meta: {
-                  title: 'Category List',
-                  hiddenInMenu: false,
+                  title: i18n.t('list'),
                   icon: 'mdi-buffer',
-                },
-              },
-              {
-                path: '/mall/category/create',
-                name: 'mall.category.create',
-                props: true,
-                component: () =>
-                  import('@/views/mall/category/CategoryItem.vue'),
-                meta: {
-                  title: 'Create Category',
-                  hiddenInMenu: true,
-                  icon: 'mdi-view',
                 },
               },
               {
@@ -181,8 +161,7 @@ export const protectedRoute = [
                 component: () =>
                   import('@/views/mall/category/CategoryItem.vue'),
                 meta: {
-                  title: 'Edit Category',
-                  hiddenInMenu: true,
+                  title: i18n.t('view'),
                   icon: 'mdi-view',
                 },
               },
@@ -194,7 +173,7 @@ export const protectedRoute = [
             name: 'mall.property.list',
             component: () => import('@/views/mall/property/PropertyList.vue'),
             meta: {
-              title: 'Property',
+              title: i18n.t('property'),
               icon: 'mdi-filter-variant',
             },
           },
@@ -274,9 +253,7 @@ export const protectedRoute = [
         path: '/crawler',
         name: 'crawler.index',
         meta: {
-          group: 'crawler',
-          title: 'Crawler',
-          hiddenInMenu: false,
+          title: i18n.t('crawler'),
           icon: 'mdi-robot-outline',
         },
         component: RouterWrapper,
@@ -289,8 +266,7 @@ export const protectedRoute = [
             name: 'crawler.task',
             component: () => import('@/views/crawler/TaskList.vue'),
             meta: {
-              title: 'Task',
-              hiddenInMenu: false,
+              title: i18n.t('task'),
               icon: 'mdi-playlist-check',
             },
           },
@@ -300,9 +276,7 @@ export const protectedRoute = [
         path: '/media',
         name: 'media.index',
         meta: {
-          group: 'media',
-          title: 'Media',
-          hiddenInMenu: false,
+          title: i18n.t('media'),
           icon: 'mdi-image',
         },
         component: () => import('@/views/media/MediaList.vue'),
@@ -324,9 +298,7 @@ export const protectedRoute = [
         path: '/acl',
         name: 'acl.index',
         meta: {
-          group: 'acl',
-          title: 'ACL',
-          hiddenInMenu: false,
+          title: i18n.t('acl'),
           icon: 'mdi-shield-account',
         },
         component: RouterWrapper,
@@ -339,8 +311,7 @@ export const protectedRoute = [
             name: 'acl.user',
             component: () => import('@/views/acl/user/UserList.vue'),
             meta: {
-              title: 'User',
-              hiddenInMenu: false,
+              title: i18n.t('user'),
               icon: 'mdi-account',
             },
           },
@@ -350,7 +321,7 @@ export const protectedRoute = [
         path: '/403',
         name: 'Forbidden',
         meta: {
-          title: 'Access Denied',
+          title: i18n.t('access denied'),
           hidden: true,
         },
         component: () => import('@/views/error/Deny.vue'),

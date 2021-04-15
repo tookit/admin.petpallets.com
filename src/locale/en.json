@@ -1,5 +1,6 @@
 {
   "en": "English",
+  "view": "View",
   "user": "user|users",
   "login": "Login",
   "register": "Register",
@@ -27,7 +28,6 @@
   "step_form": "Wizard Form",
   "form": "Form",
   "acl": "ACL",
-  "user_list": "User List",
   "edit_user": "Edit User",
   "create_user": "Create User",
   "changelog": "Changelog",
@@ -49,9 +49,9 @@
   "mall": "Mall",
   "crawler": "Crawler",
   "setting": "Setting",
-  "product": "product",
+  "product": "Product",
   "category": "Category",
-  "product list": "Product List",
+  "view product": "View Product",
   "product Item": "Proudct Item",
   "create category": "Create Category",
   "edit Category": "Edit Category",
@@ -60,7 +60,8 @@
   "quote": "Quote",
   "news": "News",
   "abbr": "Abbr",
-  "tag": "tag",
+  "tag": "Tag",
+  "access denied": "Access Deny",
   "property": "Property",
   "rule": {
     "required": "{0} is required"

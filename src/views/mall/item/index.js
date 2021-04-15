@@ -8,12 +8,13 @@ import MediaTable from '@/components/table/MediaTable'
 import ImageViewer from '@/components/image/ImageViewer'
 import { VAutocomplete, VIcon, VSwitch } from 'vuetify/lib'
 import { mapGetters } from 'vuex'
+import i18n from '@/plugins/i18n'
 export default {
   data() {
     return {
       headers: [
         {
-          text: 'ID',
+          text: i18n.t('id'),
           value: 'id',
         },
         {

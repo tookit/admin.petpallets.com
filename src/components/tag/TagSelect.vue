@@ -51,8 +51,13 @@ export default {
   },
   computed: {
     ...mapGetters(['getTagsByType']),
-    inputValue() {
-      return this.value
+    inputValue: {
+      get() {
+        return this.value
+      },
+      set(val) {
+        console.log(val)
+      },
     },
   },
   watch: {
