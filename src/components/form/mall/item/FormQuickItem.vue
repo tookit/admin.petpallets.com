@@ -49,6 +49,11 @@ export default {
             outlined: true,
             rules: [(v) => !!v || 'Name is required'],
           },
+          on: {
+            change: (e) => {
+              this.handleNameChange(e)
+            },
+          },
         },
         {
           cols: 12,
@@ -213,6 +218,9 @@ export default {
     },
     transformData(data) {
       return data
+    },
+    handleNameChange(e) {
+      this.formModel.meta_title = e
     },
   },
 }

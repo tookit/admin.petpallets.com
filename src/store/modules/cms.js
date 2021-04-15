@@ -1,5 +1,6 @@
 import request from '@/utils/request'
 const state = {
+  newsList: [],
   categories: [],
   tags: [],
   tagTypes: [],
@@ -36,6 +37,9 @@ const actions = {
       url: `/cms/post`,
       method: 'get',
       params: query,
+    }).then((resp) => {
+      commit('SET_NEWS_LIST', resp.data)
+      return resp
     })
   },
   fetchTags({ commit }, query) {
