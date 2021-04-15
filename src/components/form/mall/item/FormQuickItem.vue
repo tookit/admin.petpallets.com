@@ -192,9 +192,11 @@ export default {
               data: data,
             })
             .then(() => {
+              this.$emit('form:success')
               this.loading = false
             })
             .catch(() => {
+              this.$emit('form:fail')
               this.loading = false
             })
         } else {

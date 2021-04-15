@@ -61,7 +61,6 @@ export default {
         model: {
           value: this.formData[name],
           callback: (newValue) => {
-            console.log(newValue, VNode)
             this.formData[name] = newValue
           },
         },

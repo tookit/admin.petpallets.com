@@ -2,24 +2,7 @@ import request from '@/utils/request'
 const state = {
   categories: [],
   tags: [],
-  tagTypes: [
-    {
-      text: 'Fiber',
-      value: 'fiber',
-    },
-    {
-      text: 'Abbr',
-      value: 'abbr',
-    },
-    {
-      text: 'News',
-      value: 'news',
-    },
-    {
-      text: 'FAQ',
-      value: 'faq',
-    },
-  ],
+  tagTypes: [],
 }
 const getters = {
   getCmsCategories: (state) => {

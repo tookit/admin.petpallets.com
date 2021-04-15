@@ -1,4 +1,5 @@
 import request from '@/utils/request'
+import Vue from 'vue'
 const state = {
   flags: [
     {
@@ -35,8 +36,10 @@ const state = {
       value: 8,
     },
   ],
+  list: [],
 }
 const getters = {
+  getProductList: (state) => state.list,
   getProductFlags: (state) => {
     return state.flags
   },
@@ -46,11 +49,15 @@ const getters = {
   },
 }
 const actions = {
-  fetchProducts(context, query) {
+  fetchProducts({ commit, getters }, query) {
     return request({
       url: `/mall/item`,
       method: 'get',
       params: query,
+    }).then((resp) => {
+      commit('SET_PRODUCT_LIST', resp.data)
+      resp.data = getters.getProductList
+      return resp
     })
   },
 
@@ -79,11 +86,14 @@ const actions = {
       data: data,
     })
   },
-  updateProduct({}, { id, data }) {
+  updateProduct({ commit }, { id, data }) {
     return request({
       url: `/mall/item/${id}`,
       method: 'put',
       data: data,
+    }).then((resp) => {
+      commit('UPDATE_PRODUCT_LIST', resp.data)
+      return resp
     })
   },
   deleteProduct({}, id) {
@@ -116,11 +126,14 @@ const actions = {
       method: 'get',
     })
   },
-  importRawSpec({}, { id, data }) {
+  importRawSpec({ commit }, { id, data }) {
     return request({
       url: `/mall/item/${id}/spec`,
       method: 'post',
       data: data,
+    }).then((resp) => {
+      commit('UPDATE_RPODUCT_LIST', resp.data)
+      return resp
     })
   },
 
@@ -181,6 +194,13 @@ const actions = {
 const mutations = {
   SET_PRODUCT_CATEGORY(state, { data }) {
     state.categories = data
+  },
+  SET_PRODUCT_LIST(state, data) {
+    state.list = data
+  },
+  UPDATE_PRODUCT_LIST(state, data) {
+    const find = state.list.find((item) => item.id === data.id)
+    Object.assign(find, data)
   },
 }
 
