@@ -17,6 +17,7 @@
 
 <script>
 import { VTextField, VTextarea, VAutocomplete } from 'vuetify/lib'
+import VEditor from '@/components/editor/VEditor'
 import { mapGetters } from 'vuex'
 import { getObjectValueByPath } from 'vuetify/lib/util/helpers'
 export default {
@@ -66,7 +67,7 @@ export default {
           cols: 12,
           element: VTextarea,
           props: {
-            name: 'descripiton',
+            name: 'description',
             outlined: true,
           },
         },
@@ -77,6 +78,15 @@ export default {
             name: 'flag',
             items: this.getProductFlags,
             required: true,
+            outlined: true,
+          },
+        },
+        {
+          cols: 12,
+          element: VEditor,
+          default: 'type',
+          props: {
+            name: 'raw_spec',
             outlined: true,
           },
         },
