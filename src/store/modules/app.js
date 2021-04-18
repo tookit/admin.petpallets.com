@@ -1,4 +1,3 @@
-import cld from 'country-all-data'
 import request from '@/utils/request'
 
 const state = {
@@ -108,8 +107,10 @@ const actions = {
   },
 
   fetchCountries({ commit }) {
-    return cld
-      .getAllCountries()
+    return request({
+      url: `https://www.unpkg.com/browse/country-all-data@1.0.5/public/countrydata.json`,
+      method: 'get',
+    })
       .then((data) => {
         commit('SET_COUNTRY', data)
       })

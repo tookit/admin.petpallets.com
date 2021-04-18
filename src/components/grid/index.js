@@ -11,7 +11,7 @@ import MobileRow from 'vuetify/lib/components/VDataTable/MobileRow' // Mixins
 import { mergeClasses } from 'vuetify/lib/util/mergeData'
 
 export default VDataTable.extend({
-  name: 'v-grid',
+  name: 'c-grid',
   props: {
     nested: Boolean,
     nestedKey: {

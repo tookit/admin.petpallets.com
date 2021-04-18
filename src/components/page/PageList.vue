@@ -36,7 +36,6 @@
           flat
           class="grey lighten-4"
           :items="filterItems"
-          color="primary"
           cancel-text="reset"
           save-text="apply"
           @form:cancel="handleResetFilter"
@@ -44,7 +43,7 @@
         />
       </v-sheet>
     </v-sheet>
-    <v-grid
+    <c-grid
       v-model="selectedItems"
       :loading="loadingItems"
       :headers="headers"
@@ -94,17 +93,17 @@
       >
         <slot :name="name" v-bind="slotData" />
       </template>
-    </v-grid>
+    </c-grid>
   </div>
 </template>
 
 <script>
 import TooltipMixin from '@/mixins/Tooltip'
-import { VGrid } from '@tookit/vma'
+import CGrid from '@/components/grid/'
 import { getObjectValueByPath } from 'vuetify/lib/util/helpers'
 export default {
   components: {
-    VGrid,
+    CGrid,
   },
   mixins: [TooltipMixin],
   props: {
@@ -148,9 +147,7 @@ export default {
       items: [],
     }
   },
-  computed: {
-
-  },
+  computed: {},
   watch: {
     '$route.query': {
       handler(query) {

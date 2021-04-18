@@ -1,29 +1,37 @@
-const path = require("path");
-const webpack = require("webpack");
+const path = require('path')
+const webpack = require('webpack')
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
+  .BundleAnalyzerPlugin
 function resolve(dir) {
-  return path.join(__dirname, dir);
+  return path.join(__dirname, dir)
 }
 
+const isProduction = process.env.NODE_ENV !== 'development'
+
+const devNeedCdn = false
+
 module.exports = {
- productionSourceMap: false,
+  productionSourceMap: false,
   configureWebpack: {
     plugins: [
-      // Ignore all locale files of moment.js
+      new BundleAnalyzerPlugin(),
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-    ]
+    ],
   },
 
-  chainWebpack: config => {
-    config.resolve.alias.set("@$", resolve("src")).set("@views", resolve("src/views"));
+  chainWebpack: (config) => {
+    config.resolve.alias
+      .set('@$', resolve('src'))
+      .set('@views', resolve('src/views'))
   },
 
   css: {
     loaderOptions: {
       less: {
         modifyVars: {},
-        javascriptEnabled: true
-      }
-    }
+        javascriptEnabled: true,
+      },
+    },
   },
   // devServer: {
   //   proxy: {
@@ -38,6 +46,6 @@ module.exports = {
   //   }
   // },
 
-  assetsDir: "static",
-  runtimeCompiler: true
-};
+  assetsDir: 'static',
+  runtimeCompiler: true,
+}
