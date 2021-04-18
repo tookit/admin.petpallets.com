@@ -1,5 +1,6 @@
 import FormAbbr from '@/components/form/cms/FormAbbr'
 import ImageViewer from '@/components/image/ImageViewer'
+import MediaTable from '@/components/table/MediaTable'
 import FormTranslation from '@/components/form/FormTranslation'
 import { VIcon } from 'vuetify/lib'
 export default {
@@ -13,12 +14,15 @@ export default {
         {
           text: 'Name',
           value: 'name',
-          sortable: true,
           render: (item) => {
             const actions = [
               {
                 icon: 'mdi-pencil',
                 click: this.handleEditItem,
+              },
+              {
+                icon: 'mdi-image',
+                click: this.handleEditImage,
               },
               {
                 icon: 'mdi-translate',
@@ -134,6 +138,24 @@ export default {
       })
       dialog.show()
     },
+    handleEditImage(item) {
+      const dialog = this.$root.$dialog
+      dialog.loadComponent({
+        component: MediaTable,
+        data: {
+          entityId: item.id,
+          entity: 'App\\Models\\Abbreviationable\\Abbreviation',
+          directory: `upload`,
+          showSelect: true,
+        },
+        on: {
+          'form:cancel': () => {
+            dialog.hide()
+          },
+        },
+      })
+      dialog.show()
+    },
     handleTranslate(item) {
       const dialog = this.$root.$dialog
       dialog.loadComponent({
@@ -156,9 +178,7 @@ export default {
     },
     handleDeleteItem({ id }) {
       if (window.confirm('Are you sure to delete this item ?')) {
-        this.$store.dispatch('deleteAbbr', id).then(() => {
-          this.$refs.grid.fetchRecords()
-        })
+        this.$store.dispatch('deleteAbbr', id)
       }
     },
   },
