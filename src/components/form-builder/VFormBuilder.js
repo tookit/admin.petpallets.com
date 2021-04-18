@@ -160,6 +160,7 @@ export default {
               },
               on: {
                 click: () => {
+                  this.$refs.form.reset()
                   this.$emit('form:cancel')
                 },
               },
