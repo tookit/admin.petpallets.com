@@ -6,6 +6,7 @@ const state = {
   tagTypes: [],
 }
 const getters = {
+  getNewsList: (state) => state.newsList,
   getCmsCategories: (state) => {
     return state.categories.map((item) => {
       return {
@@ -32,13 +33,14 @@ const getters = {
   },
 }
 const actions = {
-  fetchNews({ commit }, query) {
+  fetchNews({ commit, getters }, query) {
     return request({
       url: `/cms/post`,
       method: 'get',
       params: query,
     }).then((resp) => {
       commit('SET_NEWS_LIST', resp.data)
+      resp.data = getters.getNewsList
       return resp
     })
   },
@@ -73,6 +75,9 @@ const actions = {
       url: `/cms/post/${id}`,
       method: 'put',
       data: data,
+    }).then((resp) => {
+      commit('UPDATE_NEWS_LIST', resp.data)
+      return resp
     })
   },
   deleteNews({ commit }, id) {
@@ -194,6 +199,14 @@ const mutations = {
         type,
       }
     })
+  },
+  SET_NEWS_LIST(state, data) {
+    state.newsList = data
+  },
+  UPDATE_NEWS_LIST(state, data) {
+    console.log(data)
+    const find = state.newsList.find((item) => item.id === data.id)
+    Object.assign(find, data)
   },
 }
 

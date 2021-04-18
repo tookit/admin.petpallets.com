@@ -25,6 +25,14 @@
         </v-list-item-content>
       </v-list-item>
     </template>
+    <template #selection="{ attrs, item, parent, selected }">
+      <v-chip v-bind="attrs" :input-value="selected" label small>
+        <span class="pr-2">
+          {{ item }}
+        </span>
+        <v-icon small @click="parent.selectItem(item)"> mdi-close </v-icon>
+      </v-chip>
+    </template>
   </v-combobox>
 </template>
 

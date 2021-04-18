@@ -1,7 +1,8 @@
 import request from '@/utils/request'
 
 const state = {
-  abbrs: []
+  abbrs: [],
+  abbrList: [],
 }
 const getters = {}
 const actions = {
@@ -9,7 +10,7 @@ const actions = {
     return request({
       url: `/abbr`,
       method: 'get',
-      params: query
+      params: query,
     })
   },
   getAbbrById({ commit }, id) {
@@ -22,14 +23,14 @@ const actions = {
     return request({
       url: `/abbr`,
       method: 'post',
-      data: data
+      data: data,
     })
   },
   updateAbbr({ commit }, { id, data }) {
     return request({
       url: `/abbr/${id}`,
       method: 'put',
-      data: data
+      data: data,
     })
   },
 
@@ -38,13 +39,12 @@ const actions = {
       url: `/abbr/${id}`,
       method: 'delete',
     })
-  }
+  },
 }
 const mutations = {
   SET_ABBRS(state, { data }) {
     state.abbrs = data
-  }
-
+  },
 }
 
 export default {
@@ -52,5 +52,5 @@ export default {
   state,
   getters,
   actions,
-  mutations
+  mutations,
 }

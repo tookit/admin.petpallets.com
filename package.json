@@ -36,6 +36,7 @@
     "vuejs-ace-editor": "^1.0.1",
     "vuetify": "^2.4.9",
     "vuex": "^3.2.2",
+    "vuex-pathify": "^1.4.5",
     "vuex-persist": "^2.2.0"
   },
   "devDependencies": {

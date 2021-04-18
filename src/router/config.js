@@ -186,7 +186,6 @@ export const protectedRoute = [
         meta: {
           group: 'cms',
           title: 'CMS',
-          hiddenInMenu: false,
           icon: 'mdi-newspaper',
         },
         component: RouterWrapper,
@@ -199,8 +198,7 @@ export const protectedRoute = [
             name: 'cms.news.list',
             component: () => import('@/views/cms/news/NewsList.vue'),
             meta: {
-              title: 'News',
-              hiddenInMenu: false,
+              title: i18n.t('post'),
               icon: 'mdi-post',
             },
           },
@@ -209,9 +207,8 @@ export const protectedRoute = [
             name: 'cms.abbrs.list',
             component: () => import('@/views/cms/abbr/AbbrList.vue'),
             meta: {
-              title: 'Abbr',
-              hiddenInMenu: false,
-              icon: 'mdi-tag',
+              title: i18n.t('abbr'),
+              icon: 'mdi-alpha-a',
             },
           },
           {
@@ -219,9 +216,8 @@ export const protectedRoute = [
             name: 'cms.tags.list',
             component: () => import('@/views/cms/tag/TagList.vue'),
             meta: {
-              title: 'Tag',
-              hiddenInMenu: false,
-              icon: 'mdi-tag',
+              title: i18n.t('tag'),
+              icon: 'mdi-alpha-t',
             },
           },
           {
@@ -229,9 +225,8 @@ export const protectedRoute = [
             name: 'cms.categories.list',
             component: () => import('@/views/cms/category/CategoryList.vue'),
             meta: {
-              title: 'Category',
-              hiddenInMenu: false,
-              icon: 'mdi-tag',
+              title: i18n.t('category'),
+              icon: 'mdi-alpha-c',
             },
           },
 
@@ -241,8 +236,7 @@ export const protectedRoute = [
             name: 'cms.slider.list',
             component: () => import('@/views/cms/slider/SliderList.vue'),
             meta: {
-              title: 'Slider List',
-              hiddenInMenu: false,
+              title: i18n.t('slider'),
               icon: 'mdi-image-multiple',
             },
           },

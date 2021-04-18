@@ -2,7 +2,7 @@ import FormNews from '@/components/form/cms/FormNews'
 import ImageViewer from '@/components/image/ImageViewer'
 import MediaTable from '@/components/table/MediaTable'
 import FormTranslation from '@/components/form/FormTranslation'
-import { VSwitch, VIcon, VAutocomplete } from 'vuetify/lib'
+import { VSwitch, VIcon, VAutocomplete, VChip } from 'vuetify/lib'
 import { mapGetters } from 'vuex'
 export default {
   data() {
@@ -78,6 +78,24 @@ export default {
           text: 'Category',
           value: 'category.name',
           sortable: false,
+        },
+        {
+          text: 'Tag',
+          value: 'tags',
+          sortable: false,
+          render: (item) => {
+            return item.tags.map((tag) => {
+              return this.$createElement(
+                VChip,
+                {
+                  props: {
+                    xSmall: true,
+                  },
+                },
+                tag.name
+              )
+            })
+          },
         },
         {
           text: 'Posts',

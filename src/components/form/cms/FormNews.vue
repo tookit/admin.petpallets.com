@@ -82,7 +82,7 @@ export default {
           element: TagSelect,
           props: {
             name: 'tags',
-            type: 'fiber',
+            type: 'post',
             required: true,
             outlined: true,
           },
