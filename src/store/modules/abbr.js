@@ -58,9 +58,6 @@ const mutations = {
     const filtered = state.abbrList.filter((item) => item.id !== id)
     state.abbrList = filtered
   },
-  SET_ABBRS(state, { data }) {
-    state.abbrs = data
-  },
 }
 
 export default {
