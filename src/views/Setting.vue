@@ -13,18 +13,18 @@ import FormSetting from '@/components/form/FormSetting'
 export default {
   name: 'PageStting',
   components: {
-    FormSetting
+    FormSetting,
   },
   data() {
     return {
-      setting: null
+      setting: null,
     }
   },
   created() {
     this.$store.dispatch('fetchSetting').then(({ data }) => {
       this.setting = data
     })
-  }
+  },
 }
 </script>
 

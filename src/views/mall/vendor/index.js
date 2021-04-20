@@ -1,5 +1,6 @@
 import FormVendor from '@/components/form/vendor/FormVendor'
-import { VSelect } from 'vuetify/lib'
+import FormTranslation from '@/components/form/FormTranslation'
+import { VSelect, VIcon } from 'vuetify/lib'
 export default {
   data() {
     return {
@@ -11,7 +12,48 @@ export default {
         {
           text: 'Name',
           value: 'name',
-          sortable: true,
+          render: (item) => {
+            const actions = [
+              {
+                icon: 'mdi-pencil',
+                click: this.handleEditItem,
+              },
+              {
+                icon: 'mdi-translate',
+                click: this.handleTranslate,
+              },
+            ]
+            const nodes = [
+              this.$createElement(
+                'a',
+                {
+                  domProps: {
+                    target: '_blank',
+                    href: item.href,
+                  },
+                },
+                item.name
+              ),
+              this.$createElement(
+                'div',
+                actions.map((act) => {
+                  return this.$createElement(
+                    VIcon,
+                    {
+                      props: { size: 20, color: act.color },
+                      on: {
+                        click: () => {
+                          act.click(item)
+                        },
+                      },
+                    },
+                    act.icon
+                  )
+                })
+              ),
+            ]
+            return nodes
+          },
         },
         {
           text: 'City',
@@ -131,6 +173,26 @@ export default {
         component: FormVendor,
         data: {
           item: item,
+        },
+        on: {
+          'form:cancel': () => {
+            dialog.hide()
+          },
+        },
+      })
+      dialog.show()
+    },
+    handleTranslate(item) {
+      const dialog = this.$root.$dialog
+      dialog.loadComponent({
+        component: FormTranslation,
+        data: {
+          entity: {
+            id: item.id,
+            model: 'App\\Models\\Mall\\Vendor',
+          },
+          item: item,
+          fields: ['name', 'description', 'address', 'mobile', 'contact'],
         },
         on: {
           'form:cancel': () => {

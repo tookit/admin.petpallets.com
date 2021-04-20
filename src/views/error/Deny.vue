@@ -7,7 +7,7 @@
         </div>
         <div class="text-md-center">
           <h1>403</h1>
-          <h2 class="my-3 headline ">Sorry, access denied.</h2>
+          <h2 class="my-3 headline">Sorry, access denied.</h2>
           <div>
             <v-btn color="primary" @click="goHome">Go Home</v-btn>
           </div>
@@ -19,14 +19,14 @@
 
 <script>
 export default {
+  created() {
+    console.log('here')
+  },
   methods: {
     goHome() {
       this.$router.push({ path: '/' })
-    }
+    },
   },
-  created() {
-    console.log('here')
-  }
 }
 </script>
 <style lang="sass" scoped>

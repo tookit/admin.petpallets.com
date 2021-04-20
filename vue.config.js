@@ -14,7 +14,7 @@ module.exports = {
   productionSourceMap: false,
   configureWebpack: {
     plugins: [
-      new BundleAnalyzerPlugin(),
+      // new BundleAnalyzerPlugin(),
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     ],
   },

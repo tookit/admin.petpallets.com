@@ -74,14 +74,6 @@ export default {
         },
         on: {
           ...item.on,
-          // input: (e) => {
-          //   this.formData[name] = e
-          //   this.$emit('input', this.formData)
-          // },
-          // change: (e) => {
-          //   this.formData[name] = e
-          //   this.$emit('input', this.formData)
-          // },
         },
       })
 

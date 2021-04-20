@@ -1,11 +1,10 @@
-
 import axios from 'axios'
 import store from '@/store'
 // create axios
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API_HOST + '/api/', // api base_url
   timeout: 50000, // 请求超时时间,
-  headers: { 'Access-Control-Allow-Origin': '*' }
+  headers: { 'Access-Control-Allow-Origin': '*' },
 })
 
 const err = (error) => {
@@ -20,14 +19,14 @@ const err = (error) => {
       window._VMA.$emit('SHOW_SNACKBAR', {
         show: true,
         text: 'Bad Request ' + data.message,
-        color: 'red'
+        color: 'red',
       })
       break
     case 422:
       window._VMA.$emit('SHOW_SNACKBAR', {
         show: true,
         text: message,
-        color: 'red'
+        color: 'red',
       })
       break
     case 401:
@@ -37,14 +36,14 @@ const err = (error) => {
       window._VMA.$emit('SHOW_SNACKBAR', {
         show: true,
         text: 'Access Denied ' + data.message,
-        color: 'red'
+        color: 'red',
       })
       break
     case 500:
       window._VMA.$emit('Internal Server error', {
         show: true,
         text: 'Server error ' + data.message,
-        color: 'red'
+        color: 'red',
       })
       break
     default:
@@ -67,7 +66,7 @@ service.interceptors.response.use(({ data, config }) => {
   if (['put', 'post', 'delete', 'patch'].includes(config.method) && data.meta) {
     window._VMA.$emit('SHOW_SNACKBAR', {
       text: data.meta.message,
-      color: 'success'
+      color: 'success',
     })
   }
   if (data.error !== undefined) {

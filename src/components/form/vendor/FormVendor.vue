@@ -71,7 +71,9 @@ export default {
           element: VAutocomplete,
           props: {
             name: 'country',
-            items: this.countires,
+            items: this.getCountries,
+            itemText: 'country',
+            itemValue: 'code',
             outlined: true,
           },
         },
@@ -116,14 +118,6 @@ export default {
           },
         },
       ]
-    },
-    countires() {
-      return this.getCountries.map((item) => {
-        return {
-          text: item.country,
-          value: item.country,
-        }
-      })
     },
   },
   watch: {

@@ -108,11 +108,11 @@ const actions = {
 
   fetchCountries({ commit }) {
     return request({
-      url: `https://www.unpkg.com/browse/country-all-data@1.0.5/public/countrydata.json`,
+      url: `https://www.unpkg.com/country-all-data@1.0.5/public/countrydata.json`,
       method: 'get',
     })
       .then((data) => {
-        commit('SET_COUNTRY', data)
+        commit('SET_COUNTRY', data.countries)
       })
       .catch((err) => {
         console.log(err)
@@ -146,7 +146,7 @@ const actions = {
 }
 const mutations = {
   SET_COUNTRY(state, data) {
-    state.countries = data.countries
+    state.countries = data
   },
   SET_LOCALE(state, locale) {
     state.locale = locale

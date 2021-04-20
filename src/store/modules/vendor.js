@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 const state = {
-  vendors: []
+  vendors: [],
 }
 const getters = {
   getVendors: (state) =>
@@ -9,16 +9,16 @@ const getters = {
         text: item.name,
         value: item.id,
         url: item.website,
-        products_count: item.products_count
+        products_count: item.products_count,
       }
-    })
+    }),
 }
 const actions = {
   fetchVendors({ commit }, query) {
     return request({
       url: `/mall/vendor`,
       method: 'get',
-      params: query
+      params: query,
     }).then((resp) => {
       if (query && query.pageSize == -1) {
         commit('SET_VENDORS', resp.data)
@@ -29,21 +29,21 @@ const actions = {
   getVendorById({ commit }, id) {
     return request({
       url: `/mall/vendor/${id}`,
-      method: 'get'
+      method: 'get',
     })
   },
   createVendor({ commit }, data) {
     return request({
       url: `/mall/vendor`,
       method: 'post',
-      data: data
+      data: data,
     })
   },
   updateVendor({ commit }, { id, data }) {
     return request({
       url: `/mall/vendor/${id}`,
       method: 'put',
-      data: data
+      data: data,
     })
   },
   deleteVendor({ commit }, id) {
@@ -51,12 +51,12 @@ const actions = {
       url: `/mall/vendor/${id}`,
       method: 'delete',
     })
-  }
+  },
 }
 const mutations = {
   SET_VENDORS(state, data) {
     state.vendors = data
-  }
+  },
 }
 
 export default {
@@ -64,5 +64,5 @@ export default {
   state,
   getters,
   actions,
-  mutations
+  mutations,
 }
