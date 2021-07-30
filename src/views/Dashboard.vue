@@ -114,9 +114,7 @@ export default {
       },
     }
   },
-  created() {
-    this.fetchRecord()
-  },
+  created() {},
   methods: {
     fetchRecord() {
       this.loading = true

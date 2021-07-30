@@ -3,7 +3,7 @@
     <v-img
       v-if="items.length > 0"
       class="ma-3"
-      :src="items[0].cloud_url"
+      :src="items[0].cloud_url ? items[0].cloud_url : items[0]"
       width="50"
       height="50"
       @click="showLightbox = true"
@@ -32,9 +32,9 @@ export default {
   computed: {
     images() {
       return this.items.map((item) => {
+        console.log(item)
         return {
-          src: item.cloud_url,
-          titel: item.filename,
+          src: item.cloud_url ? item.cloud_url : item,
         }
       })
     },

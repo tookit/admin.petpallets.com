@@ -203,15 +203,6 @@ export const protectedRoute = [
             },
           },
           {
-            path: '/cms/abbrs/list',
-            name: 'cms.abbrs.list',
-            component: () => import('@/views/cms/abbr/AbbrList.vue'),
-            meta: {
-              title: i18n.t('abbr'),
-              icon: 'mdi-alpha-a',
-            },
-          },
-          {
             path: '/cms/tags/list',
             name: 'cms.tags.list',
             component: () => import('@/views/cms/tag/TagList.vue'),
@@ -242,30 +233,32 @@ export const protectedRoute = [
           },
         ],
       },
-      //crawler
+      //supplier
       {
-        path: '/crawler',
-        name: 'crawler.index',
+        path: '/supplier',
+        name: 'supplier.supplier',
         meta: {
-          title: i18n.t('crawler'),
-          icon: 'mdi-robot-outline',
+          group: 'supplier',
+          title: 'supplier',
+          icon: 'mdi-view-list',
         },
         component: RouterWrapper,
         redirect: {
-          path: '/crawler/task/list',
+          path: '/supplier/item/list',
         },
         children: [
           {
-            path: '/crawler/task',
-            name: 'crawler.task',
-            component: () => import('@/views/crawler/TaskList.vue'),
+            path: '/supplier/item/list',
+            name: 'supplier.item.list',
+            component: () => import('@/views/supplier/item/ItemList.vue'),
             meta: {
-              title: i18n.t('task'),
-              icon: 'mdi-playlist-check',
+              title: i18n.t('supplier'),
+              icon: 'mdi-post',
             },
           },
         ],
       },
+
       {
         path: '/media',
         name: 'media.index',

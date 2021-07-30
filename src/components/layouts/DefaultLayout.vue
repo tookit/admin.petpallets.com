@@ -38,16 +38,7 @@ export default {
   computed: {
     ...mapGetters(['getBreadcrumbs']),
   },
-  created() {
-    this.$store.dispatch('fetchProductCategory', { pageSize: -1 })
-    this.$store.dispatch('fetchNewsCategory', { pageSize: -1 })
-    this.$store.dispatch('fetchCountries')
-    this.$store.dispatch('fetchVendors', { pageSize: -1 })
-    this.$store.dispatch('fetchTags', { pageSize: -1 })
-    this.$store.dispatch('fetchProperty', { pageSize: -1 })
-    this.$store.dispatch('fetchMediaExt')
-    this.$store.dispatch('fetchMediaDir')
-  },
+  created() {},
   methods: {
     handleToggleDrawer() {
       const drawer = this.$refs.drawer
