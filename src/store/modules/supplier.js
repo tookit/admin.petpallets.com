@@ -19,6 +19,15 @@ const actions = {
       return resp
     })
   },
+  fetchSupplierShop({ commit }, query) {
+    return request({
+      url: `/supplier`,
+      method: 'get',
+      params: query,
+    }).then((resp) => {
+      return resp
+    })
+  },
   fetchSupplierPlatform({ commit }, query) {
     return request({
       url: `/supplier/platform`,

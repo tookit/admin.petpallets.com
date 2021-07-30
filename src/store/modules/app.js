@@ -130,7 +130,7 @@ const actions = {
   },
   fetchFieldTranslation({ commit }, data) {
     return request({
-      url: `/field-translation`,
+      url: `/translation/field`,
       method: 'post',
       data: data,
     })
@@ -138,7 +138,7 @@ const actions = {
 
   updateFieldTranslation({ commit }, data) {
     return request({
-      url: `/field-translation`,
+      url: `/translation/field`,
       method: 'put',
       data: data,
     })

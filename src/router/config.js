@@ -252,7 +252,26 @@ export const protectedRoute = [
             name: 'supplier.item.list',
             component: () => import('@/views/supplier/item/ItemList.vue'),
             meta: {
-              title: i18n.t('supplier'),
+              title: i18n.t('item'),
+              icon: 'mdi-post',
+            },
+          },
+          {
+            path: '/supplier/shop/list',
+            name: 'supplier.shop.list',
+            component: () => import('@/views/supplier/shop/ShopList.vue'),
+            meta: {
+              title: i18n.t('shop'),
+              icon: 'mdi-post',
+            },
+          },
+          {
+            path: '/supplier/platform/list',
+            name: 'supplier.platform.list',
+            component: () =>
+              import('@/views/supplier/platform/PlatformList.vue'),
+            meta: {
+              title: i18n.t('platform'),
               icon: 'mdi-post',
             },
           },

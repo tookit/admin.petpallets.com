@@ -6,7 +6,7 @@ import FormTranslation from '@/components/form/FormTranslation'
 
 import MediaTable from '@/components/table/MediaTable'
 import ImageViewer from '@/components/image/ImageViewer'
-import { VAutocomplete, VIcon, VSwitch } from 'vuetify/lib'
+import { VAutocomplete, VIcon } from 'vuetify/lib'
 import { mapGetters } from 'vuex'
 import i18n from '@/plugins/i18n'
 export default {
@@ -19,12 +19,12 @@ export default {
         },
         {
           text: 'Image',
-          value: 'media',
+          value: 'source',
           align: 'center',
           render: (item) => {
             return this.$createElement(ImageViewer, {
               props: {
-                items: item.media,
+                items: item.source.images,
               },
             })
           },
@@ -45,7 +45,6 @@ export default {
               {
                 icon: 'mdi-cloud',
                 click: this.handleEditSpec,
-                color: item.property_values.length > 0 ? 'grey' : 'error',
               },
               {
                 icon: 'mdi-image',
@@ -89,60 +88,8 @@ export default {
           },
         },
         {
-          text: 'Vendor',
-          value: 'vendor.name',
-          render: (item) => {
-            return this.$createElement(
-              'a',
-              {
-                domProps: {
-                  target: '_blank',
-                  href: item.reference_url,
-                },
-              },
-              item.vendor ? item.vendor.name : ''
-            )
-          },
-        },
-        {
           text: 'Category',
-          value: 'categories',
-          width: 250,
-          render: (item) => {
-            const label = item.category ? item.category.name : 'None'
-            const nodes = [
-              this.$createElement(
-                'a',
-                {
-                  domProps: {
-                    href: item.category ? item.category.href : '#',
-                    target: '_blank',
-                  },
-                },
-                label
-              ),
-              this.$createElement('div', [
-                this.$createElement(
-                  VIcon,
-                  {
-                    props: {
-                      size: 16,
-                    },
-                    on: {
-                      click: () => {
-                        let routeData = this.$router.resolve({
-                          path: `/mall/category/item/${item.category_id}`,
-                        })
-                        window.open(routeData.href, '_blank')
-                      },
-                    },
-                  },
-                  'mdi-pencil'
-                ),
-              ]),
-            ]
-            return this.$createElement('div', nodes)
-          },
+          value: 'category.name',
         },
         {
           text: 'Flag',
@@ -157,25 +104,6 @@ export default {
               on: {
                 change: (val) => {
                   this.handleUpdateField('flag', val, item.id)
-                },
-              },
-            })
-          },
-        },
-        {
-          text: 'Status',
-          value: 'is_active',
-          width: 50,
-          render: (item) => {
-            return this.$createElement(VSwitch, {
-              props: {
-                inputValue: item.is_active,
-                trueValue: true,
-                falseVaule: false,
-              },
-              on: {
-                change: (val) => {
-                  this.handleUpdateField('is_active', val, item.id)
                 },
               },
             })
@@ -262,16 +190,6 @@ export default {
             items: this.getProductFlags,
             outlined: true,
             hideDetails: true,
-          },
-        },
-        {
-          cols: 6,
-          element: VSwitch,
-          props: {
-            label: 'Active',
-            name: 'is_active',
-            hideDetails: true,
-            outlined: true,
           },
         },
       ]
@@ -377,7 +295,7 @@ export default {
         data: {
           entity: {
             id: item.id,
-            model: 'App\\Models\\Mall\\Product',
+            model: 'Modules\\Mall\\Models\\Item',
           },
           item: item,
           fields: ['name', 'description'],
