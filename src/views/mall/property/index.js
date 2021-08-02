@@ -57,17 +57,13 @@ export default {
             return nodes
           },
         },
-        {
-          text: 'Slug',
-          value: 'slug',
-          sortable: false,
-        },
+
         {
           text: 'Value',
           value: 'values',
           sortable: false,
           render: (row) => {
-            const items = row.values.slice(0, 2)
+            const items = row.values ? row.values.slice(0, 2) : []
             const values = items.map((val) => {
               return this.$createElement(
                 VChip,

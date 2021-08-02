@@ -29,9 +29,9 @@
           <v-autocomplete
             v-model="item.values"
             class="my-1"
-            :items="getPropertyValuesById(item.property_id)"
+            :items="item.options"
             item-text="value"
-            item-value="id"
+            item-value="property_value_id"
             hide-details
             outlined
             dense
@@ -86,6 +86,7 @@ import ResizeMixin from '@/mixins/Resize'
 import TooltipMixin from '@/mixins/Tooltip'
 import { mapGetters } from 'vuex'
 export default {
+  name: 'FormItemProperty',
   components: { FormAttachProperty },
   mixins: [ResizeMixin, TooltipMixin],
   props: {

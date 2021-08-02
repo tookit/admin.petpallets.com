@@ -161,6 +161,7 @@ export default {
       return this.$store
         .dispatch('fetchValueById', property_id)
         .then(({ data }) => {
+          console.log(data)
           this.items = data
           this.loadingItems = false
         })

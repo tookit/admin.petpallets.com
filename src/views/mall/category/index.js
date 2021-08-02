@@ -86,25 +86,6 @@ export default {
           },
         },
         {
-          text: 'Active',
-          value: 'is_active',
-          width: 50,
-          render: (item) => {
-            return this.$createElement(VSwitch, {
-              props: {
-                inputValue: item.is_active,
-                trueValue: true,
-                falseVaule: false,
-              },
-              on: {
-                change: (val) => {
-                  this.handleUpdateField('is_active', val, item.id)
-                },
-              },
-            })
-          },
-        },
-        {
           text: 'Products',
           value: 'products_count',
           width: 50,
@@ -149,7 +130,7 @@ export default {
           cols: 6,
           element: 'VCascader',
           transform: (val) => {
-            return val ? parseInt(val) : -1
+            return val ? parseInt(val) : null
           },
           props: {
             name: 'parent_id',

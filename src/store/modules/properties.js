@@ -131,7 +131,7 @@ const actions = {
   },
   deletePropertyValue({}, id) {
     return request({
-      url: `/mall/property_value/${id}`,
+      url: `/mall/property/value/${id}`,
       method: 'delete',
     })
   },

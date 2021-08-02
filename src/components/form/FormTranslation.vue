@@ -12,6 +12,7 @@
       :loading="loading"
       :value="translations[defaultField]"
       :text="item[defaultField]"
+      @form:cancel="$emit('form:cancel')"
     />
   </v-sheet>
 </template>
