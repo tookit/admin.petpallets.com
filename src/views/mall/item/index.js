@@ -166,20 +166,6 @@ export default {
             return val ? parseInt(val) : val
           },
           props: {
-            name: 'vendor_id',
-            items: this.getVendors,
-            outlined: true,
-            clearable: true,
-            hideDetails: true,
-          },
-        },
-        {
-          cols: 6,
-          element: VAutocomplete,
-          transform: (val) => {
-            return val ? parseInt(val) : val
-          },
-          props: {
             name: 'flag',
             clearable: true,
             items: this.getProductFlags,

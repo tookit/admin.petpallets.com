@@ -32,7 +32,6 @@ export default {
   computed: {
     images() {
       return this.items.map((item) => {
-        console.log(item)
         return {
           src: item.cloud_url ? item.cloud_url : item,
         }
