@@ -38,7 +38,9 @@ export default {
   computed: {
     ...mapGetters(['getBreadcrumbs']),
   },
-  created() {},
+  created() {
+    this.$store.dispatch('fetchProductCategory', { pageSize: -1 })
+  },
   methods: {
     handleToggleDrawer() {
       const drawer = this.$refs.drawer

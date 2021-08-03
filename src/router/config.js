@@ -124,15 +124,6 @@ export const protectedRoute = [
             },
           },
           {
-            path: '/mall/vendor/list',
-            name: 'mall.vendor.list',
-            component: () => import('@/views/mall/vendor/VendorList.vue'),
-            meta: {
-              title: i18n.t('vendor'),
-              icon: 'mdi-basket',
-            },
-          },
-          {
             path: '/mall/category',
             name: 'mall.category',
             meta: {

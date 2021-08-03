@@ -49,11 +49,6 @@ export default {
             outlined: true,
             rules: [(v) => !!v || 'Name is required'],
           },
-          on: {
-            change: (e) => {
-              this.handleNameChange(e)
-            },
-          },
         },
         {
           cols: 12,
@@ -68,7 +63,7 @@ export default {
           cols: 12,
           element: 'v-cascader',
           props: {
-            name: 'category_id',
+            name: 'mall_category_id',
             items: this.getNestedCategories,
             itemText: 'name',
             itemValue: 'id',
@@ -98,48 +93,9 @@ export default {
         },
         {
           cols: 12,
-          element: TagSelect,
-          props: {
-            name: 'applications',
-            type: 'application',
-            required: true,
-            outlined: true,
-          },
-        },
-
-        {
-          cols: 12,
           element: VTextarea,
           props: {
             name: 'description',
-            required: true,
-            outlined: true,
-          },
-        },
-        {
-          cols: 12,
-          element: VTextField,
-          props: {
-            name: 'meta_title',
-            required: true,
-            outlined: true,
-          },
-        },
-
-        {
-          cols: 12,
-          element: VTextField,
-          props: {
-            name: 'meta_keywords',
-            required: true,
-            outlined: true,
-          },
-        },
-        {
-          cols: 12,
-          element: VTextarea,
-          props: {
-            name: 'meta_description',
             required: true,
             outlined: true,
           },
@@ -177,8 +133,6 @@ export default {
         .forEach((prop) => {
           temp[prop] = getObjectValueByPath(value, prop)
         })
-      temp.applications = this.computeTags(value.tags, 'application')
-      temp.tags = this.computeTags(value.tags, 'fiber')
       return temp
     },
     computeTags(tags, type) {

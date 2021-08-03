@@ -1,7 +1,6 @@
 import FormEditItem from '@/components/form/mall/item/FormEditItem'
 import FormQuickItem from '@/components/form/mall/item/FormQuickItem'
 import FormItemProperty from '@/components/form/mall/item/FormItemProperty'
-import FormSpecImport from '@/components/form/mall/item/FormSpecImport'
 import FormTranslation from '@/components/form/FormTranslation'
 
 import MediaTable from '@/components/table/MediaTable'
@@ -41,10 +40,6 @@ export default {
               {
                 icon: 'mdi-filter',
                 click: this.handleEditProperty,
-              },
-              {
-                icon: 'mdi-cloud',
-                click: this.handleEditSpec,
               },
               {
                 icon: 'mdi-image',
@@ -245,22 +240,6 @@ export default {
         data: {
           id: item.id,
           showHeader: true,
-        },
-        on: {
-          'form:cancel': () => {
-            dialog.hide()
-          },
-        },
-      })
-      dialog.show()
-    },
-    handleEditSpec(item) {
-      const dialog = this.$root.$dialog
-      dialog.loadComponent({
-        component: FormSpecImport,
-        data: {
-          product: item,
-          inDialog: true,
         },
         on: {
           'form:cancel': () => {
