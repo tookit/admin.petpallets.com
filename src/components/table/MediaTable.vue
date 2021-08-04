@@ -93,21 +93,11 @@
         @update:items-per-page="handlePageSizeChanged"
         @item-selected="handleItemSelected"
       >
-        <template #[`item.cloud_url`]="{ item }">
+        <template #[`item.url`]="{ item }">
           <image-viewer :items="[item]" />
-        </template>
-        <template #[`item.fingerprint`]="{ item }">
-          <a href="#" @click="handleEditItem(item)">{{
-            item.fingerprint ? item.fingerprint : 'None'
-          }}</a>
         </template>
         <template #[`item.size`]="{ item }">
           <span>{{ item.size | bytes }}</span>
-        </template>
-        <template #[`item.entity`]="{ item }">
-          <span v-if="item.product.length > 0">
-            {{ item.product[0].id }}
-          </span>
         </template>
         <template #[`item.action`]="{ item }">
           <v-menu>
@@ -208,7 +198,6 @@ export default {
         'filter[entity]': null,
         'filter[entityId]': null,
         'filter[disk]': null,
-        'filter[fingerprint]': null,
       },
       // table
       selectedItem: null,
@@ -222,15 +211,7 @@ export default {
         },
         {
           text: 'Image',
-          value: 'cloud_url',
-        },
-        {
-          text: 'Fingerprint',
-          value: 'fingerprint',
-        },
-        {
-          text: 'Entity',
-          value: 'entity',
+          value: 'url',
         },
         {
           text: 'Size',
@@ -239,10 +220,6 @@ export default {
         {
           text: 'Directory',
           value: 'directory',
-        },
-        {
-          text: 'Featured',
-          value: 'custom_properties.featured',
         },
         {
           text: 'Action',
@@ -316,7 +293,6 @@ export default {
         'filter[entity]': null,
         'filter[entityId]': null,
         'filter[disk]': null,
-        'filter[fingerprint]': null,
       }
     },
     fetchRecords() {
