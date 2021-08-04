@@ -27,9 +27,9 @@
       >
         <template #[`item.options`]="{ item }">
           <v-autocomplete
-            v-model="item.values"
+            v-model="item.options"
             class="my-1"
-            :items="item.options"
+            :items="item.values"
             item-text="value"
             item-value="property_value_id"
             hide-details
@@ -104,7 +104,7 @@ export default {
         {
           text: 'name',
           value: 'property_name',
-          width: 200,
+          width: 120,
         },
         {
           text: 'value',
@@ -145,10 +145,11 @@ export default {
       return this.$store
         .dispatch('getPropertyByProductId', id)
         .then(({ data }) => {
-          this.items = data.map((item) => {
-            item.values = item.options.map((option) => option.property_value_id)
-            return item
-          })
+          this.items = data
+          // this.items = data.map((item) => {
+          //   item.values = item.options.map((option) => option.property_value_id)
+          //   return item
+          // })
           this.loadingItems = false
         })
         .catch(() => {

@@ -19,6 +19,7 @@
 <script>
 import FormQuickItem from './FormQuickItem'
 import FormItemProperty from './FormItemProperty'
+import FormItemSkus from './FormItemSkus'
 import MediaTable from '@/components/table/MediaTable'
 export default {
   props: {
@@ -47,6 +48,16 @@ export default {
           text: 'Property',
           value: 'property',
           element: FormItemProperty,
+          bind: {
+            id: this.id,
+            name: this.name,
+            showHeader: true,
+          },
+        },
+        {
+          text: 'Trade',
+          value: 'sku',
+          element: FormItemSkus,
           bind: {
             id: this.id,
             name: this.name,

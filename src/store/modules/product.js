@@ -67,6 +67,13 @@ const actions = {
       method: 'get',
     })
   },
+
+  fetchSkuByProductId({}, id) {
+    return request({
+      url: `/mall/item/${id}/sku`,
+      method: 'get',
+    })
+  },
   getProductById({}, id) {
     return request({
       url: `/mall/item/${id}`,
