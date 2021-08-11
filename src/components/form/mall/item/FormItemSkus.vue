@@ -20,6 +20,9 @@
       :show-select="showSelect"
       single-select
     >
+      <template #[`item.quantity_price`]="{ item }">
+        <span>{{ item.quantity_price[0] }}</span>
+      </template>
     </v-data-table>
   </v-card>
 </template>

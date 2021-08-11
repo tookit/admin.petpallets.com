@@ -23,7 +23,7 @@ export default {
           render: (item) => {
             return this.$createElement(ImageViewer, {
               props: {
-                items: item.source.images || item.images,
+                items: item.images,
               },
             })
           },

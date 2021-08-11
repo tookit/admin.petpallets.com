@@ -1,8 +1,7 @@
 import FormNews from '@/components/form/cms/FormNews'
 import ImageViewer from '@/components/image/ImageViewer'
-import MediaTable from '@/components/table/MediaTable'
 import FormTranslation from '@/components/form/FormTranslation'
-import { VAutocomplete } from 'vuetify/lib'
+import { VAutocomplete, VIcon } from 'vuetify/lib'
 import { mapGetters } from 'vuex'
 export default {
   data() {
@@ -27,16 +26,42 @@ export default {
           text: 'Name',
           value: 'name',
           render: (item) => {
-            return this.$createElement(
-              'a',
+            const actions = [
               {
-                domProps: {
-                  href: item.url,
-                  target: '_blank',
-                },
+                icon: 'mdi-translate',
+                click: this.handleTranslate,
               },
-              item.name
-            )
+            ]
+            const nodes = [
+              this.$createElement(
+                'a',
+                {
+                  domProps: {
+                    target: '_blank',
+                    href: item.href,
+                  },
+                },
+                item.name
+              ),
+              this.$createElement(
+                'div',
+                actions.map((act) => {
+                  return this.$createElement(
+                    VIcon,
+                    {
+                      props: { size: 20, color: act.color },
+                      on: {
+                        click: () => {
+                          act.click(item)
+                        },
+                      },
+                    },
+                    act.icon
+                  )
+                })
+              ),
+            ]
+            return nodes
           },
         },
         {
@@ -111,22 +136,6 @@ export default {
     this.$store.dispatch('fetchSupplierPlatform', { pageSize: -1 })
   },
   methods: {
-    setSeo(item) {
-      const { meta_title, meta_keywords, meta_description } = item
-      return {
-        id: item.id,
-        name: item.name,
-        meta_title: meta_title
-          ? meta_title
-          : 'China factory provide ' + item.name,
-        meta_keywords: meta_keywords
-          ? meta_keywords
-          : item.tags.map((item) => item.name).join(', '),
-        meta_description: meta_description
-          ? meta_description
-          : item.description,
-      }
-    },
     handleViewItem(item) {
       window.open(item.href, '_blank')
     },
@@ -167,28 +176,10 @@ export default {
         data: {
           entity: {
             id: item.id,
-            model: 'App\\Models\\CMS\\Post',
+            model: 'Modules\\Supplier\\Models\\Item',
           },
           item: item,
           fields: ['name', 'description'],
-        },
-        on: {
-          'form:cancel': () => {
-            dialog.hide()
-          },
-        },
-      })
-      dialog.show()
-    },
-    handleEditImage(item) {
-      const dialog = this.$root.$dialog
-      dialog.loadComponent({
-        component: MediaTable,
-        data: {
-          entityId: item.id,
-          entity: 'App\\Models\\CMS\\Post',
-          directory: `upload`,
-          showSelect: true,
         },
         on: {
           'form:cancel': () => {
