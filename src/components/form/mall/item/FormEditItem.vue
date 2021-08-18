@@ -18,6 +18,7 @@
 
 <script>
 import FormQuickItem from './FormQuickItem'
+import FormItemDetail from './FormItemDetail'
 import FormItemProperty from './FormItemProperty'
 import FormItemSkus from './FormItemSkus'
 import MediaTable from '@/components/table/MediaTable'
@@ -39,6 +40,15 @@ export default {
           text: 'General',
           value: 'general',
           element: FormQuickItem,
+          bind: {
+            id: this.id,
+            showHeader: true,
+          },
+        },
+        {
+          text: 'Detail',
+          value: 'detail',
+          element: FormItemDetail,
           bind: {
             id: this.id,
             showHeader: true,
