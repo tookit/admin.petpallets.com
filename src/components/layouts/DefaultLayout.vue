@@ -9,7 +9,7 @@
       <router-view class="route-wrapper" />
       <!-- App Footer -->
       <v-footer class="pa-3 app--footer">
-        <span>Netpune UI &copy; {{ new Date().getFullYear() }}</span>
+        <span>Material UI&copy; {{ new Date().getFullYear() }}</span>
         <v-spacer />
         <span class="caption mr-1">Remember All The Things &trade;</span>
       </v-footer>

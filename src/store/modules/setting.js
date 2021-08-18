@@ -59,6 +59,9 @@ const actions = {
     return request({
       url: `/setting/`,
       method: 'get',
+    }).then((resp) => {
+      commit('SET_SITE_SETTING', resp.data)
+      return resp
     })
   },
   updateSetting({ commit }, data) {
@@ -69,7 +72,11 @@ const actions = {
     })
   },
 }
-const mutations = {}
+const mutations = {
+  SET_SITE_SETTING(state, data) {
+    state.settings = data
+  },
+}
 
 export default {
   namespace: true,
