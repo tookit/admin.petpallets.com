@@ -26,27 +26,27 @@ const actions = {
       return resp
     })
   },
-  getVendorById({ commit }, id) {
+  getVendorById({}, id) {
     return request({
       url: `/mall/vendor/${id}`,
       method: 'get',
     })
   },
-  createVendor({ commit }, data) {
+  createVendor({}, data) {
     return request({
       url: `/mall/vendor`,
       method: 'post',
       data: data,
     })
   },
-  updateVendor({ commit }, { id, data }) {
+  updateVendor({}, { id, data }) {
     return request({
       url: `/mall/vendor/${id}`,
       method: 'put',
       data: data,
     })
   },
-  deleteVendor({ commit }, id) {
+  deleteVendor({}, id) {
     return request({
       url: `/mall/vendor/${id}`,
       method: 'delete',

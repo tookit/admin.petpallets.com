@@ -4,8 +4,6 @@
 
 <script>
 export default {
-  name: 'RouterWrapper'
+  name: 'RouterWrapper',
 }
 </script>
-
-<style></style>

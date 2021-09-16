@@ -15,7 +15,9 @@ const state = {
   ],
   sizes: [],
   pageSize: 15,
-  settings: null,
+  settings: {
+    site_title: 'Clothesmy',
+  },
   colors: [
     'red',
     'black',
@@ -64,7 +66,7 @@ const actions = {
       return resp
     })
   },
-  updateSetting({ commit }, data) {
+  updateSetting({}, data) {
     return request({
       url: `/setting/`,
       method: 'post',

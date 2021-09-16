@@ -58,7 +58,7 @@ const actions = {
       return resp
     })
   },
-  mallCategorySwapOrder({ commit }, { source, target }) {
+  mallCategorySwapOrder({}, { source, target }) {
     return request({
       url: `/mall/category/swap_order`,
       method: 'put',

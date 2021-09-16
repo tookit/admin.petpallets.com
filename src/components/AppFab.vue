@@ -1,6 +1,7 @@
 <template>
   <v-fab-transition>
     <v-btn
+      v-show="fab"
       fab
       small
       dark
@@ -8,7 +9,6 @@
       bottom
       right
       color="primary"
-      v-show="fab"
       @click="toTop"
     >
       <v-icon>keyboard_arrow_up</v-icon>
@@ -22,7 +22,7 @@ export default {
 
   data() {
     return {
-      fab: false
+      fab: false,
     }
   },
 
@@ -35,7 +35,7 @@ export default {
     toTop() {
       this.$router.push({ hash: '' })
       this.$vuetify.goTo(0)
-    }
-  }
+    },
+  },
 }
 </script>

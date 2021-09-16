@@ -86,7 +86,7 @@ export default {
         translations: this.formModel,
       }
       this.btnLoading = true
-      this.$store.dispatch('updateFieldTranslation', data).then(({ data }) => {
+      this.$store.dispatch('updateFieldTranslation', data).then(() => {
         this.btnLoading = false
         this.$emit('form:success')
       })

@@ -92,14 +92,14 @@ const actions = {
     commit('UPDATE_BREADCRUMBS', breadcrumbs)
   },
 
-  getProfile({ commit }) {
+  getProfile({}) {
     return request({
       url: `/me`,
       method: 'get',
     })
   },
 
-  fetchState({ commit }) {
+  fetchState({}) {
     return request({
       url: `/state`,
       method: 'get',
@@ -118,7 +118,7 @@ const actions = {
         console.log(err)
       })
   },
-  fetchTranslation({ commit }, { target, text }) {
+  fetchTranslation({}, { target, text }) {
     return request({
       url: `/translation`,
       method: 'post',
@@ -128,7 +128,7 @@ const actions = {
       },
     })
   },
-  fetchFieldTranslation({ commit }, data) {
+  fetchFieldTranslation({}, data) {
     return request({
       url: `/translation/field`,
       method: 'post',
@@ -136,7 +136,7 @@ const actions = {
     })
   },
 
-  updateFieldTranslation({ commit }, data) {
+  updateFieldTranslation({}, data) {
     return request({
       url: `/translation/field`,
       method: 'put',

@@ -1,35 +1,35 @@
 import request from '@/utils/request'
 const state = {
-  vendors: []
+  vendors: [],
 }
 const getters = {}
 const actions = {
-  fetchQuotes({ commit }, query) {
+  fetchQuotes({}, query) {
     return request({
       url: `/mall/quote`,
       method: 'get',
-      params: query
+      params: query,
     })
   },
-  getQuoteById({ commit }, id) {
+  getQuoteById({}, id) {
     return request({
       url: `/mall/quote/${id}`,
-      method: 'get'
+      method: 'get',
     })
   },
-  updateQuote({ commit }, { id, data }) {
+  updateQuote({}, { id, data }) {
     return request({
       url: `/mall/quote/${id}`,
       method: 'put',
-      data: data
+      data: data,
     })
   },
-  deleteQuote({ commit }, id) {
+  deleteQuote({}, id) {
     return request({
       url: `/mall/quote/${id}`,
       method: 'delete',
     })
-  }
+  },
 }
 const mutations = {}
 
@@ -38,5 +38,5 @@ export default {
   state,
   getters,
   actions,
-  mutations
+  mutations,
 }

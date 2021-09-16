@@ -128,7 +128,7 @@ export const protectedRoute = [
             name: 'mall.category',
             meta: {
               title: i18n.t('category'),
-              icon: 'mdi-buffer',
+              icon: 'mdi-tag',
             },
             component: RouterWrapper,
             redirect: {
@@ -142,7 +142,7 @@ export const protectedRoute = [
                   import('@/views/mall/category/CategoryList.vue'),
                 meta: {
                   title: i18n.t('list'),
-                  icon: 'mdi-buffer',
+                  icon: 'mdi-tag',
                 },
               },
               {

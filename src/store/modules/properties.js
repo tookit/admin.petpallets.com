@@ -50,7 +50,7 @@ const actions = {
     })
   },
 
-  fetchPropertyValue({ commit }, query) {
+  fetchPropertyValue({}, query) {
     return request({
       url: '/mall/property_value',
       method: 'get',

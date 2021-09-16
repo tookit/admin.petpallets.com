@@ -10,7 +10,7 @@ const getters = {
   },
 }
 const actions = {
-  fetchSupplierItem({ commit }, query) {
+  fetchSupplierItem({}, query) {
     return request({
       url: `/supplier/item`,
       method: 'get',
@@ -19,7 +19,7 @@ const actions = {
       return resp
     })
   },
-  fetchSupplierShop({ commit }, query) {
+  fetchSupplierShop({}, query) {
     return request({
       url: `/supplier`,
       method: 'get',

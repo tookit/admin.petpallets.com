@@ -56,14 +56,14 @@ const actions = {
       return resp
     })
   },
-  createNews({ commit }, data) {
+  createNews({}, data) {
     return request({
       url: `/cms/post`,
       method: 'post',
       data: data,
     })
   },
-  createTag({ commit }, data) {
+  createTag({}, data) {
     return request({
       url: `/cms/tag`,
       method: 'post',
@@ -80,32 +80,32 @@ const actions = {
       return resp
     })
   },
-  deleteNews({ commit }, id) {
+  deleteNews({}, id) {
     return request({
       url: `/cms/post/${id}`,
       method: 'delete',
     })
   },
-  updateTag({ commit }, { id, data }) {
+  updateTag({}, { id, data }) {
     return request({
       url: `/cms/tag/${id}`,
       method: 'put',
       data: data,
     })
   },
-  getNewsById({ commit }, id) {
+  getNewsById({}, id) {
     return request({
       url: `/cms/post/${id}`,
       method: 'get',
     })
   },
-  getTagById({ commit }, id) {
+  getTagById({}, id) {
     return request({
       url: `/cms/tag/${id}`,
       method: 'get',
     })
   },
-  deleteTag({ commit }, id) {
+  deleteTag({}, id) {
     return request({
       url: `/cms/tag/${id}`,
       method: 'delete',
@@ -124,42 +124,42 @@ const actions = {
       return resp
     })
   },
-  createNewsCategory({ commit }, data) {
+  createNewsCategory({}, data) {
     return request({
       url: `/cms/category`,
       method: 'post',
       data: data,
     })
   },
-  updateNewsCategory({ commit }, { id, data }) {
+  updateNewsCategory({}, { id, data }) {
     return request({
       url: `/cms/category/${id}`,
       method: 'put',
       data: data,
     })
   },
-  deleteNewsCategory({ commit }, id) {
+  deleteNewsCategory({}, id) {
     return request({
       url: `/cms/category/${id}`,
       method: 'delete',
     })
   },
 
-  getNewsCategoryById({ commit }, id) {
+  getNewsCategoryById({}, id) {
     return request({
       url: `/cms/category/${id}`,
       method: 'get',
     })
   },
 
-  createSlider({ commit }, data) {
+  createSlider({}, data) {
     return request({
       url: `/cms/slider`,
       method: 'get',
       data: data,
     })
   },
-  updateSlider({ commit }, { id, data }) {
+  updateSlider({}, { id, data }) {
     return request({
       url: `/cms/slider/${id}`,
       method: 'put',
@@ -167,19 +167,19 @@ const actions = {
     })
   },
 
-  getSliderById({ commit }, id) {
+  getSliderById({}, id) {
     return request({
       url: `/cms/slider/${id}`,
       method: 'get',
     })
   },
-  deleteSliderById({ commit }, id) {
+  deleteSliderById({}, id) {
     return request({
       url: `/cms/slider/${id}`,
       method: 'delete',
     })
   },
-  fetchSlider({ commit }, query) {
+  fetchSlider({}, query) {
     return request({
       url: `/cms/slider`,
       method: 'get',

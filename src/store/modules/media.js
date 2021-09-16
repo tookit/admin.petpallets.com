@@ -44,7 +44,7 @@ const getters = {
   },
 }
 const actions = {
-  fetchMedia({ commit }, query) {
+  fetchMedia({}, query) {
     return request({
       url: `/media`,
       method: 'get',
@@ -69,20 +69,20 @@ const actions = {
       return data
     })
   },
-  getMedia({ commit }, id) {
+  getMedia({}, id) {
     return request({
       url: `/media/${id}`,
       method: 'get',
     })
   },
-  uploadMedia({ commit }, data) {
+  uploadMedia({}, data) {
     return request({
       url: `/media`,
       method: 'post',
       data: data,
     })
   },
-  moveMedia({ commit }, { id, directory, filename }) {
+  moveMedia({}, { id, directory, filename }) {
     return request({
       url: `/media/${id}/move`,
       method: 'post',
@@ -92,7 +92,7 @@ const actions = {
       },
     })
   },
-  updateMedia({ commit }, { id, data }) {
+  updateMedia({}, { id, data }) {
     return request({
       url: `/media/${id}`,
       method: 'put',
@@ -100,7 +100,7 @@ const actions = {
     })
   },
 
-  attachEntityForMedia({ commit }, { id, entityId, entity, tag }) {
+  attachEntityForMedia({}, { id, entityId, entity, tag }) {
     return request({
       url: `/media/${id}/entity`,
       method: 'put',
@@ -112,7 +112,7 @@ const actions = {
     })
   },
 
-  detachEntityForMedia({ commit }, { id, entityId, entity, tag }) {
+  detachEntityForMedia({}, { id, entityId, entity, tag }) {
     return request({
       url: `/media/${id}/entity`,
       method: 'delete',
@@ -124,13 +124,13 @@ const actions = {
     })
   },
 
-  deleteMedia({ commit }, id) {
+  deleteMedia({}, id) {
     return request({
       url: `/media/${id}`,
       method: 'delete',
     })
   },
-  deleteMultiMedia({ commit }, data) {
+  deleteMultiMedia({}) {
     return request({
       url: `/media/`,
       method: 'delete',

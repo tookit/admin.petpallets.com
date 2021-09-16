@@ -4,7 +4,7 @@ import FormMergeCategory from '@/components/form/mall/category/FormMergeCategory
 import FormTranslation from '@/components/form/FormTranslation'
 import MediaTable from '@/components/table/MediaTable'
 import { mapGetters } from 'vuex'
-import { VAutocomplete, VSwitch, VIcon } from 'vuetify/lib'
+import { VAutocomplete, VIcon } from 'vuetify/lib'
 export default {
   data() {
     return {

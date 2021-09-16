@@ -75,6 +75,7 @@ export default {
         iconURL:
           'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHZpZXdCb3g9IjAgMCAyMCAyMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiBkYXRhLXN2Zz0iaW1hZ2UiIGlkPSJzdmciPjxjaXJjbGUgY3g9IjE2LjEiIGN5PSI2LjEiIHI9IjEuMSIvPjxyZWN0IGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwMCIgeD0iLjUiIHk9IjIuNSIgd2lkdGg9IjE5IiBoZWlnaHQ9IjE1Ii8+PHBvbHlsaW5lIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwMCIgc3Ryb2tlLXdpZHRoPSIxLjAxIiBwb2ludHM9IjQsMTMgOCw5IDEzLDE0Ii8+PHBvbHlsaW5lIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwMCIgc3Ryb2tlLXdpZHRoPSIxLjAxIiBwb2ludHM9IjExLDEyIDEyLjUsMTAuNSAxNiwxNCIvPjwvc3ZnPg==',
         exec: function (editor) {
+          console.log(editor)
           vm.showDialog = true
         },
       },

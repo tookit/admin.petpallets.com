@@ -108,7 +108,7 @@ export default {
       immediate: true,
     },
     'items.length': {
-      handler(val) {
+      handler() {
         this.childrens = [this.items]
       },
       immediate: true,

@@ -1,43 +1,43 @@
 import request from '@/utils/request'
 const state = {
-  roles: []
+  roles: [],
 }
 const getters = {}
 const actions = {
-  fetchRoles({ commit }, query) {
+  fetchRoles({}, query) {
     return request({
       url: `/acl/role`,
       method: 'get',
-      params: query
+      params: query,
     })
   },
-  getRoleById({ commit }, id) {
+  getRoleById({}, id) {
     return request({
       url: `/acl/role/${id}`,
       method: 'get',
     })
   },
-  createRole({ commit }, data) {
+  createRole({}, data) {
     return request({
       url: `/acl/role`,
       method: 'post',
-      data: data
+      data: data,
     })
   },
-  updateRole({ commit }, { id, data }) {
+  updateRole({}, { id, data }) {
     return request({
       url: `/acl/role/${id}`,
       method: 'put',
-      data: data
+      data: data,
     })
   },
 
-  deleteRole({ commit }, id) {
+  deleteRole({}, id) {
     return request({
       url: `/acl/role/${id}`,
       method: 'delete',
     })
-  }
+  },
 }
 const mutations = {
   SET_ROLES(state, { data }) {
@@ -46,12 +46,6 @@ const mutations = {
   DELETE_ROLE(state, { data }) {
     state.roles = state.roles.filter((item) => item.id !== data.id)
   },
-  UPDATE_ROLE(state, { data }) {
-    // state.users = state.users.filter((item) => item.id !== data.id)
-  },
-  ADD_ROLE(state, { data }) {
-    // state.users = state.users.filter((item) => item.id !== data.id)
-  }
 }
 
 export default {
@@ -59,5 +53,5 @@ export default {
   state,
   getters,
   actions,
-  mutations
+  mutations,
 }

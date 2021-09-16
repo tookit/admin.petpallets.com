@@ -10,9 +10,9 @@
     <v-toolbar color="primary darken-1" dark>
       <img :src="computeLogo" height="36" alt="Vue Material Admin Template" />
       <v-toolbar-title>
-        <span class="hidden-sm-and-down">{{
-          getSiteSetting.site_title || ''
-        }}</span>
+        <span class="hidden-sm-and-down">
+          {{ getSiteSetting.site_title || '' }}
+        </span>
       </v-toolbar-title>
     </v-toolbar>
     <PerfectScrollbar class="app-drawer__scrollbar">
